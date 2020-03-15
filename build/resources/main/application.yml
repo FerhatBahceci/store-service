@@ -1,0 +1,7 @@
+app:
+  spring:
+    datasource:
+      url: localhost:27017
+
+
+
