@@ -43,6 +43,24 @@ abstract class StoreServiceImplBase(
             }
         }
     }
+    
+    
+    
+    open suspend fun getStore(request: store.viewer.GetStoreRequest): store.viewer.Store {
+        throw unimplemented(getGetStoreMethod()).asRuntimeException()
+    }
+
+    internal fun getStoreInternal(
+        request: store.viewer.GetStoreRequest,
+        responseObserver: StreamObserver<store.viewer.Store>
+    ) {
+        launch {
+            tryCatchingStatus(responseObserver) {
+                val response = getStore(request)
+                onNext(response)
+            }
+        }
+    }
 
     override fun bindService(): ServerServiceDefinition {
         return ServerServiceDefinition.builder(getServiceDescriptor())
@@ -50,6 +68,12 @@ abstract class StoreServiceImplBase(
                 getGeAllStoresMethod(),
                 ServerCalls.asyncUnaryCall(
                     MethodHandlers(METHODID_GE_ALL_STORES)
+                )
+            )
+            .addMethod(
+                getGetStoreMethod(),
+                ServerCalls.asyncUnaryCall(
+                    MethodHandlers(METHODID_GET_STORE)
                 )
             )
             .build()
@@ -90,6 +114,7 @@ abstract class StoreServiceImplBase(
     }
 
     private val METHODID_GE_ALL_STORES = 0
+    private val METHODID_GET_STORE = 1
 
     private inner class MethodHandlers<Req, Resp> internal constructor(
         private val methodId: Int
@@ -105,6 +130,11 @@ abstract class StoreServiceImplBase(
                     this@StoreServiceImplBase.geAllStoresInternal(
                         request as store.viewer.GetAllStoresRequest,
                         responseObserver as StreamObserver<store.viewer.Stores>
+                    )
+                METHODID_GET_STORE ->
+                    this@StoreServiceImplBase.getStoreInternal(
+                        request as store.viewer.GetStoreRequest,
+                        responseObserver as StreamObserver<store.viewer.Store>
                     )
                 else -> throw AssertionError()
             }

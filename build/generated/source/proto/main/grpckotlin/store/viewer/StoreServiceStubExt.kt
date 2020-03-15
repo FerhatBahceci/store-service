@@ -25,6 +25,14 @@ suspend inline fun StoreServiceStub.geAllStores(request: store.viewer.GetAllStor
     }
 }
 
+
+
+suspend inline fun StoreServiceStub.getStore(request: store.viewer.GetStoreRequest): store.viewer.Store {
+    return suspendCoroutine {
+        getStore(request, ContinuationStreamObserver(it))
+    }
+}
+
 /**
 * Adds new binary header and returns the client
 */

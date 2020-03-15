@@ -58,6 +58,37 @@ public final class StoreServiceGrpc {
     return getGeAllStoresMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<store.viewer.GetStoreRequest,
+      store.viewer.Store> getGetStoreMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "GetStore",
+      requestType = store.viewer.GetStoreRequest.class,
+      responseType = store.viewer.Store.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<store.viewer.GetStoreRequest,
+      store.viewer.Store> getGetStoreMethod() {
+    io.grpc.MethodDescriptor<store.viewer.GetStoreRequest, store.viewer.Store> getGetStoreMethod;
+    if ((getGetStoreMethod = StoreServiceGrpc.getGetStoreMethod) == null) {
+      synchronized (StoreServiceGrpc.class) {
+        if ((getGetStoreMethod = StoreServiceGrpc.getGetStoreMethod) == null) {
+          StoreServiceGrpc.getGetStoreMethod = getGetStoreMethod =
+              io.grpc.MethodDescriptor.<store.viewer.GetStoreRequest, store.viewer.Store>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "GetStore"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  store.viewer.GetStoreRequest.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  store.viewer.Store.getDefaultInstance()))
+              .setSchemaDescriptor(new StoreServiceMethodDescriptorSupplier("GetStore"))
+              .build();
+        }
+      }
+    }
+    return getGetStoreMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -92,6 +123,13 @@ public final class StoreServiceGrpc {
       asyncUnimplementedUnaryCall(getGeAllStoresMethod(), responseObserver);
     }
 
+    /**
+     */
+    public void getStore(store.viewer.GetStoreRequest request,
+        io.grpc.stub.StreamObserver<store.viewer.Store> responseObserver) {
+      asyncUnimplementedUnaryCall(getGetStoreMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -101,6 +139,13 @@ public final class StoreServiceGrpc {
                 store.viewer.GetAllStoresRequest,
                 store.viewer.Stores>(
                   this, METHODID_GE_ALL_STORES)))
+          .addMethod(
+            getGetStoreMethod(),
+            asyncUnaryCall(
+              new MethodHandlers<
+                store.viewer.GetStoreRequest,
+                store.viewer.Store>(
+                  this, METHODID_GET_STORE)))
           .build();
     }
   }
@@ -130,6 +175,14 @@ public final class StoreServiceGrpc {
       asyncUnaryCall(
           getChannel().newCall(getGeAllStoresMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void getStore(store.viewer.GetStoreRequest request,
+        io.grpc.stub.StreamObserver<store.viewer.Store> responseObserver) {
+      asyncUnaryCall(
+          getChannel().newCall(getGetStoreMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -155,6 +208,13 @@ public final class StoreServiceGrpc {
     public store.viewer.Stores geAllStores(store.viewer.GetAllStoresRequest request) {
       return blockingUnaryCall(
           getChannel(), getGeAllStoresMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public store.viewer.Store getStore(store.viewer.GetStoreRequest request) {
+      return blockingUnaryCall(
+          getChannel(), getGetStoreMethod(), getCallOptions(), request);
     }
   }
 
@@ -183,9 +243,18 @@ public final class StoreServiceGrpc {
       return futureUnaryCall(
           getChannel().newCall(getGeAllStoresMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<store.viewer.Store> getStore(
+        store.viewer.GetStoreRequest request) {
+      return futureUnaryCall(
+          getChannel().newCall(getGetStoreMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_GE_ALL_STORES = 0;
+  private static final int METHODID_GET_STORE = 1;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -207,6 +276,10 @@ public final class StoreServiceGrpc {
         case METHODID_GE_ALL_STORES:
           serviceImpl.geAllStores((store.viewer.GetAllStoresRequest) request,
               (io.grpc.stub.StreamObserver<store.viewer.Stores>) responseObserver);
+          break;
+        case METHODID_GET_STORE:
+          serviceImpl.getStore((store.viewer.GetStoreRequest) request,
+              (io.grpc.stub.StreamObserver<store.viewer.Store>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -270,6 +343,7 @@ public final class StoreServiceGrpc {
           serviceDescriptor = result = io.grpc.ServiceDescriptor.newBuilder(SERVICE_NAME)
               .setSchemaDescriptor(new StoreServiceFileDescriptorSupplier())
               .addMethod(getGeAllStoresMethod())
+              .addMethod(getGetStoreMethod())
               .build();
         }
       }

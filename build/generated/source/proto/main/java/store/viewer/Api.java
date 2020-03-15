@@ -15,6 +15,11 @@ public final class Api {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_store_viewer_GetStoreRequest_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_store_viewer_GetStoreRequest_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
     internal_static_store_viewer_GetAllStoresRequest_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -41,25 +46,29 @@ public final class Api {
       "\n\tapi.proto\022\014store.viewer\032\037google/protob" +
       "uf/timestamp.proto\032\033google/protobuf/empt" +
       "y.proto\032\036google/protobuf/wrappers.proto\"" +
-      "\025\n\023GetAllStoresRequest\"1\n\006Stores\022\'\n\006stor" +
-      "es\030\001 \003(\0132\023.store.viewer.StoreB\002\020\000\"\275\002\n\005St" +
-      "ore\022*\n\006closes\030\001 \001(\0132\032.google.protobuf.Ti" +
-      "mestamp\0221\n\013description\030\002 \001(\0132\034.google.pr" +
-      "otobuf.StringValue\022(\n\002id\030\003 \001(\0132\034.google." +
-      "protobuf.StringValue\022*\n\004name\030\004 \001(\0132\034.goo" +
-      "gle.protobuf.StringValue\022)\n\005opens\030\005 \001(\0132" +
-      "\032.google.protobuf.Timestamp\022-\n\007phoneNo\030\006" +
-      " \001(\0132\034.google.protobuf.StringValue\022%\n\tst" +
-      "oreType\030\007 \001(\0162\022.store.viewer.Type*\367\001\n\004Ty" +
-      "pe\022\017\n\013ACCESSORIES\020\000\022\013\n\007LEISURE\020\001\022\033\n\027BOOK" +
-      "S_MEDIA_ELECTRONICS\020\003\022\021\n\rHEALTH_BEAUTY\020\004" +
-      "\022\014\n\010OPTICIAN\020\005\022\023\n\017HOME_DECORATION\020\006\022\016\n\nT" +
-      "OYS_HOBBY\020\007\022\r\n\tGROCERIES\020\010\022\023\n\017RESTAURANT" +
-      "_CAFE\020\t\022\r\n\tJEWELLERY\020\n\022\t\n\005STAND\020\013\022\013\n\007FAS" +
-      "HION\020\014\022\013\n\007SERVICE\020\r\022\n\n\006SPORTS\020\016\022\n\n\006UNKOW" +
-      "N\020\0172X\n\014StoreService\022H\n\013GeAllStores\022!.sto" +
-      "re.viewer.GetAllStoresRequest\032\024.store.vi" +
-      "ewer.Stores\"\000B\020\n\014store.viewerP\001b\006proto3"
+      ";\n\017GetStoreRequest\022(\n\002id\030\001 \001(\0132\034.google." +
+      "protobuf.StringValue\"\025\n\023GetAllStoresRequ" +
+      "est\"1\n\006Stores\022\'\n\006stores\030\001 \003(\0132\023.store.vi" +
+      "ewer.StoreB\002\020\000\"\275\002\n\005Store\022*\n\006closes\030\001 \001(\013" +
+      "2\032.google.protobuf.Timestamp\0221\n\013descript" +
+      "ion\030\002 \001(\0132\034.google.protobuf.StringValue\022" +
+      "(\n\002id\030\003 \001(\0132\034.google.protobuf.StringValu" +
+      "e\022*\n\004name\030\004 \001(\0132\034.google.protobuf.String" +
+      "Value\022)\n\005opens\030\005 \001(\0132\032.google.protobuf.T" +
+      "imestamp\022-\n\007phoneNo\030\006 \001(\0132\034.google.proto" +
+      "buf.StringValue\022%\n\tstoreType\030\007 \001(\0162\022.sto" +
+      "re.viewer.Type*\367\001\n\004Type\022\017\n\013ACCESSORIES\020\000" +
+      "\022\013\n\007LEISURE\020\001\022\033\n\027BOOKS_MEDIA_ELECTRONICS" +
+      "\020\003\022\021\n\rHEALTH_BEAUTY\020\004\022\014\n\010OPTICIAN\020\005\022\023\n\017H" +
+      "OME_DECORATION\020\006\022\016\n\nTOYS_HOBBY\020\007\022\r\n\tGROC" +
+      "ERIES\020\010\022\023\n\017RESTAURANT_CAFE\020\t\022\r\n\tJEWELLER" +
+      "Y\020\n\022\t\n\005STAND\020\013\022\013\n\007FASHION\020\014\022\013\n\007SERVICE\020\r" +
+      "\022\n\n\006SPORTS\020\016\022\n\n\006UNKOWN\020\0172\232\001\n\014StoreServic" +
+      "e\022H\n\013GeAllStores\022!.store.viewer.GetAllSt" +
+      "oresRequest\032\024.store.viewer.Stores\"\000\022@\n\010G" +
+      "etStore\022\035.store.viewer.GetStoreRequest\032\023" +
+      ".store.viewer.Store\"\000B\020\n\014store.viewerP\001b" +
+      "\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -68,20 +77,26 @@ public final class Api {
           com.google.protobuf.EmptyProto.getDescriptor(),
           com.google.protobuf.WrappersProto.getDescriptor(),
         });
-    internal_static_store_viewer_GetAllStoresRequest_descriptor =
+    internal_static_store_viewer_GetStoreRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
+    internal_static_store_viewer_GetStoreRequest_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_store_viewer_GetStoreRequest_descriptor,
+        new java.lang.String[] { "Id", });
+    internal_static_store_viewer_GetAllStoresRequest_descriptor =
+      getDescriptor().getMessageTypes().get(1);
     internal_static_store_viewer_GetAllStoresRequest_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_store_viewer_GetAllStoresRequest_descriptor,
         new java.lang.String[] { });
     internal_static_store_viewer_Stores_descriptor =
-      getDescriptor().getMessageTypes().get(1);
+      getDescriptor().getMessageTypes().get(2);
     internal_static_store_viewer_Stores_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_store_viewer_Stores_descriptor,
         new java.lang.String[] { "Stores", });
     internal_static_store_viewer_Store_descriptor =
-      getDescriptor().getMessageTypes().get(2);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_store_viewer_Store_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_store_viewer_Store_descriptor,

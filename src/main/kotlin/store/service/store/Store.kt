@@ -1,16 +1,14 @@
-package store.viewer.repositories
+package store.service.store
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed
 import java.time.Instant
 
-data class Store(val closes: Instant?,
-                 val description: String?,
-                 @Id val id: String = "",
-                 @Indexed(unique = true) val name: String?,
-                 val opens: Instant?,
-                 val phoneNo: String?,
-                 val type: Type?) {
+data class Store(val closes: Instant,
+                 val description: String,
+                 val id: String,
+                 val name: String,
+                 val opens: Instant,
+                 val phoneNo: String,
+                 val type: Type) {
 
     enum class Type {
         ACCESSORIES,

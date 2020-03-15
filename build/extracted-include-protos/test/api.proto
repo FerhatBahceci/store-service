@@ -11,6 +11,13 @@ option java_package = "store.viewer";
 service StoreService {
     rpc GeAllStores (GetAllStoresRequest) returns (Stores) {
     }
+
+    rpc GetStore (GetStoreRequest) returns (Store) {
+    }
+}
+
+message GetStoreRequest {
+    google.protobuf.StringValue id = 1;
 }
 
 message GetAllStoresRequest {
