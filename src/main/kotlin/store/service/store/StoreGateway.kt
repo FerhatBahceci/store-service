@@ -22,7 +22,7 @@ class StoreGatewayImpl(private val db: ReactiveMongoTemplate) : StoreGateway {
             findOne(Criteria.where("id").`is`(id), Store::class.java)
 
     private suspend fun <T> findOne(criteria: Criteria, entity: Class<T>) =
-            db.findOne(Query(criteria), entity).awaitFirstOrElse { throw EntityNotFoundException(criteria, entity.typeName) }
+            db.findOne(Query(criteria), entity).awaitFirstOrElse { throw EntityNotFoundException(criteria, entity.name) }
 }
 
 class EntityNotFoundException(criteria: Criteria, entityType: String) : Exception("Entity $entityType cannot be found for $criteria")
