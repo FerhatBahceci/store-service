@@ -1,8 +1,8 @@
-app:
-  spring:
-    datasource:
+spring:
+  data:
+    mongodb:
       uri: mongodb://localhost:27017
-      name: mongodb
-  grpc:
-    host: localhost
-    port: 50052
+      database: monogb
+grpc:
+  host: localhost
+  port: 50052
