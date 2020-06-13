@@ -1,21 +1,28 @@
 package store.service.store
 
-import org.litote.kmongo.coroutine.CoroutineCollection
-import org.litote.kmongo.coroutine.aggregate
-import org.litote.kmongo.group
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.reactive.asFlow
+import kotlinx.coroutines.reactive.awaitFirstOrElse
+import org.springframework.data.mongodb.core.ReactiveMongoTemplate
+import org.springframework.data.mongodb.core.query.Criteria
+import org.springframework.data.mongodb.core.query.Query
+import java.lang.Exception
 
 interface StoreGateway {
-
-    suspend fun getStores(): List<Store>
-
-    suspend fun getStore(id: String): Store?
+    suspend fun getStores(): Flow<Store>
+    suspend fun getStore(id: String): Store
 }
 
-class StoreDaoImpl(private val col: CoroutineCollection<Store>) : StoreGateway {
+class StoreGatewayImpl(private val db: ReactiveMongoTemplate) : StoreGateway {
 
-    override suspend fun getStores(): List<Store> = col.aggregate<Store>(group(Store::name)).toList()
+    override suspend fun getStores(): Flow<Store> =
+            db.findAll(Store::class.java).asFlow()
 
-    override suspend fun getStore(id: String): Store? =
-            col.findOneById(id)
+    override suspend fun getStore(id: String): Store =
+            findOne(Criteria.where("id").`is`(id), Store::class.java)
+
+    private suspend fun <T> findOne(criteria: Criteria, entity: Class<T>) =
+            db.findOne(Query(criteria), entity).awaitFirstOrElse { throw EntityNotFoundException(criteria, entity.typeName) }
 }
 
+class EntityNotFoundException(criteria: Criteria, entityType: String) : Exception("Entity $entityType cannot be found for $criteria")

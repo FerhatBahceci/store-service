@@ -13,18 +13,29 @@ buildscript {
     }
 }
 
-plugins {
-    idea
-    kotlin("jvm") version "1.3.72"
-    id("com.google.protobuf") version "0.8.12"
-}
-
 repositories {
     mavenCentral()
 }
 
+plugins {
+    idea
+    kotlin("jvm") version "1.3.72"
+    id("com.google.protobuf") version "0.8.12"
+
+    id("org.springframework.boot") version "2.2.6.RELEASE"
+    id("io.spring.dependency-management") version "1.0.9.RELEASE"
+    kotlin("plugin.spring") version "1.3.72"
+}
+
+
 dependencies {
 
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
+
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
+    implementation("org.springframework.boot:spring-boot-starter-webflux")
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.3.7")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
@@ -35,14 +46,8 @@ dependencies {
     implementation("io.grpc:grpc-protobuf:1.29.0")
     implementation("io.grpc:grpc-stub:1.29.0")
     implementation("io.grpc:grpc-services:1.29.0")
-
     implementation("org.slf4j:slf4j-simple:2.0.0-alpha1")
     implementation("javax.annotation:javax.annotation-api:1.3.2")
-
-    implementation("org.litote.kmongo:kmongo-coroutine:4.0.0")
-
-    implementation("com.github.ben-manes.caffeine:caffeine:2.8.1")
-    implementation("com.google.dagger:dagger:2.27")
 
 }
 

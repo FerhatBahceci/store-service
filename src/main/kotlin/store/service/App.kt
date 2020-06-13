@@ -1,13 +1,16 @@
-package store.service
+package store.viewer
 
-import org.litote.kmongo.coroutine.coroutine
-import org.litote.kmongo.reactivestreams.KMongo
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
+import store.service.beans
 
-class App{
+@SpringBootApplication
+class App
 
-    companion object{
-        const val STORE_DB = "store-db"
-        val client = KMongo.createClient().coroutine.getDatabase("store-db") //get com.mongodb.MongoClient new instance
-
+@ObsoleteCoroutinesApi
+fun main(args: Array<String>) {
+    runApplication<App>(*args) {
+        addInitializers(beans())
     }
 }
