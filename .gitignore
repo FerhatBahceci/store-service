@@ -1,5 +1,5 @@
-# Created by https://www.gitignore.io/api/gradle
-# Edit at https://www.gitignore.io/?templates=gradle
+# Created by https://www.toptal.com/developers/gitignore/api/gradle
+# Edit at https://www.toptal.com/developers/gitignore?templates=gradle
 
 ### Gradle ###
 .gradle
@@ -20,4 +20,4 @@ gradle-app.setting
 ### Gradle Patch ###
 **/build/
 
-# End of https://www.gitignore.io/api/gradle
+# End of https://www.toptal.com/developers/gitignore/api/gradle

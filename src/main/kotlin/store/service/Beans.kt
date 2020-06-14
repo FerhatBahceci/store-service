@@ -1,9 +1,13 @@
 package store.service
 
+import io.grpc.BindableService
+import io.grpc.ServerBuilder
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import org.springframework.context.ApplicationContextInitializer
 import org.springframework.context.support.GenericApplicationContext
 import org.springframework.context.support.beans
+import org.springframework.core.env.get
+import store.service.GrpcFactory.Companion.create
 import store.service.store.StoreGatewayImpl
 import store.service.store.StoreServiceImpl
 
@@ -16,6 +20,18 @@ class BeanInitializer : ApplicationContextInitializer<GenericApplicationContext>
 
 @ObsoleteCoroutinesApi
 fun beans() = beans {
+    bean { create(env["grpc.port"]!!.toInt(), ref()) }
     bean<StoreGatewayImpl>()
     bean { StoreServiceImpl(ref()) }
+}
+
+class GrpcFactory {
+    companion object {
+        fun create(port: Int, vararg services: BindableService) =
+                ServerBuilder.forPort(port)
+                        .apply { services.map { service -> addService(service) } }
+                        .build()
+                        .start()
+                        .awaitTermination() // Remove or not?
+    }
 }
