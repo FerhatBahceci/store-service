@@ -34,6 +34,16 @@ public final class Api {
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_store_viewer_Store_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_store_viewer_Store_OpeningHoursEntry_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_store_viewer_Store_OpeningHoursEntry_fieldAccessorTable;
+  static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_store_viewer_Hours_descriptor;
+  static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_store_viewer_Hours_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -49,26 +59,32 @@ public final class Api {
       ";\n\017GetStoreRequest\022(\n\002id\030\001 \001(\0132\034.google." +
       "protobuf.StringValue\"\025\n\023GetAllStoresRequ" +
       "est\"1\n\006Stores\022\'\n\006stores\030\001 \003(\0132\023.store.vi" +
-      "ewer.StoreB\002\020\000\"\275\002\n\005Store\022*\n\006closes\030\001 \001(\013" +
-      "2\032.google.protobuf.Timestamp\0221\n\013descript" +
-      "ion\030\002 \001(\0132\034.google.protobuf.StringValue\022" +
-      "(\n\002id\030\003 \001(\0132\034.google.protobuf.StringValu" +
-      "e\022*\n\004name\030\004 \001(\0132\034.google.protobuf.String" +
-      "Value\022)\n\005opens\030\005 \001(\0132\032.google.protobuf.T" +
-      "imestamp\022-\n\007phoneNo\030\006 \001(\0132\034.google.proto" +
-      "buf.StringValue\022%\n\tstoreType\030\007 \001(\0162\022.sto" +
-      "re.viewer.Type*\367\001\n\004Type\022\017\n\013ACCESSORIES\020\000" +
-      "\022\013\n\007LEISURE\020\001\022\033\n\027BOOKS_MEDIA_ELECTRONICS" +
-      "\020\003\022\021\n\rHEALTH_BEAUTY\020\004\022\014\n\010OPTICIAN\020\005\022\023\n\017H" +
-      "OME_DECORATION\020\006\022\016\n\nTOYS_HOBBY\020\007\022\r\n\tGROC" +
-      "ERIES\020\010\022\023\n\017RESTAURANT_CAFE\020\t\022\r\n\tJEWELLER" +
-      "Y\020\n\022\t\n\005STAND\020\013\022\013\n\007FASHION\020\014\022\013\n\007SERVICE\020\r" +
-      "\022\n\n\006SPORTS\020\016\022\n\n\006UNKOWN\020\0172\232\001\n\014StoreServic" +
-      "e\022H\n\013GeAllStores\022!.store.viewer.GetAllSt" +
-      "oresRequest\032\024.store.viewer.Stores\"\000\022@\n\010G" +
-      "etStore\022\035.store.viewer.GetStoreRequest\032\023" +
-      ".store.viewer.Store\"\000B\020\n\014store.viewerP\001b" +
-      "\006proto3"
+      "ewer.StoreB\002\020\000\"\355\002\n\005Store\0221\n\013description\030" +
+      "\001 \001(\0132\034.google.protobuf.StringValue\022(\n\002i" +
+      "d\030\003 \001(\0132\034.google.protobuf.StringValue\022*\n" +
+      "\004name\030\004 \001(\0132\034.google.protobuf.StringValu" +
+      "e\022;\n\014openingHours\030\005 \003(\0132%.store.viewer.S" +
+      "tore.OpeningHoursEntry\022-\n\007phoneNo\030\006 \001(\0132" +
+      "\034.google.protobuf.StringValue\022%\n\tstoreTy" +
+      "pe\030\007 \001(\0162\022.store.viewer.Type\032H\n\021OpeningH" +
+      "oursEntry\022\013\n\003key\030\001 \001(\t\022\"\n\005value\030\002 \001(\0132\023." +
+      "store.viewer.Hours:\0028\001\"a\n\005Hours\022+\n\007openi" +
+      "ng\030\002 \001(\0132\032.google.protobuf.Timestamp\022+\n\007" +
+      "closing\030\003 \001(\0132\032.google.protobuf.Timestam" +
+      "p*\367\001\n\004Type\022\017\n\013ACCESSORIES\020\000\022\013\n\007LEISURE\020\001" +
+      "\022\033\n\027BOOKS_MEDIA_ELECTRONICS\020\003\022\021\n\rHEALTH_" +
+      "BEAUTY\020\004\022\014\n\010OPTICIAN\020\005\022\023\n\017HOME_DECORATIO" +
+      "N\020\006\022\016\n\nTOYS_HOBBY\020\007\022\r\n\tGROCERIES\020\010\022\023\n\017RE" +
+      "STAURANT_CAFE\020\t\022\r\n\tJEWELLERY\020\n\022\t\n\005STAND\020" +
+      "\013\022\013\n\007FASHION\020\014\022\013\n\007SERVICE\020\r\022\n\n\006SPORTS\020\016\022" +
+      "\n\n\006UNKOWN\020\017*g\n\tDayOfWeek\022\n\n\006MONDAY\020\000\022\013\n\007" +
+      "TUESDAY\020\001\022\r\n\tWEDNESDAY\020\002\022\014\n\010THURSDAY\020\003\022\n" +
+      "\n\006FRIDAY\020\004\022\014\n\010SATURDAY\020\005\022\n\n\006SUNDAY\020\0062\232\001\n" +
+      "\014StoreService\022H\n\013GeAllStores\022!.store.vie" +
+      "wer.GetAllStoresRequest\032\024.store.viewer.S" +
+      "tores\"\000\022@\n\010GetStore\022\035.store.viewer.GetSt" +
+      "oreRequest\032\023.store.viewer.Store\"\000B\020\n\014sto" +
+      "re.viewerP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -100,7 +116,19 @@ public final class Api {
     internal_static_store_viewer_Store_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_store_viewer_Store_descriptor,
-        new java.lang.String[] { "Closes", "Description", "Id", "Name", "Opens", "PhoneNo", "StoreType", });
+        new java.lang.String[] { "Description", "Id", "Name", "OpeningHours", "PhoneNo", "StoreType", });
+    internal_static_store_viewer_Store_OpeningHoursEntry_descriptor =
+      internal_static_store_viewer_Store_descriptor.getNestedTypes().get(0);
+    internal_static_store_viewer_Store_OpeningHoursEntry_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_store_viewer_Store_OpeningHoursEntry_descriptor,
+        new java.lang.String[] { "Key", "Value", });
+    internal_static_store_viewer_Hours_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_store_viewer_Hours_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_store_viewer_Hours_descriptor,
+        new java.lang.String[] { "Opening", "Closing", });
     com.google.protobuf.TimestampProto.getDescriptor();
     com.google.protobuf.EmptyProto.getDescriptor();
     com.google.protobuf.WrappersProto.getDescriptor();

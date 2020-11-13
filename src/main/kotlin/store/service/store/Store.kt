@@ -1,14 +1,17 @@
 package store.service.store
 
+import java.time.DayOfWeek
 import java.time.Instant
+import java.util.*
 
-data class Store(val closes: Instant,
-                 val description: String,
+data class Store(val description: String,
                  val id: String,
                  val name: String,
-                 val opens: Instant,
+                 val openingHours: EnumMap<DayOfWeek, Hours>,
                  val phoneNo: String,
                  val type: Type) {
+
+    data class Hours(val opening: Instant, val closing: Instant)
 
     enum class Type {
         ACCESSORIES,

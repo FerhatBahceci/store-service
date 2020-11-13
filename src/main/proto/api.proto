@@ -9,6 +9,7 @@ option java_multiple_files = true;
 option java_package = "store.viewer";
 
 service StoreService {
+
     rpc GeAllStores (GetAllStoresRequest) returns (Stores) {
     }
 
@@ -28,11 +29,10 @@ message Stores {
 }
 
 message Store {
-    google.protobuf.Timestamp closes = 1;
-    google.protobuf.StringValue description = 2;
+    google.protobuf.StringValue description = 1;
     google.protobuf.StringValue id = 3;
     google.protobuf.StringValue name = 4;
-    google.protobuf.Timestamp opens = 5;
+    map<string, Hours> openingHours = 5;
     google.protobuf.StringValue phoneNo = 6;
     Type storeType = 7;
 }
@@ -53,4 +53,19 @@ enum Type {
     SERVICE = 13;
     SPORTS = 14;
     UNKOWN = 15;
+}
+
+message Hours {
+    google.protobuf.Timestamp opening = 2;
+    google.protobuf.Timestamp closing = 3;
+}
+
+enum DayOfWeek {
+    MONDAY = 0;
+    TUESDAY = 1;
+    WEDNESDAY = 2;
+    THURSDAY = 3;
+    FRIDAY = 4;
+    SATURDAY = 5;
+    SUNDAY = 6;
 }

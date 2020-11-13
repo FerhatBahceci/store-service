@@ -3,14 +3,13 @@ package store.service.store
 import com.google.protobuf.StringValue
 import com.google.protobuf.Timestamp
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.toList
 import store.service.store.ValueMapper.Companion.mapToString
 import store.service.store.ValueMapper.Companion.mapToStringValue
 import store.service.store.ValueMapper.Companion.mapToTimestamp
 import store.viewer.*
+import java.time.DayOfWeek
 import java.time.Instant
+import java.util.*
 
 @ObsoleteCoroutinesApi
 class StoreServiceImpl(private val gateway: StoreGateway) :
@@ -21,28 +20,47 @@ class StoreServiceImpl(private val gateway: StoreGateway) :
     override suspend fun getStore(request: GetStoreRequest) =
             gateway.getStore(request.id.mapToString()).mapToStore()
 
-    private suspend fun Flow<Store>.mapToStores() =
-            Stores.newBuilder().addAllStores(this.map { store -> store.mapToStore() }.toList()).build()
+    private fun List<Store>.mapToStores() = Stores.newBuilder().addAllStores(this.map { store -> store.mapToStore() }.toList()).build()
 
     private fun Store.mapToStore() = store.viewer.Store.newBuilder()
             .setId(id.mapToStringValue())
             .setDescription(description.mapToStringValue())
             .setPhoneNo(phoneNo.mapToStringValue())
-            .setStoreType(type.mapToType())
-            .setCloses(closes.mapToTimestamp())
-            .setOpens(opens.mapToTimestamp())
+            .setStoreType(Type.valueOf(this.name))
+/*
+            .putAllOpeningHours(openingHours.mapToOpeningHours())
+*/
             .build()
 
-    private fun Store.Type.mapToType() = Type.valueOf(this.name)
+/*    private fun EnumMap<DayOfWeek, Store.Hours>.mapToOpeningHours(): Map<String, Hours> {
+
+        mutableMapOf<String, Hours>().let {
+            this.map { entry ->
+                it.put(entry.key.name, entry.value.mapToHours())
+            }
+
+        }
+    }*/
+
+    private fun Store.Hours.mapToHours() =
+            Hours.newBuilder()
+                    .setOpening(opening.mapToTimestamp())
+                    .setClosing(closing.mapToTimestamp())
+                    .build()
 }
 
 class ValueMapper {
+
     companion object {
+
         fun String.mapToStringValue() = StringValue.newBuilder().setValue(this).build()
 
         fun StringValue.mapToString() = StringBuilder(this.value).toString()
 
-        fun Instant.mapToTimestamp(): Timestamp = Timestamp.newBuilder().setNanos(this.nano).setSeconds(this.epochSecond).build()
+        fun Instant.mapToTimestamp() =
+                Timestamp.newBuilder()
+                        .setNanos(this.nano)
+                        .setSeconds(this.epochSecond)
+                        .build()
     }
 }
-

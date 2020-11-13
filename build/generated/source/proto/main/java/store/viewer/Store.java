@@ -39,6 +39,7 @@ private static final long serialVersionUID = 0L;
     if (extensionRegistry == null) {
       throw new java.lang.NullPointerException();
     }
+    int mutable_bitField0_ = 0;
     com.google.protobuf.UnknownFieldSet.Builder unknownFields =
         com.google.protobuf.UnknownFieldSet.newBuilder();
     try {
@@ -50,19 +51,6 @@ private static final long serialVersionUID = 0L;
             done = true;
             break;
           case 10: {
-            com.google.protobuf.Timestamp.Builder subBuilder = null;
-            if (closes_ != null) {
-              subBuilder = closes_.toBuilder();
-            }
-            closes_ = input.readMessage(com.google.protobuf.Timestamp.parser(), extensionRegistry);
-            if (subBuilder != null) {
-              subBuilder.mergeFrom(closes_);
-              closes_ = subBuilder.buildPartial();
-            }
-
-            break;
-          }
-          case 18: {
             com.google.protobuf.StringValue.Builder subBuilder = null;
             if (description_ != null) {
               subBuilder = description_.toBuilder();
@@ -102,16 +90,16 @@ private static final long serialVersionUID = 0L;
             break;
           }
           case 42: {
-            com.google.protobuf.Timestamp.Builder subBuilder = null;
-            if (opens_ != null) {
-              subBuilder = opens_.toBuilder();
+            if (!((mutable_bitField0_ & 0x00000001) != 0)) {
+              openingHours_ = com.google.protobuf.MapField.newMapField(
+                  OpeningHoursDefaultEntryHolder.defaultEntry);
+              mutable_bitField0_ |= 0x00000001;
             }
-            opens_ = input.readMessage(com.google.protobuf.Timestamp.parser(), extensionRegistry);
-            if (subBuilder != null) {
-              subBuilder.mergeFrom(opens_);
-              opens_ = subBuilder.buildPartial();
-            }
-
+            com.google.protobuf.MapEntry<java.lang.String, store.viewer.Hours>
+            openingHours__ = input.readMessage(
+                OpeningHoursDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistry);
+            openingHours_.getMutableMap().put(
+                openingHours__.getKey(), openingHours__.getValue());
             break;
           }
           case 50: {
@@ -157,6 +145,18 @@ private static final long serialVersionUID = 0L;
     return store.viewer.Api.internal_static_store_viewer_Store_descriptor;
   }
 
+  @SuppressWarnings({"rawtypes"})
+  @java.lang.Override
+  protected com.google.protobuf.MapField internalGetMapField(
+      int number) {
+    switch (number) {
+      case 5:
+        return internalGetOpeningHours();
+      default:
+        throw new RuntimeException(
+            "Invalid map field number: " + number);
+    }
+  }
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
@@ -165,47 +165,24 @@ private static final long serialVersionUID = 0L;
             store.viewer.Store.class, store.viewer.Store.Builder.class);
   }
 
-  public static final int CLOSES_FIELD_NUMBER = 1;
-  private com.google.protobuf.Timestamp closes_;
-  /**
-   * <code>.google.protobuf.Timestamp closes = 1;</code>
-   * @return Whether the closes field is set.
-   */
-  public boolean hasCloses() {
-    return closes_ != null;
-  }
-  /**
-   * <code>.google.protobuf.Timestamp closes = 1;</code>
-   * @return The closes.
-   */
-  public com.google.protobuf.Timestamp getCloses() {
-    return closes_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : closes_;
-  }
-  /**
-   * <code>.google.protobuf.Timestamp closes = 1;</code>
-   */
-  public com.google.protobuf.TimestampOrBuilder getClosesOrBuilder() {
-    return getCloses();
-  }
-
-  public static final int DESCRIPTION_FIELD_NUMBER = 2;
+  public static final int DESCRIPTION_FIELD_NUMBER = 1;
   private com.google.protobuf.StringValue description_;
   /**
-   * <code>.google.protobuf.StringValue description = 2;</code>
+   * <code>.google.protobuf.StringValue description = 1;</code>
    * @return Whether the description field is set.
    */
   public boolean hasDescription() {
     return description_ != null;
   }
   /**
-   * <code>.google.protobuf.StringValue description = 2;</code>
+   * <code>.google.protobuf.StringValue description = 1;</code>
    * @return The description.
    */
   public com.google.protobuf.StringValue getDescription() {
     return description_ == null ? com.google.protobuf.StringValue.getDefaultInstance() : description_;
   }
   /**
-   * <code>.google.protobuf.StringValue description = 2;</code>
+   * <code>.google.protobuf.StringValue description = 1;</code>
    */
   public com.google.protobuf.StringValueOrBuilder getDescriptionOrBuilder() {
     return getDescription();
@@ -257,27 +234,80 @@ private static final long serialVersionUID = 0L;
     return getName();
   }
 
-  public static final int OPENS_FIELD_NUMBER = 5;
-  private com.google.protobuf.Timestamp opens_;
-  /**
-   * <code>.google.protobuf.Timestamp opens = 5;</code>
-   * @return Whether the opens field is set.
-   */
-  public boolean hasOpens() {
-    return opens_ != null;
+  public static final int OPENINGHOURS_FIELD_NUMBER = 5;
+  private static final class OpeningHoursDefaultEntryHolder {
+    static final com.google.protobuf.MapEntry<
+        java.lang.String, store.viewer.Hours> defaultEntry =
+            com.google.protobuf.MapEntry
+            .<java.lang.String, store.viewer.Hours>newDefaultInstance(
+                store.viewer.Api.internal_static_store_viewer_Store_OpeningHoursEntry_descriptor, 
+                com.google.protobuf.WireFormat.FieldType.STRING,
+                "",
+                com.google.protobuf.WireFormat.FieldType.MESSAGE,
+                store.viewer.Hours.getDefaultInstance());
+  }
+  private com.google.protobuf.MapField<
+      java.lang.String, store.viewer.Hours> openingHours_;
+  private com.google.protobuf.MapField<java.lang.String, store.viewer.Hours>
+  internalGetOpeningHours() {
+    if (openingHours_ == null) {
+      return com.google.protobuf.MapField.emptyMapField(
+          OpeningHoursDefaultEntryHolder.defaultEntry);
+    }
+    return openingHours_;
+  }
+
+  public int getOpeningHoursCount() {
+    return internalGetOpeningHours().getMap().size();
   }
   /**
-   * <code>.google.protobuf.Timestamp opens = 5;</code>
-   * @return The opens.
+   * <code>map&lt;string, .store.viewer.Hours&gt; openingHours = 5;</code>
    */
-  public com.google.protobuf.Timestamp getOpens() {
-    return opens_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : opens_;
+
+  public boolean containsOpeningHours(
+      java.lang.String key) {
+    if (key == null) { throw new java.lang.NullPointerException(); }
+    return internalGetOpeningHours().getMap().containsKey(key);
   }
   /**
-   * <code>.google.protobuf.Timestamp opens = 5;</code>
+   * Use {@link #getOpeningHoursMap()} instead.
    */
-  public com.google.protobuf.TimestampOrBuilder getOpensOrBuilder() {
-    return getOpens();
+  @java.lang.Deprecated
+  public java.util.Map<java.lang.String, store.viewer.Hours> getOpeningHours() {
+    return getOpeningHoursMap();
+  }
+  /**
+   * <code>map&lt;string, .store.viewer.Hours&gt; openingHours = 5;</code>
+   */
+
+  public java.util.Map<java.lang.String, store.viewer.Hours> getOpeningHoursMap() {
+    return internalGetOpeningHours().getMap();
+  }
+  /**
+   * <code>map&lt;string, .store.viewer.Hours&gt; openingHours = 5;</code>
+   */
+
+  public store.viewer.Hours getOpeningHoursOrDefault(
+      java.lang.String key,
+      store.viewer.Hours defaultValue) {
+    if (key == null) { throw new java.lang.NullPointerException(); }
+    java.util.Map<java.lang.String, store.viewer.Hours> map =
+        internalGetOpeningHours().getMap();
+    return map.containsKey(key) ? map.get(key) : defaultValue;
+  }
+  /**
+   * <code>map&lt;string, .store.viewer.Hours&gt; openingHours = 5;</code>
+   */
+
+  public store.viewer.Hours getOpeningHoursOrThrow(
+      java.lang.String key) {
+    if (key == null) { throw new java.lang.NullPointerException(); }
+    java.util.Map<java.lang.String, store.viewer.Hours> map =
+        internalGetOpeningHours().getMap();
+    if (!map.containsKey(key)) {
+      throw new java.lang.IllegalArgumentException();
+    }
+    return map.get(key);
   }
 
   public static final int PHONENO_FIELD_NUMBER = 6;
@@ -336,11 +366,8 @@ private static final long serialVersionUID = 0L;
   @java.lang.Override
   public void writeTo(com.google.protobuf.CodedOutputStream output)
                       throws java.io.IOException {
-    if (closes_ != null) {
-      output.writeMessage(1, getCloses());
-    }
     if (description_ != null) {
-      output.writeMessage(2, getDescription());
+      output.writeMessage(1, getDescription());
     }
     if (id_ != null) {
       output.writeMessage(3, getId());
@@ -348,9 +375,12 @@ private static final long serialVersionUID = 0L;
     if (name_ != null) {
       output.writeMessage(4, getName());
     }
-    if (opens_ != null) {
-      output.writeMessage(5, getOpens());
-    }
+    com.google.protobuf.GeneratedMessageV3
+      .serializeStringMapTo(
+        output,
+        internalGetOpeningHours(),
+        OpeningHoursDefaultEntryHolder.defaultEntry,
+        5);
     if (phoneNo_ != null) {
       output.writeMessage(6, getPhoneNo());
     }
@@ -366,13 +396,9 @@ private static final long serialVersionUID = 0L;
     if (size != -1) return size;
 
     size = 0;
-    if (closes_ != null) {
-      size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(1, getCloses());
-    }
     if (description_ != null) {
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(2, getDescription());
+        .computeMessageSize(1, getDescription());
     }
     if (id_ != null) {
       size += com.google.protobuf.CodedOutputStream
@@ -382,9 +408,15 @@ private static final long serialVersionUID = 0L;
       size += com.google.protobuf.CodedOutputStream
         .computeMessageSize(4, getName());
     }
-    if (opens_ != null) {
+    for (java.util.Map.Entry<java.lang.String, store.viewer.Hours> entry
+         : internalGetOpeningHours().getMap().entrySet()) {
+      com.google.protobuf.MapEntry<java.lang.String, store.viewer.Hours>
+      openingHours__ = OpeningHoursDefaultEntryHolder.defaultEntry.newBuilderForType()
+          .setKey(entry.getKey())
+          .setValue(entry.getValue())
+          .build();
       size += com.google.protobuf.CodedOutputStream
-        .computeMessageSize(5, getOpens());
+          .computeMessageSize(5, openingHours__);
     }
     if (phoneNo_ != null) {
       size += com.google.protobuf.CodedOutputStream
@@ -409,11 +441,6 @@ private static final long serialVersionUID = 0L;
     }
     store.viewer.Store other = (store.viewer.Store) obj;
 
-    if (hasCloses() != other.hasCloses()) return false;
-    if (hasCloses()) {
-      if (!getCloses()
-          .equals(other.getCloses())) return false;
-    }
     if (hasDescription() != other.hasDescription()) return false;
     if (hasDescription()) {
       if (!getDescription()
@@ -429,11 +456,8 @@ private static final long serialVersionUID = 0L;
       if (!getName()
           .equals(other.getName())) return false;
     }
-    if (hasOpens() != other.hasOpens()) return false;
-    if (hasOpens()) {
-      if (!getOpens()
-          .equals(other.getOpens())) return false;
-    }
+    if (!internalGetOpeningHours().equals(
+        other.internalGetOpeningHours())) return false;
     if (hasPhoneNo() != other.hasPhoneNo()) return false;
     if (hasPhoneNo()) {
       if (!getPhoneNo()
@@ -451,10 +475,6 @@ private static final long serialVersionUID = 0L;
     }
     int hash = 41;
     hash = (19 * hash) + getDescriptor().hashCode();
-    if (hasCloses()) {
-      hash = (37 * hash) + CLOSES_FIELD_NUMBER;
-      hash = (53 * hash) + getCloses().hashCode();
-    }
     if (hasDescription()) {
       hash = (37 * hash) + DESCRIPTION_FIELD_NUMBER;
       hash = (53 * hash) + getDescription().hashCode();
@@ -467,9 +487,9 @@ private static final long serialVersionUID = 0L;
       hash = (37 * hash) + NAME_FIELD_NUMBER;
       hash = (53 * hash) + getName().hashCode();
     }
-    if (hasOpens()) {
-      hash = (37 * hash) + OPENS_FIELD_NUMBER;
-      hash = (53 * hash) + getOpens().hashCode();
+    if (!internalGetOpeningHours().getMap().isEmpty()) {
+      hash = (37 * hash) + OPENINGHOURS_FIELD_NUMBER;
+      hash = (53 * hash) + internalGetOpeningHours().hashCode();
     }
     if (hasPhoneNo()) {
       hash = (37 * hash) + PHONENO_FIELD_NUMBER;
@@ -584,6 +604,28 @@ private static final long serialVersionUID = 0L;
       return store.viewer.Api.internal_static_store_viewer_Store_descriptor;
     }
 
+    @SuppressWarnings({"rawtypes"})
+    protected com.google.protobuf.MapField internalGetMapField(
+        int number) {
+      switch (number) {
+        case 5:
+          return internalGetOpeningHours();
+        default:
+          throw new RuntimeException(
+              "Invalid map field number: " + number);
+      }
+    }
+    @SuppressWarnings({"rawtypes"})
+    protected com.google.protobuf.MapField internalGetMutableMapField(
+        int number) {
+      switch (number) {
+        case 5:
+          return internalGetMutableOpeningHours();
+        default:
+          throw new RuntimeException(
+              "Invalid map field number: " + number);
+      }
+    }
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
@@ -610,12 +652,6 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public Builder clear() {
       super.clear();
-      if (closesBuilder_ == null) {
-        closes_ = null;
-      } else {
-        closes_ = null;
-        closesBuilder_ = null;
-      }
       if (descriptionBuilder_ == null) {
         description_ = null;
       } else {
@@ -634,12 +670,7 @@ private static final long serialVersionUID = 0L;
         name_ = null;
         nameBuilder_ = null;
       }
-      if (opensBuilder_ == null) {
-        opens_ = null;
-      } else {
-        opens_ = null;
-        opensBuilder_ = null;
-      }
+      internalGetMutableOpeningHours().clear();
       if (phoneNoBuilder_ == null) {
         phoneNo_ = null;
       } else {
@@ -674,11 +705,7 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public store.viewer.Store buildPartial() {
       store.viewer.Store result = new store.viewer.Store(this);
-      if (closesBuilder_ == null) {
-        result.closes_ = closes_;
-      } else {
-        result.closes_ = closesBuilder_.build();
-      }
+      int from_bitField0_ = bitField0_;
       if (descriptionBuilder_ == null) {
         result.description_ = description_;
       } else {
@@ -694,11 +721,8 @@ private static final long serialVersionUID = 0L;
       } else {
         result.name_ = nameBuilder_.build();
       }
-      if (opensBuilder_ == null) {
-        result.opens_ = opens_;
-      } else {
-        result.opens_ = opensBuilder_.build();
-      }
+      result.openingHours_ = internalGetOpeningHours();
+      result.openingHours_.makeImmutable();
       if (phoneNoBuilder_ == null) {
         result.phoneNo_ = phoneNo_;
       } else {
@@ -753,9 +777,6 @@ private static final long serialVersionUID = 0L;
 
     public Builder mergeFrom(store.viewer.Store other) {
       if (other == store.viewer.Store.getDefaultInstance()) return this;
-      if (other.hasCloses()) {
-        mergeCloses(other.getCloses());
-      }
       if (other.hasDescription()) {
         mergeDescription(other.getDescription());
       }
@@ -765,9 +786,8 @@ private static final long serialVersionUID = 0L;
       if (other.hasName()) {
         mergeName(other.getName());
       }
-      if (other.hasOpens()) {
-        mergeOpens(other.getOpens());
-      }
+      internalGetMutableOpeningHours().mergeFrom(
+          other.internalGetOpeningHours());
       if (other.hasPhoneNo()) {
         mergePhoneNo(other.getPhoneNo());
       }
@@ -802,138 +822,20 @@ private static final long serialVersionUID = 0L;
       }
       return this;
     }
-
-    private com.google.protobuf.Timestamp closes_;
-    private com.google.protobuf.SingleFieldBuilderV3<
-        com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> closesBuilder_;
-    /**
-     * <code>.google.protobuf.Timestamp closes = 1;</code>
-     * @return Whether the closes field is set.
-     */
-    public boolean hasCloses() {
-      return closesBuilder_ != null || closes_ != null;
-    }
-    /**
-     * <code>.google.protobuf.Timestamp closes = 1;</code>
-     * @return The closes.
-     */
-    public com.google.protobuf.Timestamp getCloses() {
-      if (closesBuilder_ == null) {
-        return closes_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : closes_;
-      } else {
-        return closesBuilder_.getMessage();
-      }
-    }
-    /**
-     * <code>.google.protobuf.Timestamp closes = 1;</code>
-     */
-    public Builder setCloses(com.google.protobuf.Timestamp value) {
-      if (closesBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        closes_ = value;
-        onChanged();
-      } else {
-        closesBuilder_.setMessage(value);
-      }
-
-      return this;
-    }
-    /**
-     * <code>.google.protobuf.Timestamp closes = 1;</code>
-     */
-    public Builder setCloses(
-        com.google.protobuf.Timestamp.Builder builderForValue) {
-      if (closesBuilder_ == null) {
-        closes_ = builderForValue.build();
-        onChanged();
-      } else {
-        closesBuilder_.setMessage(builderForValue.build());
-      }
-
-      return this;
-    }
-    /**
-     * <code>.google.protobuf.Timestamp closes = 1;</code>
-     */
-    public Builder mergeCloses(com.google.protobuf.Timestamp value) {
-      if (closesBuilder_ == null) {
-        if (closes_ != null) {
-          closes_ =
-            com.google.protobuf.Timestamp.newBuilder(closes_).mergeFrom(value).buildPartial();
-        } else {
-          closes_ = value;
-        }
-        onChanged();
-      } else {
-        closesBuilder_.mergeFrom(value);
-      }
-
-      return this;
-    }
-    /**
-     * <code>.google.protobuf.Timestamp closes = 1;</code>
-     */
-    public Builder clearCloses() {
-      if (closesBuilder_ == null) {
-        closes_ = null;
-        onChanged();
-      } else {
-        closes_ = null;
-        closesBuilder_ = null;
-      }
-
-      return this;
-    }
-    /**
-     * <code>.google.protobuf.Timestamp closes = 1;</code>
-     */
-    public com.google.protobuf.Timestamp.Builder getClosesBuilder() {
-      
-      onChanged();
-      return getClosesFieldBuilder().getBuilder();
-    }
-    /**
-     * <code>.google.protobuf.Timestamp closes = 1;</code>
-     */
-    public com.google.protobuf.TimestampOrBuilder getClosesOrBuilder() {
-      if (closesBuilder_ != null) {
-        return closesBuilder_.getMessageOrBuilder();
-      } else {
-        return closes_ == null ?
-            com.google.protobuf.Timestamp.getDefaultInstance() : closes_;
-      }
-    }
-    /**
-     * <code>.google.protobuf.Timestamp closes = 1;</code>
-     */
-    private com.google.protobuf.SingleFieldBuilderV3<
-        com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> 
-        getClosesFieldBuilder() {
-      if (closesBuilder_ == null) {
-        closesBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-            com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder>(
-                getCloses(),
-                getParentForChildren(),
-                isClean());
-        closes_ = null;
-      }
-      return closesBuilder_;
-    }
+    private int bitField0_;
 
     private com.google.protobuf.StringValue description_;
     private com.google.protobuf.SingleFieldBuilderV3<
         com.google.protobuf.StringValue, com.google.protobuf.StringValue.Builder, com.google.protobuf.StringValueOrBuilder> descriptionBuilder_;
     /**
-     * <code>.google.protobuf.StringValue description = 2;</code>
+     * <code>.google.protobuf.StringValue description = 1;</code>
      * @return Whether the description field is set.
      */
     public boolean hasDescription() {
       return descriptionBuilder_ != null || description_ != null;
     }
     /**
-     * <code>.google.protobuf.StringValue description = 2;</code>
+     * <code>.google.protobuf.StringValue description = 1;</code>
      * @return The description.
      */
     public com.google.protobuf.StringValue getDescription() {
@@ -944,7 +846,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>.google.protobuf.StringValue description = 2;</code>
+     * <code>.google.protobuf.StringValue description = 1;</code>
      */
     public Builder setDescription(com.google.protobuf.StringValue value) {
       if (descriptionBuilder_ == null) {
@@ -960,7 +862,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.google.protobuf.StringValue description = 2;</code>
+     * <code>.google.protobuf.StringValue description = 1;</code>
      */
     public Builder setDescription(
         com.google.protobuf.StringValue.Builder builderForValue) {
@@ -974,7 +876,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.google.protobuf.StringValue description = 2;</code>
+     * <code>.google.protobuf.StringValue description = 1;</code>
      */
     public Builder mergeDescription(com.google.protobuf.StringValue value) {
       if (descriptionBuilder_ == null) {
@@ -992,7 +894,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.google.protobuf.StringValue description = 2;</code>
+     * <code>.google.protobuf.StringValue description = 1;</code>
      */
     public Builder clearDescription() {
       if (descriptionBuilder_ == null) {
@@ -1006,7 +908,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>.google.protobuf.StringValue description = 2;</code>
+     * <code>.google.protobuf.StringValue description = 1;</code>
      */
     public com.google.protobuf.StringValue.Builder getDescriptionBuilder() {
       
@@ -1014,7 +916,7 @@ private static final long serialVersionUID = 0L;
       return getDescriptionFieldBuilder().getBuilder();
     }
     /**
-     * <code>.google.protobuf.StringValue description = 2;</code>
+     * <code>.google.protobuf.StringValue description = 1;</code>
      */
     public com.google.protobuf.StringValueOrBuilder getDescriptionOrBuilder() {
       if (descriptionBuilder_ != null) {
@@ -1025,7 +927,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>.google.protobuf.StringValue description = 2;</code>
+     * <code>.google.protobuf.StringValue description = 1;</code>
      */
     private com.google.protobuf.SingleFieldBuilderV3<
         com.google.protobuf.StringValue, com.google.protobuf.StringValue.Builder, com.google.protobuf.StringValueOrBuilder> 
@@ -1279,123 +1181,127 @@ private static final long serialVersionUID = 0L;
       return nameBuilder_;
     }
 
-    private com.google.protobuf.Timestamp opens_;
-    private com.google.protobuf.SingleFieldBuilderV3<
-        com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> opensBuilder_;
-    /**
-     * <code>.google.protobuf.Timestamp opens = 5;</code>
-     * @return Whether the opens field is set.
-     */
-    public boolean hasOpens() {
-      return opensBuilder_ != null || opens_ != null;
-    }
-    /**
-     * <code>.google.protobuf.Timestamp opens = 5;</code>
-     * @return The opens.
-     */
-    public com.google.protobuf.Timestamp getOpens() {
-      if (opensBuilder_ == null) {
-        return opens_ == null ? com.google.protobuf.Timestamp.getDefaultInstance() : opens_;
-      } else {
-        return opensBuilder_.getMessage();
+    private com.google.protobuf.MapField<
+        java.lang.String, store.viewer.Hours> openingHours_;
+    private com.google.protobuf.MapField<java.lang.String, store.viewer.Hours>
+    internalGetOpeningHours() {
+      if (openingHours_ == null) {
+        return com.google.protobuf.MapField.emptyMapField(
+            OpeningHoursDefaultEntryHolder.defaultEntry);
       }
+      return openingHours_;
     }
-    /**
-     * <code>.google.protobuf.Timestamp opens = 5;</code>
-     */
-    public Builder setOpens(com.google.protobuf.Timestamp value) {
-      if (opensBuilder_ == null) {
-        if (value == null) {
-          throw new NullPointerException();
-        }
-        opens_ = value;
-        onChanged();
-      } else {
-        opensBuilder_.setMessage(value);
+    private com.google.protobuf.MapField<java.lang.String, store.viewer.Hours>
+    internalGetMutableOpeningHours() {
+      onChanged();;
+      if (openingHours_ == null) {
+        openingHours_ = com.google.protobuf.MapField.newMapField(
+            OpeningHoursDefaultEntryHolder.defaultEntry);
       }
+      if (!openingHours_.isMutable()) {
+        openingHours_ = openingHours_.copy();
+      }
+      return openingHours_;
+    }
 
+    public int getOpeningHoursCount() {
+      return internalGetOpeningHours().getMap().size();
+    }
+    /**
+     * <code>map&lt;string, .store.viewer.Hours&gt; openingHours = 5;</code>
+     */
+
+    public boolean containsOpeningHours(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      return internalGetOpeningHours().getMap().containsKey(key);
+    }
+    /**
+     * Use {@link #getOpeningHoursMap()} instead.
+     */
+    @java.lang.Deprecated
+    public java.util.Map<java.lang.String, store.viewer.Hours> getOpeningHours() {
+      return getOpeningHoursMap();
+    }
+    /**
+     * <code>map&lt;string, .store.viewer.Hours&gt; openingHours = 5;</code>
+     */
+
+    public java.util.Map<java.lang.String, store.viewer.Hours> getOpeningHoursMap() {
+      return internalGetOpeningHours().getMap();
+    }
+    /**
+     * <code>map&lt;string, .store.viewer.Hours&gt; openingHours = 5;</code>
+     */
+
+    public store.viewer.Hours getOpeningHoursOrDefault(
+        java.lang.String key,
+        store.viewer.Hours defaultValue) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      java.util.Map<java.lang.String, store.viewer.Hours> map =
+          internalGetOpeningHours().getMap();
+      return map.containsKey(key) ? map.get(key) : defaultValue;
+    }
+    /**
+     * <code>map&lt;string, .store.viewer.Hours&gt; openingHours = 5;</code>
+     */
+
+    public store.viewer.Hours getOpeningHoursOrThrow(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      java.util.Map<java.lang.String, store.viewer.Hours> map =
+          internalGetOpeningHours().getMap();
+      if (!map.containsKey(key)) {
+        throw new java.lang.IllegalArgumentException();
+      }
+      return map.get(key);
+    }
+
+    public Builder clearOpeningHours() {
+      internalGetMutableOpeningHours().getMutableMap()
+          .clear();
       return this;
     }
     /**
-     * <code>.google.protobuf.Timestamp opens = 5;</code>
+     * <code>map&lt;string, .store.viewer.Hours&gt; openingHours = 5;</code>
      */
-    public Builder setOpens(
-        com.google.protobuf.Timestamp.Builder builderForValue) {
-      if (opensBuilder_ == null) {
-        opens_ = builderForValue.build();
-        onChanged();
-      } else {
-        opensBuilder_.setMessage(builderForValue.build());
-      }
 
+    public Builder removeOpeningHours(
+        java.lang.String key) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      internalGetMutableOpeningHours().getMutableMap()
+          .remove(key);
       return this;
     }
     /**
-     * <code>.google.protobuf.Timestamp opens = 5;</code>
+     * Use alternate mutation accessors instead.
      */
-    public Builder mergeOpens(com.google.protobuf.Timestamp value) {
-      if (opensBuilder_ == null) {
-        if (opens_ != null) {
-          opens_ =
-            com.google.protobuf.Timestamp.newBuilder(opens_).mergeFrom(value).buildPartial();
-        } else {
-          opens_ = value;
-        }
-        onChanged();
-      } else {
-        opensBuilder_.mergeFrom(value);
-      }
-
+    @java.lang.Deprecated
+    public java.util.Map<java.lang.String, store.viewer.Hours>
+    getMutableOpeningHours() {
+      return internalGetMutableOpeningHours().getMutableMap();
+    }
+    /**
+     * <code>map&lt;string, .store.viewer.Hours&gt; openingHours = 5;</code>
+     */
+    public Builder putOpeningHours(
+        java.lang.String key,
+        store.viewer.Hours value) {
+      if (key == null) { throw new java.lang.NullPointerException(); }
+      if (value == null) { throw new java.lang.NullPointerException(); }
+      internalGetMutableOpeningHours().getMutableMap()
+          .put(key, value);
       return this;
     }
     /**
-     * <code>.google.protobuf.Timestamp opens = 5;</code>
+     * <code>map&lt;string, .store.viewer.Hours&gt; openingHours = 5;</code>
      */
-    public Builder clearOpens() {
-      if (opensBuilder_ == null) {
-        opens_ = null;
-        onChanged();
-      } else {
-        opens_ = null;
-        opensBuilder_ = null;
-      }
 
+    public Builder putAllOpeningHours(
+        java.util.Map<java.lang.String, store.viewer.Hours> values) {
+      internalGetMutableOpeningHours().getMutableMap()
+          .putAll(values);
       return this;
-    }
-    /**
-     * <code>.google.protobuf.Timestamp opens = 5;</code>
-     */
-    public com.google.protobuf.Timestamp.Builder getOpensBuilder() {
-      
-      onChanged();
-      return getOpensFieldBuilder().getBuilder();
-    }
-    /**
-     * <code>.google.protobuf.Timestamp opens = 5;</code>
-     */
-    public com.google.protobuf.TimestampOrBuilder getOpensOrBuilder() {
-      if (opensBuilder_ != null) {
-        return opensBuilder_.getMessageOrBuilder();
-      } else {
-        return opens_ == null ?
-            com.google.protobuf.Timestamp.getDefaultInstance() : opens_;
-      }
-    }
-    /**
-     * <code>.google.protobuf.Timestamp opens = 5;</code>
-     */
-    private com.google.protobuf.SingleFieldBuilderV3<
-        com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder> 
-        getOpensFieldBuilder() {
-      if (opensBuilder_ == null) {
-        opensBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
-            com.google.protobuf.Timestamp, com.google.protobuf.Timestamp.Builder, com.google.protobuf.TimestampOrBuilder>(
-                getOpens(),
-                getParentForChildren(),
-                isClean());
-        opens_ = null;
-      }
-      return opensBuilder_;
     }
 
     private com.google.protobuf.StringValue phoneNo_;

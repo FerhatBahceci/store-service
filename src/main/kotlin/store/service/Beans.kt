@@ -20,9 +20,9 @@ class BeanInitializer : ApplicationContextInitializer<GenericApplicationContext>
 
 @ObsoleteCoroutinesApi
 fun beans() = beans {
-    bean { create(env["grpc.port"]!!.toInt(), ref()) }
     bean<StoreGatewayImpl>()
     bean { StoreServiceImpl(ref()) }
+    bean { create(env["grpc.port"]!!.toInt(), ref()) }
 }
 
 class GrpcFactory {

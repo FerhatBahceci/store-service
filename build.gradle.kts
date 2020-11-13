@@ -8,7 +8,7 @@ version = "0.0.1-SNAPSHOT"
 buildscript {
 
     dependencies {
-        classpath(kotlin("gradle-plugin", version = "1.3.72"))
+        classpath(kotlin("gradle-plugin", version = "1.4.10"))
         classpath("com.google.protobuf:protobuf-gradle-plugin:0.8.12")
     }
 }
@@ -19,18 +19,17 @@ repositories {
 
 plugins {
     idea
-    kotlin("jvm") version "1.3.72"
+    kotlin("jvm") version "1.4.10"
     id("com.google.protobuf") version "0.8.12"
 
-    id("org.springframework.boot") version "2.2.6.RELEASE"
-    id("io.spring.dependency-management") version "1.0.9.RELEASE"
-    kotlin("plugin.spring") version "1.3.72"
+    id("org.springframework.boot") version "2.3.4.RELEASE"
+    id("io.spring.dependency-management") version "1.0.10.RELEASE"
+    kotlin("plugin.spring") version "1.4.10"
 }
 
 
 dependencies {
 
-    implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
 
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
@@ -48,6 +47,8 @@ dependencies {
     implementation("io.grpc:grpc-services:1.29.0")
     implementation("org.slf4j:slf4j-simple:2.0.0-alpha1")
     implementation("javax.annotation:javax.annotation-api:1.3.2")
+
+    implementation("io.kotest:kotest-runner-junit5-jvm:4.2.5")
 
 }
 

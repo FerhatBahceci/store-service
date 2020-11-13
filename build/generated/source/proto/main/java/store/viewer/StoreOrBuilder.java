@@ -8,32 +8,17 @@ public interface StoreOrBuilder extends
     com.google.protobuf.MessageOrBuilder {
 
   /**
-   * <code>.google.protobuf.Timestamp closes = 1;</code>
-   * @return Whether the closes field is set.
-   */
-  boolean hasCloses();
-  /**
-   * <code>.google.protobuf.Timestamp closes = 1;</code>
-   * @return The closes.
-   */
-  com.google.protobuf.Timestamp getCloses();
-  /**
-   * <code>.google.protobuf.Timestamp closes = 1;</code>
-   */
-  com.google.protobuf.TimestampOrBuilder getClosesOrBuilder();
-
-  /**
-   * <code>.google.protobuf.StringValue description = 2;</code>
+   * <code>.google.protobuf.StringValue description = 1;</code>
    * @return Whether the description field is set.
    */
   boolean hasDescription();
   /**
-   * <code>.google.protobuf.StringValue description = 2;</code>
+   * <code>.google.protobuf.StringValue description = 1;</code>
    * @return The description.
    */
   com.google.protobuf.StringValue getDescription();
   /**
-   * <code>.google.protobuf.StringValue description = 2;</code>
+   * <code>.google.protobuf.StringValue description = 1;</code>
    */
   com.google.protobuf.StringValueOrBuilder getDescriptionOrBuilder();
 
@@ -68,19 +53,38 @@ public interface StoreOrBuilder extends
   com.google.protobuf.StringValueOrBuilder getNameOrBuilder();
 
   /**
-   * <code>.google.protobuf.Timestamp opens = 5;</code>
-   * @return Whether the opens field is set.
+   * <code>map&lt;string, .store.viewer.Hours&gt; openingHours = 5;</code>
    */
-  boolean hasOpens();
+  int getOpeningHoursCount();
   /**
-   * <code>.google.protobuf.Timestamp opens = 5;</code>
-   * @return The opens.
+   * <code>map&lt;string, .store.viewer.Hours&gt; openingHours = 5;</code>
    */
-  com.google.protobuf.Timestamp getOpens();
+  boolean containsOpeningHours(
+      java.lang.String key);
   /**
-   * <code>.google.protobuf.Timestamp opens = 5;</code>
+   * Use {@link #getOpeningHoursMap()} instead.
    */
-  com.google.protobuf.TimestampOrBuilder getOpensOrBuilder();
+  @java.lang.Deprecated
+  java.util.Map<java.lang.String, store.viewer.Hours>
+  getOpeningHours();
+  /**
+   * <code>map&lt;string, .store.viewer.Hours&gt; openingHours = 5;</code>
+   */
+  java.util.Map<java.lang.String, store.viewer.Hours>
+  getOpeningHoursMap();
+  /**
+   * <code>map&lt;string, .store.viewer.Hours&gt; openingHours = 5;</code>
+   */
+
+  store.viewer.Hours getOpeningHoursOrDefault(
+      java.lang.String key,
+      store.viewer.Hours defaultValue);
+  /**
+   * <code>map&lt;string, .store.viewer.Hours&gt; openingHours = 5;</code>
+   */
+
+  store.viewer.Hours getOpeningHoursOrThrow(
+      java.lang.String key);
 
   /**
    * <code>.google.protobuf.StringValue phoneNo = 6;</code>
