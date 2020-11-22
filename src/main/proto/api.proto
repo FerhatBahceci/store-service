@@ -1,8 +1,7 @@
 syntax = "proto3";
-package store.viewer;
+package store.service;
 
 import "google/protobuf/timestamp.proto";
-import "google/protobuf/empty.proto";
 import "google/protobuf/wrappers.proto";
 
 option java_multiple_files = true;
@@ -10,20 +9,79 @@ option java_package = "store.viewer";
 
 service StoreService {
 
-    rpc GeAllStores (GetAllStoresRequest) returns (Stores) {
+    rpc GetStoreByType (GetStoreByTypeRequest) returns (GetStoresResponse) {
     }
 
-    rpc GetStore (GetStoreRequest) returns (Store) {
+    rpc GeAllStores (GetStoresRequest) returns (GetStoresResponse) {
     }
+
+    rpc CreateStore (CreateStoreRequest) returns (CreatedStoreResponse) {
+    }
+
+    rpc GetStoreById (GetStoreByIdRequest) returns (GetStoreResponse) {
+    }
+
+    rpc UpdateStore (Store) returns (UpdateStoreResponse) {
+    }
+
+    rpc DeleteStore (DeleteStoreByIdRequest) returns (DeleteStoreResponse) {
+    }
+
 }
 
-message GetStoreRequest {
+// REQUEST
+message GetStoreByIdRequest {
     google.protobuf.StringValue id = 1;
 }
 
-message GetAllStoresRequest {
+message GetStoresRequest {
 }
 
+message GetStoreByTypeRequest {
+    Type type = 1;
+}
+
+message CreateStoreRequest {
+    Store store = 1;
+}
+
+message DeleteStoreByIdRequest {
+    google.protobuf.StringValue id = 1;
+}
+
+message UpdateStoreRequest {
+    Store store = 1;
+}
+
+// RESPONSE
+message GetStoresResponse {
+    Stores stores = 1;
+    google.protobuf.Int32Value status = 2;
+}
+
+message GetStoreResponse {
+    Store store = 1;
+    google.protobuf.Int32Value status = 2;
+}
+
+message CreatedStoreResponse {
+    google.protobuf.Timestamp createTime = 1;
+    google.protobuf.Int32Value status = 2;
+}
+
+message DeleteStoreResponse {
+    google.protobuf.Timestamp deleteTime = 1;
+    google.protobuf.Int32Value status = 2;
+    google.protobuf.StringValue count = 3;
+}
+
+message UpdateStoreResponse {
+    google.protobuf.Timestamp updateTime = 1;
+    google.protobuf.Int32Value status = 2;
+    google.protobuf.StringValue count = 3;
+}
+
+// MODEL
 message Stores {
     repeated Store stores = 1 [packed = false];
 }

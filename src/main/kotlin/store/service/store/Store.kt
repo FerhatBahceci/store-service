@@ -1,17 +1,24 @@
 package store.service.store
 
+import kotlinx.serialization.Serializable
 import java.time.DayOfWeek
 import java.time.Instant
 import java.util.*
 
-data class Store(val description: String,
+@Serializable
+data class Store( val description: String,
                  val id: String,
                  val name: String,
+/*
                  val openingHours: EnumMap<DayOfWeek, Hours>,
+*/
                  val phoneNo: String,
                  val type: Type) {
+/*
+    @Serializable
+    data class Hours(val opening: Instant, val closing: Instant)*/
 
-    data class Hours(val opening: Instant, val closing: Instant)
+    //TODO fix serialization!
 
     enum class Type {
         ACCESSORIES,

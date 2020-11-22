@@ -1,8 +1,0 @@
-spring:
-  data:
-    mongodb:
-      uri: mongodb://localhost:27017
-      database: monogb
-grpc:
-  host: localhost
-  port: 50052

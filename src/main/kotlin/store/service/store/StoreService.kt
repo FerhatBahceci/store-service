@@ -1,38 +1,68 @@
 package store.service.store
 
+import com.google.protobuf.Int32Value
 import com.google.protobuf.StringValue
 import com.google.protobuf.Timestamp
-import kotlinx.coroutines.*
-import store.service.store.ValueMapper.Companion.mapToString
-import store.service.store.ValueMapper.Companion.mapToStringValue
-import store.service.store.ValueMapper.Companion.mapToTimestamp
+import io.grpc.Status
+import io.grpc.StatusException
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ObsoleteCoroutinesApi
 import store.viewer.*
-import java.time.DayOfWeek
+import store.viewer.Store
 import java.time.Instant
-import java.util.*
+import kotlin.coroutines.CoroutineContext
 
 @ObsoleteCoroutinesApi
-class StoreServiceImpl(private val gateway: StoreGateway) :
-        StoreServiceImplBase(coroutineContext = newFixedThreadPoolContext(4, "grpc-server")), CoroutineScope {
+open class StoreServiceImpl(private val gateway: StoreGateway,
+                            override val coroutineContext: CoroutineContext) :
+        StoreServiceGrpcKt.StoreServiceCoroutineImplBase(), CoroutineScope {
 
-    override suspend fun geAllStores(request: GetAllStoresRequest): Stores = gateway.getStores().mapToStores()
+   override suspend fun getStoreByType(request: GetStoreByTypeRequest): GetStoresResponse = throw
+    StatusException(Status.UNIMPLEMENTED.withDescription("Method store.service.StoreService.GetStoreByType is unimplemented"))
 
-    override suspend fun getStore(request: GetStoreRequest) =
-            gateway.getStore(request.id.mapToString()).mapToStore()
+    override suspend fun geAllStores(request: GetStoresRequest): GetStoresResponse = throw
+    StatusException(Status.UNIMPLEMENTED.withDescription("Method store.service.StoreService.GeAllStores is unimplemented"))
 
+    override suspend fun createStore(request: CreateStoreRequest): CreatedStoreResponse = throw
+    StatusException(Status.UNIMPLEMENTED.withDescription("Method store.service.StoreService.CreateStore is unimplemented"))
+
+    override suspend fun getStoreById(request: GetStoreByIdRequest): GetStoreResponse = throw
+    StatusException(Status.UNIMPLEMENTED.withDescription("Method store.service.StoreService.GetStoreById is unimplemented"))
+
+    override suspend fun updateStore(request: Store): UpdateStoreResponse = throw
+    StatusException(Status.UNIMPLEMENTED.withDescription("Method store.service.StoreService.UpdateStore is unimplemented"))
+
+    override suspend fun deleteStore(request: DeleteStoreByIdRequest): DeleteStoreResponse = throw
+    StatusException(Status.UNIMPLEMENTED.withDescription("Method store.service.StoreService.DeleteStore is unimplemented"))
+
+
+/*    vest.id.mapToString()).mapToStore())
+                    .setStatus(200.mapToIntegerValue())
+                    .build()
+
+    override suspend fun updateStore(request: store.viewer.Store): Response =
+            //TODO
+            UpdateStoreResponse.newBuilder().build()
+
+    override suspend fun deleteStore(request: DeleteStoreByIdRequest): Response {
+        Response.newBuilder().setJsonString(Json1.encodeToString)
+    }*/
+
+/*
     private fun List<Store>.mapToStores() = Stores.newBuilder().addAllStores(this.map { store -> store.mapToStore() }.toList()).build()
+*/
 
-    private fun Store.mapToStore() = store.viewer.Store.newBuilder()
+/*    private fun Store.mapToStore() = store.viewer.Store.newBuilder()
             .setId(id.mapToStringValue())
             .setDescription(description.mapToStringValue())
             .setPhoneNo(phoneNo.mapToStringValue())
             .setStoreType(Type.valueOf(this.name))
-/*
             .putAllOpeningHours(openingHours.mapToOpeningHours())
-*/
+
             .build()
 
-/*    private fun EnumMap<DayOfWeek, Store.Hours>.mapToOpeningHours(): Map<String, Hours> {
+
+    private fun EnumMap<DayOfWeek, Store.Hours>.mapToOpeningHours(): Map<String, Hours> {
 
         mutableMapOf<String, Hours>().let {
             this.map { entry ->
@@ -40,13 +70,13 @@ class StoreServiceImpl(private val gateway: StoreGateway) :
             }
 
         }
-    }*/
+    }
 
     private fun Store.Hours.mapToHours() =
             Hours.newBuilder()
                     .setOpening(opening.mapToTimestamp())
                     .setClosing(closing.mapToTimestamp())
-                    .build()
+                    .build()*/
 }
 
 class ValueMapper {
@@ -54,6 +84,8 @@ class ValueMapper {
     companion object {
 
         fun String.mapToStringValue() = StringValue.newBuilder().setValue(this).build()
+
+        fun Int.mapToIntegerValue() = Int32Value.newBuilder().setValue(this).build()
 
         fun StringValue.mapToString() = StringBuilder(this.value).toString()
 

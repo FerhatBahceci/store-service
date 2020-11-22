@@ -3,6 +3,7 @@ package store.service
 import io.grpc.BindableService
 import io.grpc.ServerBuilder
 import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.newFixedThreadPoolContext
 import org.springframework.context.ApplicationContextInitializer
 import org.springframework.context.support.GenericApplicationContext
 import org.springframework.context.support.beans
@@ -20,8 +21,9 @@ class BeanInitializer : ApplicationContextInitializer<GenericApplicationContext>
 
 @ObsoleteCoroutinesApi
 fun beans() = beans {
+
     bean<StoreGatewayImpl>()
-    bean { StoreServiceImpl(ref()) }
+    bean { StoreServiceImpl(ref(), newFixedThreadPoolContext(4, "grpc-server")) }
     bean { create(env["grpc.port"]!!.toInt(), ref()) }
 }
 
