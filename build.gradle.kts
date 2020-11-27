@@ -10,11 +10,13 @@ buildscript {
     dependencies {
         classpath(kotlin("gradle-plugin", version = "1.4.10"))
         classpath("com.google.protobuf:protobuf-gradle-plugin:0.8.14")
+        classpath("io.micronaut.gradle:micronaut-gradle-plugin:1.2.0")
     }
 }
 
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 plugins {
@@ -22,9 +24,19 @@ plugins {
     kotlin("jvm") version "1.4.10"
     kotlin("plugin.serialization") version "1.4.10"
     id("com.google.protobuf") version "0.8.13"
+    id("com.github.johnrengelman.shadow") version "6.1.0"
+/*
+    id("io.micronaut.application") version "1.2.0"
+*/
 }
 
 dependencies {
+
+/*
+    implementation("io.micronaut:micronaut-validation")
+    implementation("io.micronaut:micronaut-runtime")
+    implementation("io.micronaut.grpc:micronaut-grpc-server-runtime:2.2.0")
+*/
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
