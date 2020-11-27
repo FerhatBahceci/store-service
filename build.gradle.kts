@@ -21,21 +21,15 @@ plugins {
     idea
     kotlin("jvm") version "1.4.10"
     kotlin("plugin.serialization") version "1.4.10"
-    kotlin("plugin.spring") version "1.4.10"
     id("com.google.protobuf") version "0.8.13"
-    id("org.springframework.boot") version "2.3.4.RELEASE"
-    id("io.spring.dependency-management") version "1.0.10.RELEASE"
 }
 
 dependencies {
 
-    implementation("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
-
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.4.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.0.1")
 
     implementation("io.grpc:grpc-protobuf-lite:1.33.1")

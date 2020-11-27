@@ -1,3 +1,4 @@
+/*
 package store.service.store
 
 import com.google.protobuf.Int32Value
@@ -36,6 +37,7 @@ open class StoreServiceImpl(private val gateway: StoreGateway,
     StatusException(Status.UNIMPLEMENTED.withDescription("Method store.service.StoreService.DeleteStore is unimplemented"))
 
 
+*/
 /*    vest.id.mapToString()).mapToStore())
                     .setStatus(200.mapToIntegerValue())
                     .build()
@@ -46,12 +48,16 @@ open class StoreServiceImpl(private val gateway: StoreGateway,
 
     override suspend fun deleteStore(request: DeleteStoreByIdRequest): Response {
         Response.newBuilder().setJsonString(Json1.encodeToString)
-    }*/
+    }*//*
 
+
+*/
 /*
     private fun List<Store>.mapToStores() = Stores.newBuilder().addAllStores(this.map { store -> store.mapToStore() }.toList()).build()
-*/
+*//*
 
+
+*/
 /*    private fun Store.mapToStore() = store.viewer.Store.newBuilder()
             .setId(id.mapToStringValue())
             .setDescription(description.mapToStringValue())
@@ -76,7 +82,8 @@ open class StoreServiceImpl(private val gateway: StoreGateway,
             Hours.newBuilder()
                     .setOpening(opening.mapToTimestamp())
                     .setClosing(closing.mapToTimestamp())
-                    .build()*/
+                    .build()*//*
+
 }
 
 class ValueMapper {
@@ -96,3 +103,4 @@ class ValueMapper {
                         .build()
     }
 }
+*/

@@ -1,3 +1,4 @@
+/*
 package store.service
 
 import io.grpc.BindableService
@@ -37,3 +38,4 @@ class GrpcFactory {
                         .awaitTermination() // Remove or not?
     }
 }
+*/

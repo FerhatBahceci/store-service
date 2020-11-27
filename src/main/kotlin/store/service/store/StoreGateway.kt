@@ -1,11 +1,9 @@
+/*
 package store.service.store
 
 import com.mongodb.client.result.DeleteResult
 import kotlinx.coroutines.reactive.awaitFirst
-import org.springframework.boot.autoconfigure.session.StoreType
-import org.springframework.data.mongodb.core.ReactiveMongoTemplate
-import org.springframework.data.mongodb.core.query.Criteria
-import org.springframework.data.mongodb.core.query.Query
+
 
 interface StoreGateway {
     suspend fun getAllStores(): List<Store>
@@ -35,3 +33,4 @@ class StoreGatewayImpl(private val db: ReactiveMongoTemplate) : StoreGateway {
         TODO("Not yet implemented")
     }
 }
+*/
