@@ -1,7 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.google.protobuf.gradle.*
 
-java.sourceCompatibility = JavaVersion.VERSION_11
 group = "store.service"
 version = "0.0.1-SNAPSHOT"
 
@@ -14,6 +13,25 @@ buildscript {
     }
 }
 
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("store.service.*")
+    }
+}
+
+application {
+    mainClass.set("store.service.App")
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion("1.8")
+    targetCompatibility = JavaVersion.toVersion("1.8")
+}
+
+
 repositories {
     mavenCentral()
     jcenter()
@@ -23,11 +41,9 @@ plugins {
     idea
     kotlin("jvm") version "1.4.10"
     kotlin("plugin.serialization") version "1.4.10"
-    id("com.google.protobuf") version "0.8.13"
+    id("com.google.protobuf") version "0.8.14"
     id("com.github.johnrengelman.shadow") version "6.1.0"
-/*
     id("io.micronaut.application") version "1.2.0"
-*/
 }
 
 dependencies {
@@ -57,14 +73,17 @@ dependencies {
     testImplementation("io.kotest:kotest-runner-junit5-jvm:4.2.5")
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
-}
+tasks {
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "11"
+    withType<KotlinCompile> {
+        kotlinOptions {
+            freeCompilerArgs = listOf("-Xjsr305=strict")
+            jvmTarget = "11"
+        }
+    }
+
+    withType<Test> {
+        useJUnitPlatform()
     }
 }
 
