@@ -13,6 +13,15 @@ buildscript {
     }
 }
 
+plugins {
+    idea
+    kotlin("jvm") version "1.4.10"
+    kotlin("plugin.serialization") version "1.4.10"
+    id("com.google.protobuf") version "0.8.14"
+    id("com.github.johnrengelman.shadow") version "6.1.0"
+    id("io.micronaut.application") version "1.2.0"
+}
+
 micronaut {
     runtime("netty")
     testRuntime("junit5")
@@ -37,22 +46,11 @@ repositories {
     jcenter()
 }
 
-plugins {
-    idea
-    kotlin("jvm") version "1.4.10"
-    kotlin("plugin.serialization") version "1.4.10"
-    id("com.google.protobuf") version "0.8.14"
-    id("com.github.johnrengelman.shadow") version "6.1.0"
-    id("io.micronaut.application") version "1.2.0"
-}
-
 dependencies {
 
-/*
     implementation("io.micronaut:micronaut-validation")
     implementation("io.micronaut:micronaut-runtime")
     implementation("io.micronaut.grpc:micronaut-grpc-server-runtime:2.2.0")
-*/
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
