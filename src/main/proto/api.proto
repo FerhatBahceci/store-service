@@ -88,11 +88,11 @@ message Stores {
 
 message Store {
     google.protobuf.StringValue description = 1;
-    google.protobuf.StringValue id = 3;
-    google.protobuf.StringValue name = 4;
-    map<string, Hours> openingHours = 5;
-    google.protobuf.StringValue phoneNo = 6;
-    Type storeType = 7;
+    google.protobuf.StringValue id = 2;
+    google.protobuf.StringValue name = 3;
+    map<string, Hours> openingHours = 4;
+    google.protobuf.StringValue phoneNo = 5;
+    Type storeType = 6;
 }
 
 enum Type {
@@ -114,8 +114,8 @@ enum Type {
 }
 
 message Hours {
-    google.protobuf.Timestamp opening = 2;
-    google.protobuf.Timestamp closing = 3;
+    google.protobuf.Timestamp opening = 1;
+    google.protobuf.Timestamp closing = 2;
 }
 
 enum DayOfWeek {

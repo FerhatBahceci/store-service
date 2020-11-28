@@ -6,6 +6,7 @@ import com.google.protobuf.Timestamp
 import io.grpc.Status
 import io.grpc.StatusException
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.protobuf.ProtoBuf
 import store.service.*
 import java.time.Instant
@@ -15,8 +16,11 @@ class StoreServiceImpl(private val gateway: StoreGateway,
                        override val coroutineContext: CoroutineContext) :
         StoreServiceGrpcKt.StoreServiceCoroutineImplBase(), CoroutineScope {
 
-    override suspend fun getStoreByType(request: GetStoreByTypeRequest): GetStoresResponse { throw
-        StatusException(Status.UNIMPLEMENTED.withDescription("Method store.service.StoreService.GeAllStores is unimplemented"))
+    @ExperimentalSerializationApi
+    override suspend fun getStoreByType(request: GetStoreByTypeRequest): GetStoresResponse {
+        val store = gateway.getStoreByType(request.type.name)
+        ProtoBuf {  }
+        throw StatusException(Status.UNIMPLEMENTED.withDescription("Method store.service.StoreService.GeAllStores is unimplemented"))
     }
 
     override suspend fun geAllStores(request: GetStoresRequest): GetStoresResponse = throw
@@ -31,7 +35,8 @@ class StoreServiceImpl(private val gateway: StoreGateway,
     override suspend fun updateStore(request: store.service.Store): UpdateStoreResponse = throw
     StatusException(Status.UNIMPLEMENTED.withDescription("Method proto.store.service.StoreService.UpdateStore is unimplemented"))
 
-    override suspend fun deleteStore(request: DeleteStoreByIdRequest): DeleteStoreResponse { throw
+    override suspend fun deleteStore(request: DeleteStoreByIdRequest): DeleteStoreResponse {
+        throw
         StatusException(Status.UNIMPLEMENTED.withDescription("Method proto.store.service.StoreService.DeleteStore is unimplemented"))
     }
 

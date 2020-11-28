@@ -31,5 +31,4 @@ class StoreGatewayImpl(private val collection: MongoCollection<Store>) : StoreGa
     override suspend fun deleteStore(id: String) = collection.deleteOne(Filters.eq("id", id)).awaitFirst()
 
     override suspend fun updateStore(store: Store) = collection.updateOne(Filters.eq("id"), Filters.eq(store)).awaitFirst()
-
 }

@@ -7,7 +7,7 @@ version = "0.0.1-SNAPSHOT"
 buildscript {
 
     dependencies {
-        classpath(kotlin("gradle-plugin", version = "1.4.10"))
+        classpath(kotlin("gradle-plugin", version = "1.4.20"))
         classpath("com.google.protobuf:protobuf-gradle-plugin:0.8.14")
         classpath("io.micronaut.gradle:micronaut-gradle-plugin:1.2.0")
     }
@@ -15,8 +15,8 @@ buildscript {
 
 plugins {
     idea
-    kotlin("jvm") version "1.4.10"
-    kotlin("plugin.serialization") version "1.4.10"
+    kotlin("jvm") version "1.4.20"
+    kotlin("plugin.serialization") version "1.4.20"
     id("com.google.protobuf") version "0.8.14"
     id("com.github.johnrengelman.shadow") version "6.1.0"
     id("io.micronaut.application") version "1.2.0"
@@ -58,7 +58,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.4.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.0.1")
-
+    
     implementation("io.grpc:grpc-protobuf-lite:1.33.1")
     implementation("io.grpc:grpc-protobuf:1.33.1")
     implementation("io.grpc:grpc-kotlin-stub-lite:0.2.1")
