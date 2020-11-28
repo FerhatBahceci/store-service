@@ -1,90 +1,38 @@
 package store.service.store
 
-import com.google.protobuf.Int32Value
-import com.google.protobuf.StringValue
-import com.google.protobuf.Timestamp
-import io.grpc.Status
-import io.grpc.StatusException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.protobuf.ProtoBuf
-import store.service.*
-import java.time.Instant
+import kotlinx.serialization.protobuf.ProtoBuf.Default.decodeFromByteArray
+import kotlinx.serialization.protobuf.ProtoBuf.Default.encodeToByteArray
+import proto.store.service.*
 import kotlin.coroutines.CoroutineContext
 
+@ExperimentalSerializationApi
 class StoreServiceImpl(private val gateway: StoreGateway,
                        override val coroutineContext: CoroutineContext) :
         StoreServiceGrpcKt.StoreServiceCoroutineImplBase(), CoroutineScope {
 
-    @ExperimentalSerializationApi
-    override suspend fun getStoreByType(request: GetStoreByTypeRequest): GetStoresResponse {
-        val store = gateway.getStoreByType(request.type.name)
-        ProtoBuf {  }
-        throw StatusException(Status.UNIMPLEMENTED.withDescription("Method store.service.StoreService.GeAllStores is unimplemented"))
-    }
+    override suspend fun getStoreByType(request: GetStoreByTypeRequest): GetStoresResponse =
+            GetStoresResponse.newBuilder().setStores(gateway.getStoreByType(request.type.name).mapToProto()).build()
 
-    override suspend fun geAllStores(request: GetStoresRequest): GetStoresResponse = throw
-    StatusException(Status.UNIMPLEMENTED.withDescription("Method store.service.StoreService.GeAllStores is unimplemented"))
+    override suspend fun geAllStores(request: GetStoresRequest): GetStoresResponse = GetStoresResponse.newBuilder().setStores(gateway.getAllStores().mapToProto()).build()
 
-    override suspend fun createStore(request: CreateStoreRequest): CreatedStoreResponse = throw
-    StatusException(Status.UNIMPLEMENTED.withDescription("Method store.service.StoreService.CreateStore is unimplemented"))
+    override suspend fun createStore(request: CreateStoreRequest): CreatedStoreResponse =
+            gateway.createStore(request.store.mapFromProto()).let { CreatedStoreResponse.newBuilder().build() }
 
-    override suspend fun getStoreById(request: GetStoreByIdRequest): GetStoreResponse = throw
-    StatusException(Status.UNIMPLEMENTED.withDescription("Method store.service.StoreService.GetStoreById is unimplemented"))
+    override suspend fun getStoreById(request: GetStoreByIdRequest): GetStoreResponse =
+            GetStoreResponse.newBuilder().setStore(gateway.getStoreById(request.id.toString()).mapToProto()).build()
 
-    override suspend fun updateStore(request: store.service.Store): UpdateStoreResponse = throw
-    StatusException(Status.UNIMPLEMENTED.withDescription("Method proto.store.service.StoreService.UpdateStore is unimplemented"))
+    override suspend fun updateStore(request: proto.store.service.Store): UpdateStoreResponse =
+            gateway.updateStore(request.mapFromProto()).let { UpdateStoreResponse.newBuilder().build() }
 
-    override suspend fun deleteStore(request: DeleteStoreByIdRequest): DeleteStoreResponse {
-        throw
-        StatusException(Status.UNIMPLEMENTED.withDescription("Method proto.store.service.StoreService.DeleteStore is unimplemented"))
-    }
+    override suspend fun deleteStore(request: DeleteStoreByIdRequest): DeleteStoreResponse =
+            gateway.deleteStore(request.id.toString()).let { DeleteStoreResponse.newBuilder().build() }
 
-/*    private fun List<Store>.mapToStores() = Stores.newBuilder().addAllStores(this.map { store -> store.mapToStore() }.toList()).build()
+    private fun List<Store>.mapToProto() =
+            Stores.newBuilder().addAllStores(this.map { it.mapToProto() })
 
+    private fun proto.store.service.Store.mapFromProto() = decodeFromByteArray(Store.serializer(), this.toByteArray())
 
-    private fun Store.mapToStore() = store.viewer.Store.newBuilder()
-            .setId(id.mapToStringValue())
-            .setDescription(description.mapToStringValue())
-            .setPhoneNo(phoneNo.mapToStringValue())
-            .setStoreType(Type.valueOf(this.name))
-            .putAllOpeningHours(openingHours.mapToOpeningHours())
-
-            .build()
-
-
-    private fun EnumMap<DayOfWeek, Store.Hours>.mapToOpeningHours(): Map<String, Hours> {
-
-        mutableMapOf<String, Hours>().let {
-            this.map { entry ->
-                it.put(entry.key.name, entry.value.mapToHours())
-            }
-
-        }
-    }
-
-    private fun Store.Hours.mapToHours() =
-            Hours.newBuilder()
-                    .setOpening(opening.mapToTimestamp())
-                    .setClosing(closing.mapToTimestamp())
-                    .build()*/
-
-}
-
-class ValueMapper {
-
-    companion object {
-
-        fun String.mapToStringValue() = StringValue.newBuilder().setValue(this).build()
-
-        fun Int.mapToIntegerValue() = Int32Value.newBuilder().setValue(this).build()
-
-        fun StringValue.mapToString() = StringBuilder(this.value).toString()
-
-        fun Instant.mapToTimestamp() =
-                Timestamp.newBuilder()
-                        .setNanos(this.nano)
-                        .setSeconds(this.epochSecond)
-                        .build()
-    }
+    private fun Store.mapToProto() = proto.store.service.Store.parseFrom(encodeToByteArray(Store.serializer(), this))
 }

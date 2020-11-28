@@ -5,7 +5,7 @@ import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
 
 option java_multiple_files = true;
-option java_package = "store.service";
+option java_package = "proto.store.service";
 
 service StoreService {
 
@@ -56,29 +56,19 @@ message UpdateStoreRequest {
 // RESPONSE
 message GetStoresResponse {
     Stores stores = 1;
-    google.protobuf.Int32Value status = 2;
 }
 
 message GetStoreResponse {
     Store store = 1;
-    google.protobuf.Int32Value status = 2;
 }
 
 message CreatedStoreResponse {
-    google.protobuf.Timestamp createTime = 1;
-    google.protobuf.Int32Value status = 2;
 }
 
 message DeleteStoreResponse {
-    google.protobuf.Timestamp deleteTime = 1;
-    google.protobuf.Int32Value status = 2;
-    google.protobuf.StringValue count = 3;
 }
 
 message UpdateStoreResponse {
-    google.protobuf.Timestamp updateTime = 1;
-    google.protobuf.Int32Value status = 2;
-    google.protobuf.StringValue count = 3;
 }
 
 // MODEL
