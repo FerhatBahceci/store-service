@@ -1,12 +1,9 @@
 package store.service.store
 
 import kotlinx.serialization.Serializable
-import java.time.DayOfWeek
-import java.time.Instant
-import java.util.*
 
 @Serializable
-data class Store( val description: String,
+data class Store(val description: String,
                  val id: String,
                  val name: String,
 /*

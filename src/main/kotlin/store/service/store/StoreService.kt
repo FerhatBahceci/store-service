@@ -1,4 +1,3 @@
-/*
 package store.service.store
 
 import com.google.protobuf.Int32Value
@@ -7,19 +6,18 @@ import com.google.protobuf.Timestamp
 import io.grpc.Status
 import io.grpc.StatusException
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import store.viewer.*
-import store.viewer.Store
+import kotlinx.serialization.protobuf.ProtoBuf
+import store.service.*
 import java.time.Instant
 import kotlin.coroutines.CoroutineContext
 
-@ObsoleteCoroutinesApi
-open class StoreServiceImpl(private val gateway: StoreGateway,
-                            override val coroutineContext: CoroutineContext) :
+class StoreServiceImpl(private val gateway: StoreGateway,
+                       override val coroutineContext: CoroutineContext) :
         StoreServiceGrpcKt.StoreServiceCoroutineImplBase(), CoroutineScope {
 
-   override suspend fun getStoreByType(request: GetStoreByTypeRequest): GetStoresResponse = throw
-    StatusException(Status.UNIMPLEMENTED.withDescription("Method store.service.StoreService.GetStoreByType is unimplemented"))
+    override suspend fun getStoreByType(request: GetStoreByTypeRequest): GetStoresResponse { throw
+        StatusException(Status.UNIMPLEMENTED.withDescription("Method store.service.StoreService.GeAllStores is unimplemented"))
+    }
 
     override suspend fun geAllStores(request: GetStoresRequest): GetStoresResponse = throw
     StatusException(Status.UNIMPLEMENTED.withDescription("Method store.service.StoreService.GeAllStores is unimplemented"))
@@ -30,35 +28,17 @@ open class StoreServiceImpl(private val gateway: StoreGateway,
     override suspend fun getStoreById(request: GetStoreByIdRequest): GetStoreResponse = throw
     StatusException(Status.UNIMPLEMENTED.withDescription("Method store.service.StoreService.GetStoreById is unimplemented"))
 
-    override suspend fun updateStore(request: Store): UpdateStoreResponse = throw
-    StatusException(Status.UNIMPLEMENTED.withDescription("Method store.service.StoreService.UpdateStore is unimplemented"))
+    override suspend fun updateStore(request: store.service.Store): UpdateStoreResponse = throw
+    StatusException(Status.UNIMPLEMENTED.withDescription("Method proto.store.service.StoreService.UpdateStore is unimplemented"))
 
-    override suspend fun deleteStore(request: DeleteStoreByIdRequest): DeleteStoreResponse = throw
-    StatusException(Status.UNIMPLEMENTED.withDescription("Method store.service.StoreService.DeleteStore is unimplemented"))
+    override suspend fun deleteStore(request: DeleteStoreByIdRequest): DeleteStoreResponse { throw
+        StatusException(Status.UNIMPLEMENTED.withDescription("Method proto.store.service.StoreService.DeleteStore is unimplemented"))
+    }
 
-
-*/
-/*    vest.id.mapToString()).mapToStore())
-                    .setStatus(200.mapToIntegerValue())
-                    .build()
-
-    override suspend fun updateStore(request: store.viewer.Store): Response =
-            //TODO
-            UpdateStoreResponse.newBuilder().build()
-
-    override suspend fun deleteStore(request: DeleteStoreByIdRequest): Response {
-        Response.newBuilder().setJsonString(Json1.encodeToString)
-    }*//*
+/*    private fun List<Store>.mapToStores() = Stores.newBuilder().addAllStores(this.map { store -> store.mapToStore() }.toList()).build()
 
 
-*/
-/*
-    private fun List<Store>.mapToStores() = Stores.newBuilder().addAllStores(this.map { store -> store.mapToStore() }.toList()).build()
-*//*
-
-
-*/
-/*    private fun Store.mapToStore() = store.viewer.Store.newBuilder()
+    private fun Store.mapToStore() = store.viewer.Store.newBuilder()
             .setId(id.mapToStringValue())
             .setDescription(description.mapToStringValue())
             .setPhoneNo(phoneNo.mapToStringValue())
@@ -82,7 +62,7 @@ open class StoreServiceImpl(private val gateway: StoreGateway,
             Hours.newBuilder()
                     .setOpening(opening.mapToTimestamp())
                     .setClosing(closing.mapToTimestamp())
-                    .build()*//*
+                    .build()*/
 
 }
 
@@ -103,4 +83,3 @@ class ValueMapper {
                         .build()
     }
 }
-*/

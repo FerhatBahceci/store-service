@@ -1,11 +1,11 @@
 syntax = "proto3";
-package store.service;
+package proto.store.service;
 
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
 
 option java_multiple_files = true;
-option java_package = "store.viewer";
+option java_package = "store.service";
 
 service StoreService {
 
