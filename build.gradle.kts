@@ -32,7 +32,7 @@ micronaut {
 }
 
 application {
-    mainClass.set("store.service.App")
+    mainClass.set("store.service.App.java")
 }
 
 java {
