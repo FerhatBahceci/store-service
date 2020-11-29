@@ -9,9 +9,11 @@ import com.mongodb.reactivestreams.client.MongoCollection
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.reactive.asFlow
 import kotlinx.coroutines.reactive.awaitFirst
+import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Inject
 import javax.inject.Singleton
 
+@ExperimentalSerializationApi
 interface StoreGateway {
     suspend fun getAllStores(): List<Store>
     suspend fun getStoreById(id: String): Store
@@ -21,10 +23,11 @@ interface StoreGateway {
     suspend fun updateStore(store: Store): UpdateResult
 }
 
+@ExperimentalSerializationApi
 @Singleton
 class StoreGatewayImpl(@Inject private val client : MongoClient) : StoreGateway {
 
-    private val collection : MongoCollection<Store> = client.getDatabase("store-db").getCollection("store", Store::class.java)
+    private val collection : MongoCollection<Store> = client.getDatabase("mongodb").getCollection("store", Store::class.java)
 
     override suspend fun getAllStores() = collection.find().asFlow().toList()
 

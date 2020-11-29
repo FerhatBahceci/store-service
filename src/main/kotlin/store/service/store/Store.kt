@@ -1,23 +1,24 @@
 package store.service.store
 
-import kotlinx.serialization.Contextual
-import kotlinx.serialization.Serializable
+import kotlinx.serialization.*
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 import java.time.DayOfWeek
 import java.time.LocalDateTime
 import java.util.*
 
-//TODO fix serialization! Remove contextual
-@Serializable
+@Serializable(with = LocalDateTimeSerializer::class)
+@ExperimentalSerializationApi
 data class Store(val description: String,
                  val id: String,
                  val name: String,
-                 val openingHours: @Contextual EnumMap<DayOfWeek, Hours>,
+                 val openingHours: EnumMap<DayOfWeek, Hours>,
                  val phoneNo: String,
                  val type: Type) {
 
-    @Serializable
-    data class Hours(val opening: @Contextual LocalDateTime,
-                     val closing: @Contextual LocalDateTime)
+    data class Hours(val opening: LocalDateTime,
+                     val closing: LocalDateTime) {
+    }
 
     @Serializable
     enum class Type {
@@ -35,5 +36,17 @@ data class Store(val description: String,
         FASHION,
         SERVICE,
         SPORTS,
+    }
+}
+
+@ExperimentalSerializationApi
+@Serializer(forClass = LocalDateTime::class)
+object LocalDateTimeSerializer : KSerializer<LocalDateTime> {
+    override fun serialize(encoder: Encoder, value: LocalDateTime) {
+        encoder.encodeString(value.toString())
+    }
+
+    override fun deserialize(decoder: Decoder): LocalDateTime {
+        return LocalDateTime.parse(decoder.decodeString())
     }
 }
