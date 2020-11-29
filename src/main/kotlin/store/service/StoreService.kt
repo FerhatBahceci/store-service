@@ -1,15 +1,15 @@
-package store.service.store
+package store.service
 
+import io.micronaut.grpc.annotation.GrpcService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.protobuf.ProtoBuf.Default.decodeFromByteArray
 import kotlinx.serialization.protobuf.ProtoBuf.Default.encodeToByteArray
 import proto.store.service.*
-import javax.inject.Singleton
 import kotlin.coroutines.CoroutineContext
 
 @ExperimentalSerializationApi
-@Singleton
+@GrpcService
 class StoreServiceImpl(private val gateway: StoreGateway,
                        override val coroutineContext: CoroutineContext) :
         StoreServiceGrpcKt.StoreServiceCoroutineImplBase(), CoroutineScope {

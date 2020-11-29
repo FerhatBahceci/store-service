@@ -1,4 +1,4 @@
-package store.service.store
+package store.service
 
 import com.mongodb.client.model.Filters
 import com.mongodb.client.result.DeleteResult

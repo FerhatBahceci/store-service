@@ -6,4 +6,6 @@
 
 [Micronaut gRPC](https://micronaut-projects.github.io/micronaut-grpc/latest/guide/index.html#server)
 
+[Micronaut Test](https://micronaut-projects.github.io/micronaut-test/latest/guide/)
+
 [Kotlin gRPC](https://grpc.io/docs/languages/kotlin/)

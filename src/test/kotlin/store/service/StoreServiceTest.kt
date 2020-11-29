@@ -1,21 +1,23 @@
+package store.service
+
+import io.micronaut.test.extensions.junit5.annotation.MicronautTest
+import org.junit.jupiter.api.Test
+
+@MicronautTest
+class StoreServiceTest() {
+
+    @Test
+    fun testHelloWorld() {
+
+    }
+}
+
 /*
-import io.kotest.core.spec.style.BehaviorSpec
-import io.kotest.core.spec.style.ShouldSpec
-import io.mockk.coEvery
-import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
-import store.service.store.StoreGatewayImpl
-
-class StoreServiceTesst : ShouldSpec({
-
-    @MockK
-    StoreGatewayImpl ga
-
-    coEvery<StoreGatewayImpl> {  }(){
-        this.getStore("")
+@Factory
+class Clients {
+    @Bean
+    fun blockingStub(@GrpcChannel(GrpcServerChannel.NAME) channel: ManagedChannel): StoreServiceGrpc.StoreServiceBlockingStub {
+        return StoreServiceGrpc.newBlockingStub(channel)
     }
-
-    should("return the length of the string") {
-
-    }
-})*/
+}
+*/

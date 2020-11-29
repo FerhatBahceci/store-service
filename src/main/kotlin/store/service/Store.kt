@@ -1,4 +1,4 @@
-package store.service.store
+package store.service
 
 import kotlinx.serialization.*
 import kotlinx.serialization.encoding.Decoder

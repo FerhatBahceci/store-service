@@ -20,6 +20,8 @@ plugins {
     id("com.google.protobuf") version "0.8.14"
     id("com.github.johnrengelman.shadow") version "6.1.0"
     id("io.micronaut.application") version "1.2.0"
+    id("org.jetbrains.kotlin.kapt") version "1.4.20-M2"
+    id("org.jetbrains.kotlin.plugin.allopen") version "1.4.20-M2"
 }
 
 micronaut {
@@ -74,7 +76,18 @@ dependencies {
     implementation("javax.annotation:javax.annotation-api:1.3.2")
     implementation("org.slf4j:slf4j-simple:2.0.0-alpha1")
 
-    testImplementation("io.kotest:kotest-runner-junit5-jvm:4.2.5")
+    testImplementation("io.micronaut.grpc:micronaut-grpc-client-runtime:2.2.0")
+
+    kapt(platform("io.micronaut:micronaut-bom:1.2.0"))
+    kapt("io.micronaut:micronaut-inject-java")
+    kapt("io.micronaut:micronaut-validation")
+    kapt("io.micronaut.configuration:micronaut-openapi")
+
+    kaptTest(platform("io.micronaut:micronaut-bom:1.2.0"))
+    kaptTest("io.micronaut:micronaut-inject-java")
+    testImplementation ("org.junit.jupiter:junit-jupiter-api")
+    testImplementation ("io.micronaut.test:micronaut-test-junit5")
+    testRuntimeOnly ("org.junit.jupiter:junit-jupiter-engine")
 }
 
 tasks {
