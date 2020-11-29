@@ -5,9 +5,11 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.protobuf.ProtoBuf.Default.decodeFromByteArray
 import kotlinx.serialization.protobuf.ProtoBuf.Default.encodeToByteArray
 import proto.store.service.*
+import javax.inject.Singleton
 import kotlin.coroutines.CoroutineContext
 
 @ExperimentalSerializationApi
+@Singleton
 class StoreServiceImpl(private val gateway: StoreGateway,
                        override val coroutineContext: CoroutineContext) :
         StoreServiceGrpcKt.StoreServiceCoroutineImplBase(), CoroutineScope {
@@ -29,8 +31,7 @@ class StoreServiceImpl(private val gateway: StoreGateway,
     override suspend fun deleteStore(request: DeleteStoreByIdRequest): DeleteStoreResponse =
             gateway.deleteStore(request.id.toString()).let { DeleteStoreResponse.newBuilder().build() }
 
-    private fun List<Store>.mapToProto() =
-            Stores.newBuilder().addAllStores(this.map { it.mapToProto() })
+    private fun List<Store>.mapToProto() = Stores.newBuilder().addAllStores(this.map { it.mapToProto() })
 
     private fun proto.store.service.Store.mapFromProto() = decodeFromByteArray(Store.serializer(), this.toByteArray())
 

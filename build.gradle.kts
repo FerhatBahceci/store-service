@@ -48,6 +48,11 @@ repositories {
 
 dependencies {
 
+/*
+8 Generating a Micronaut Application's Native Image with GraalVM
+    annotationProcessor("io.micronaut:micronaut-graal")
+*/
+
     implementation("io.micronaut:micronaut-validation")
     implementation("io.micronaut:micronaut-runtime")
     implementation("io.micronaut.grpc:micronaut-grpc-server-runtime:2.2.0")
@@ -58,7 +63,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.4.2")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.0.1")
-    
+
     implementation("io.grpc:grpc-protobuf-lite:1.33.1")
     implementation("io.grpc:grpc-protobuf:1.33.1")
     implementation("io.grpc:grpc-kotlin-stub-lite:0.2.1")

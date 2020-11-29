@@ -4,10 +4,13 @@ import com.mongodb.client.model.Filters
 import com.mongodb.client.result.DeleteResult
 import com.mongodb.client.result.InsertOneResult
 import com.mongodb.client.result.UpdateResult
+import com.mongodb.reactivestreams.client.MongoClient
 import com.mongodb.reactivestreams.client.MongoCollection
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.reactive.asFlow
 import kotlinx.coroutines.reactive.awaitFirst
+import javax.inject.Inject
+import javax.inject.Singleton
 
 interface StoreGateway {
     suspend fun getAllStores(): List<Store>
@@ -18,7 +21,10 @@ interface StoreGateway {
     suspend fun updateStore(store: Store): UpdateResult
 }
 
-class StoreGatewayImpl(private val collection: MongoCollection<Store>) : StoreGateway {
+@Singleton
+class StoreGatewayImpl(@Inject private val client : MongoClient) : StoreGateway {
+
+    private val collection : MongoCollection<Store> = client.getDatabase("store-db").getCollection("store", Store::class.java)
 
     override suspend fun getAllStores() = collection.find().asFlow().toList()
 
