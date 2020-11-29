@@ -7,6 +7,3 @@
 [Micronaut gRPC](https://micronaut-projects.github.io/micronaut-grpc/latest/guide/index.html#server)
 
 [Kotlin gRPC](https://grpc.io/docs/languages/kotlin/)
-
-
-

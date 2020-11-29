@@ -16,11 +16,8 @@ data class Store(val description: String,
                  val phoneNo: String,
                  val type: Type) {
 
-    data class Hours(val opening: LocalDateTime,
-                     val closing: LocalDateTime) {
-    }
+    data class Hours(val opening: LocalDateTime, val closing: LocalDateTime)
 
-    @Serializable
     enum class Type {
         ACCESSORIES,
         LEISURE,
