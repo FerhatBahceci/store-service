@@ -1,17 +1,25 @@
+/*
 package store.service
 
+import io.micronaut.context.annotation.Bean
 import io.micronaut.grpc.annotation.GrpcService
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.newFixedThreadPoolContext
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.protobuf.ProtoBuf.Default.decodeFromByteArray
 import kotlinx.serialization.protobuf.ProtoBuf.Default.encodeToByteArray
 import proto.store.service.*
+import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
+
+@Bean
+fun coroutineContext() = newFixedThreadPoolContext(4, "grpc-server")
 
 @ExperimentalSerializationApi
 @GrpcService
-class StoreServiceImpl(private val gateway: StoreGateway,
-                       override val coroutineContext: CoroutineContext) :
+class StoreServiceImpl @ObsoleteCoroutinesApi constructor(private val gateway: StoreGateway,
+                                                          @Inject override val coroutineContext: CoroutineContext = newFixedThreadPoolContext(4, "grpc-server")) :
         StoreServiceGrpcKt.StoreServiceCoroutineImplBase(), CoroutineScope {
 
     override suspend fun getStoreByType(request: GetStoreByTypeRequest): GetStoresResponse =
@@ -37,3 +45,4 @@ class StoreServiceImpl(private val gateway: StoreGateway,
 
     private fun Store.mapToProto() = proto.store.service.Store.parseFrom(encodeToByteArray(Store.serializer(), this))
 }
+*/
