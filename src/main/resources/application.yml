@@ -1,3 +1,6 @@
+micronaut:
+  executors:
+    number-of-threads: 4
 grpc:
   host: 'localhost'
   port: '50052'
