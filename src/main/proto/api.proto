@@ -21,7 +21,7 @@ service StoreService {
     rpc GetStoreById (GetStoreByIdRequest) returns (GetStoreResponse) {
     }
 
-    rpc UpdateStore (Store) returns (UpdateStoreResponse) {
+    rpc UpdateStore (UpdateStoreRequest) returns (UpdateStoreResponse) {
     }
 
     rpc DeleteStore (DeleteStoreByIdRequest) returns (DeleteStoreResponse) {
@@ -45,12 +45,13 @@ message CreateStoreRequest {
     Store store = 1;
 }
 
-message DeleteStoreByIdRequest {
+message UpdateStoreRequest {
     google.protobuf.StringValue id = 1;
+    Store update = 2;
 }
 
-message UpdateStoreRequest {
-    Store store = 1;
+message DeleteStoreByIdRequest {
+    google.protobuf.StringValue id = 1;
 }
 
 // RESPONSE

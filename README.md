@@ -1,4 +1,4 @@
-# Tech stack
+### Tech stack
 
 [Micronaut framework](https://docs.micronaut.io/latest/guide/index.html)
 
@@ -11,3 +11,7 @@
 [Kotlin gRPC](https://grpc.io/docs/languages/kotlin/)
 
 [Kotlin Protobuf Serialization](https://kotlin.github.io/kotlinx.serialization/kotlinx-serialization-protobuf/kotlinx-serialization-protobuf/kotlinx.serialization.protobuf/index.html)
+
+### Store-service packaging
+
+[Package by feature](http://www.javapractices.com/topic/TopicAction.do?Id=205)

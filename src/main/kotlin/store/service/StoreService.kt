@@ -1,5 +1,6 @@
 package store.service.service
 
+import com.mongodb.client.result.DeleteResult
 import com.mongodb.client.result.InsertOneResult
 import com.mongodb.client.result.UpdateResult
 import io.grpc.Status
@@ -15,9 +16,17 @@ import kotlinx.serialization.decodeFromByteArray
 import kotlinx.serialization.encodeToByteArray
 import kotlinx.serialization.protobuf.ProtoBuf
 import proto.store.service.*
-import store.service.gateway.StoreGateway
+import store.service.StoreGateway
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
+
+@ObsoleteCoroutinesApi
+@Factory
+private class CoroutineContextFactory {
+
+    @Bean
+    fun coroutineContext() = newFixedThreadPoolContext(4, "grpc-thread-pool")
+}
 
 @ExperimentalSerializationApi
 @GrpcService
@@ -28,22 +37,22 @@ class StoreServiceImpl constructor(@Inject private val gateway: StoreGateway,
     override suspend fun getStoreByType(request: GetStoreByTypeRequest): GetStoresResponse = throw
     StatusException(Status.UNIMPLEMENTED.withDescription("Method proto.store.service.StoreService.GetStoreByType is unimplemented"))
 
-    override suspend fun geAllStores(request: GetStoresRequest): GetStoresResponse = {
-
-    }
+    override suspend fun geAllStores(request: GetStoresRequest): GetStoresResponse  =  throw
+    StatusException(Status.UNIMPLEMENTED.withDescription("Method proto.store.service.StoreService.GeAllStores is unimplemented"))
 
     override suspend fun createStore(request: CreateStoreRequest): CreatedStoreResponse =
             createCreatedStoreResponse(execute(encodeDecode(request), gateway::createStore))
 
-    override suspend fun getStoreById(request: GetStoreByIdRequest): GetStoreResponse = createGetStoreResponse(execute(request.id.toString(), gateway::getStoreById))
+    override suspend fun getStoreById(request: GetStoreByIdRequest): GetStoreResponse =
+            createGetStoreResponse(execute(encodeDecode(request), gateway::getStoreById))
 
-    override suspend fun updateStore(request: Store): UpdateStoreResponse =
+    override suspend fun updateStore(request: UpdateStoreRequest): UpdateStoreResponse =
             createUpdateStoreResponse(execute(encodeDecode(request), gateway::updateStore))
 
-    override suspend fun deleteStore(request: DeleteStoreByIdRequest): DeleteStoreResponse = throw
-    StatusException(Status.UNIMPLEMENTED.withDescription("Method proto.store.service.StoreService.DeleteStore is unimplemented"))
+    override suspend fun deleteStore(request: DeleteStoreByIdRequest): DeleteStoreResponse =
+            createDeleteResponse(execute(encodeDecode(request), gateway::deleteStore))
 
-    private suspend inline fun <reified PROTO, REQ, reified RESP> execute(req: REQ, crossinline callBack: suspend (REQ) -> RESP): PROTO =
+    private suspend inline fun <REQ, reified RESP, reified PROTO> execute(req: REQ, crossinline callBack: suspend (REQ) -> RESP): PROTO =
             encodeDecode(callBack.invoke(req))
 
     private inline fun <reified ENCODE, reified DECODE> encodeDecode(value: ENCODE): DECODE =
@@ -69,16 +78,9 @@ class StoreServiceImpl constructor(@Inject private val gateway: StoreGateway,
                     .newBuilder()
                     .build()
 
-    private fun createDeleteResponse() =
+    private fun createDeleteResponse(deleteResult: DeleteResult) =
             DeleteStoreResponse
                     .newBuilder()
                     .build()
 }
 
-@ObsoleteCoroutinesApi
-@Factory
-class CoroutineContextFactory {
-
-    @Bean
-    fun coroutineContext() = newFixedThreadPoolContext(4, "grpc-thread-pool")
-}
