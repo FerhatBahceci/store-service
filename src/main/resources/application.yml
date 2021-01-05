@@ -1,3 +1,4 @@
+
 micronaut:
   executors:
     number-of-threads: 4

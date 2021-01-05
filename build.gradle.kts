@@ -4,13 +4,9 @@ import com.google.protobuf.gradle.*
 group = "store.service"
 version = "0.0.1-SNAPSHOT"
 
-buildscript {
-
-    dependencies {
-        classpath(kotlin("gradle-plugin", version = "1.4.20"))
-        classpath("com.google.protobuf:protobuf-gradle-plugin:0.8.14")
-        classpath("io.micronaut.gradle:micronaut-gradle-plugin:1.2.0")
-    }
+repositories {
+    mavenCentral()
+    jcenter()
 }
 
 plugins {
@@ -24,6 +20,15 @@ plugins {
     id("org.jetbrains.kotlin.plugin.allopen") version "1.4.20-M2"
 }
 
+application {
+    mainClass.set("store.service.App.java")
+}
+
+configure<JavaPluginConvention> {
+    sourceCompatibility = JavaVersion.VERSION_1_9
+    targetCompatibility = JavaVersion.VERSION_1_9
+}
+
 micronaut {
     runtime("netty")
     testRuntime("junit5")
@@ -31,21 +36,6 @@ micronaut {
         incremental(true)
         annotations("store.service.*")
     }
-}
-
-application {
-    mainClass.set("store.service.App.java")
-}
-
-java {
-    sourceCompatibility = JavaVersion.toVersion("1.8")
-    targetCompatibility = JavaVersion.toVersion("1.8")
-}
-
-
-repositories {
-    mavenCentral()
-    jcenter()
 }
 
 dependencies {
@@ -85,24 +75,38 @@ dependencies {
 
     kaptTest(platform("io.micronaut:micronaut-bom:1.2.0"))
     kaptTest("io.micronaut:micronaut-inject-java")
-    testImplementation ("org.junit.jupiter:junit-jupiter-api")
-    testImplementation ("io.micronaut.test:micronaut-test-junit5")
-    testRuntimeOnly ("org.junit.jupiter:junit-jupiter-engine")
+    testImplementation("org.junit.jupiter:junit-jupiter-api")
+    testImplementation("io.micronaut.test:micronaut-test-junit5")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
 tasks {
 
     withType<KotlinCompile> {
-        kotlinOptions {
-            freeCompilerArgs = listOf("-Xjsr305=strict")
-            jvmTarget = "11"
-        }
+        kotlinOptions.jvmTarget = "1.8"
     }
 
     withType<Test> {
         useJUnitPlatform()
     }
 }
+
+/*
+val moduleName by extra("org.test.modularLib")
+
+tasks {
+    "compileJava"(JavaCompile::class) {
+        inputs.property("moduleName", moduleName)
+        doFirst {
+            options.compilerArgs = listOf(
+                    "--module-path", classpath.asPath,
+                    "--patch-module", "$moduleName=${sourceSets["main"].output.asPath}"
+            )
+            classpath = files()
+        }
+    }
+}
+*/
 
 protobuf {
     protoc {

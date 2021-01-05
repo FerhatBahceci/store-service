@@ -12,6 +12,8 @@
 
 [Kotlin Protobuf Serialization](https://kotlin.github.io/kotlinx.serialization/kotlinx-serialization-protobuf/kotlinx-serialization-protobuf/kotlinx.serialization.protobuf/index.html)
 
-### Store-service packaging
+### Store-service packaging and JPMS
 
 [Package by feature](http://www.javapractices.com/topic/TopicAction.do?Id=205)
+
+[Java 9 Platform Module System](https://www.oracle.com/corporate/features/understanding-java-9-modules.html)

@@ -20,19 +20,19 @@ data class Store(val description: String,
 
     enum class Type {
         ACCESSORIES,
-        LEISURE,
         BOOKS_MEDIA_ELECTRONICS,
-        HEALTH_BEAUTY,
-        OPTICIAN,
-        HOME_DECORATION,
-        TOYS_HOBBY,
-        GROCERIES,
-        RESTAURANT_CAFE,
-        JEWELLERY,
-        STAND,
         FASHION,
+        GROCERIES,
+        HEALTH_BEAUTY,
+        HOME_DECORATION,
+        JEWELLERY,
+        LEISURE,
+        OPTICIAN,
+        RESTAURANT_CAFE,
         SERVICE,
         SPORTS,
+        STAND,
+        TOYS_HOBBY
     }
 }
 

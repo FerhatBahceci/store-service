@@ -3,8 +3,6 @@ package store.service.service
 import com.mongodb.client.result.DeleteResult
 import com.mongodb.client.result.InsertOneResult
 import com.mongodb.client.result.UpdateResult
-import io.grpc.Status
-import io.grpc.StatusException
 import io.micronaut.context.annotation.Bean
 import io.micronaut.context.annotation.Factory
 import io.micronaut.grpc.annotation.GrpcService
@@ -34,11 +32,9 @@ class StoreServiceImpl constructor(@Inject private val gateway: StoreGateway,
                                    @Inject override val coroutineContext: CoroutineContext) :
         StoreServiceGrpcKt.StoreServiceCoroutineImplBase(), CoroutineScope {
 
-    override suspend fun getStoreByType(request: GetStoreByTypeRequest): GetStoresResponse = throw
-    StatusException(Status.UNIMPLEMENTED.withDescription("Method proto.store.service.StoreService.GetStoreByType is unimplemented"))
+    override suspend fun getStoreByType(request: GetStoreByTypeRequest): GetStoresResponse = throw IllegalArgumentException("Method proto.store.service.StoreService.GetStoreByType is unimplemented")
 
-    override suspend fun geAllStores(request: GetStoresRequest): GetStoresResponse  =  throw
-    StatusException(Status.UNIMPLEMENTED.withDescription("Method proto.store.service.StoreService.GeAllStores is unimplemented"))
+    override suspend fun geAllStores(request: GetStoresRequest): GetStoresResponse  =  throw IllegalArgumentException("Method proto.store.service.StoreService.GetStoreByType is unimplemented")
 
     override suspend fun createStore(request: CreateStoreRequest): CreatedStoreResponse =
             createCreatedStoreResponse(execute(encodeDecode(request), gateway::createStore))
