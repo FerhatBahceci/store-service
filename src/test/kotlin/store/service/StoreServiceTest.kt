@@ -1,3 +1,4 @@
+/*
 package store.service
 
 import io.grpc.ManagedChannel
@@ -25,3 +26,4 @@ class Clients {
         return StoreServiceGrpc.newBlockingStub(channel)
     }
 }
+*/

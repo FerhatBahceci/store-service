@@ -16,8 +16,10 @@ plugins {
     id("com.google.protobuf") version "0.8.14"
     id("com.github.johnrengelman.shadow") version "6.1.0"
     id("io.micronaut.application") version "1.2.0"
-    id("org.jetbrains.kotlin.kapt") version "1.4.20-M2"
     id("org.jetbrains.kotlin.plugin.allopen") version "1.4.20-M2"
+/*
+    kotlin("kapt") version "1.4.21"
+*/
 }
 
 application {
@@ -68,13 +70,13 @@ dependencies {
 
     testImplementation("io.micronaut.grpc:micronaut-grpc-client-runtime:2.2.0")
 
-    kapt(platform("io.micronaut:micronaut-bom:1.2.0"))
-    kapt("io.micronaut:micronaut-inject-java")
-    kapt("io.micronaut:micronaut-validation")
-    kapt("io.micronaut.configuration:micronaut-openapi")
+    implementation(platform("io.micronaut:micronaut-bom:1.2.0"))
+    implementation("io.micronaut:micronaut-inject-java")
+    implementation("io.micronaut:micronaut-validation")
+    implementation("io.micronaut.configuration:micronaut-openapi")
 
-    kaptTest(platform("io.micronaut:micronaut-bom:1.2.0"))
-    kaptTest("io.micronaut:micronaut-inject-java")
+/*    kaptTest(platform("io.micronaut:micronaut-bom:1.2.0"))
+    kaptTest("io.micronaut:micronaut-inject-java")*/
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testImplementation("io.micronaut.test:micronaut-test-junit5")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
@@ -91,22 +93,23 @@ tasks {
     }
 }
 
-/*
-val moduleName by extra("org.test.modularLib")
+java {
+    modularity.inferModulePath.set(true)
+}
+
+val moduleName by extra("store.service.lib")
 
 tasks {
     "compileJava"(JavaCompile::class) {
         inputs.property("moduleName", moduleName)
         doFirst {
             options.compilerArgs = listOf(
-                    "--module-path", classpath.asPath,
-                    "--patch-module", "$moduleName=${sourceSets["main"].output.asPath}"
+                    "--module-path", classpath.asPath
             )
             classpath = files()
         }
     }
 }
-*/
 
 protobuf {
     protoc {
