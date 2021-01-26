@@ -1,4 +1,4 @@
-package store.service
+package utility
 
 fun interface Request<T> {
     fun validate()

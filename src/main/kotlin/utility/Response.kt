@@ -1,4 +1,4 @@
-package store.service
+package utility
 
 interface Response<T> {
 

@@ -2,6 +2,7 @@ package store.service
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable;
+import utility.Request
 
 //TODO, once more knowledge about the Store requirements are gathered, validate() method should be implemented properly rather than only null asserting.
 

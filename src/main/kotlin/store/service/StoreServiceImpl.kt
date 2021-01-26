@@ -19,6 +19,7 @@ import proto.store.service.DeleteStoreByIdRequest
 import proto.store.service.GetStoreByIdRequest
 import proto.store.service.Store
 import proto.store.service.UpdateStoreRequest
+import utility.Request
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
