@@ -49,6 +49,8 @@ dependencies {
     implementation("io.micronaut:micronaut-runtime")
     implementation("io.micronaut.grpc:micronaut-grpc-server-runtime:2.2.0")
     implementation("io.micronaut.mongodb:micronaut-mongo-reactive:3.1.0")
+    implementation("io.micronaut:micronaut-management")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
@@ -60,30 +62,28 @@ dependencies {
     implementation("io.grpc:grpc-protobuf:1.33.1")
     implementation("io.grpc:grpc-kotlin-stub-lite:0.2.1")
     implementation("io.grpc:grpc-netty:1.33.1")
+
     implementation("com.google.protobuf:protobuf-java:3.14.0")
     implementation("com.google.guava:guava:30.0-jre")
 
     implementation("javax.annotation:javax.annotation-api:1.3.2")
     implementation("org.slf4j:slf4j-simple:2.0.0-alpha1")
 
-    testImplementation("io.micronaut.grpc:micronaut-grpc-client-runtime:2.2.0")
-
     kapt(platform("io.micronaut:micronaut-bom:1.2.0"))
     kapt("io.micronaut:micronaut-inject-java")
     kapt("io.micronaut:micronaut-validation")
     kapt("io.micronaut.configuration:micronaut-openapi")
 
-    kaptTest(platform("io.micronaut:micronaut-bom:1.2.0"))
-    kaptTest("io.micronaut:micronaut-inject-java")
-    testImplementation("org.junit.jupiter:junit-jupiter-api")
-    testImplementation("io.micronaut.test:micronaut-test-junit5")
+    kaptTest("io.micronaut.grpc:micronaut-grpc-client-runtime:2.2.0")
+    kaptTest("io.micronaut.test:micronaut-test-junit5")
+    kaptTest("org.junit.jupiter:junit-jupiter-api")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
 tasks {
 
     withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.jvmTarget = "11"
     }
 
     withType<Test> {
