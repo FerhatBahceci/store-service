@@ -8,7 +8,7 @@ import utility.Response
 data class Store(val description: String? = null,
                  val id: String? = null,
                  val name: String? = null,
-                 val dayOfWeek: DayOfWeek? = null,
+                 val dayOfWeek: DayOfWeek? = null,  //TODO Fix EnumMap<DayOfWeek,OpeningHours>
                  val phoneNo: String? = null,
                  val type: Type? = null) : Response<Store> {
 

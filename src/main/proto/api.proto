@@ -86,7 +86,7 @@ message Store {
        google.protobuf.StringValue name = 3;
        DayOfWeek dayOfWeek = 4;
        google.protobuf.StringValue phoneNo = 5;
-       Type storeType = 6;
+       Type type = 6;
 }
 
 enum DayOfWeek {

@@ -50,7 +50,6 @@ dependencies {
     implementation("io.micronaut.grpc:micronaut-grpc-server-runtime:2.2.0")
     implementation("io.micronaut.mongodb:micronaut-mongo-reactive:3.1.0")
     implementation("io.micronaut:micronaut-management")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
@@ -77,6 +76,10 @@ dependencies {
     kaptTest("io.micronaut.grpc:micronaut-grpc-client-runtime:2.2.0")
     kaptTest("io.micronaut.test:micronaut-test-junit5")
     kaptTest("org.junit.jupiter:junit-jupiter-api")
+    testImplementation("io.micronaut.test:micronaut-test-spock")
+    testImplementation("org.spockframework:spock-core") {
+        exclude("org.codehaus.groovy:groovy-all")
+    }
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
