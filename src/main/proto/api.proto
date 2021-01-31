@@ -1,11 +1,8 @@
 syntax = "proto3";
 package proto.store.service;
 
-/*
 import "google/protobuf/timestamp.proto";
-*/
 import "google/protobuf/wrappers.proto";
-
 
 option java_multiple_files = true;
 option java_package = "proto.store.service";
@@ -29,7 +26,6 @@ service StoreService {
 
     rpc DeleteStore (DeleteStoreByIdRequest) returns (DeleteStoreResponse) {
     }
-
 }
 
 // REQUEST
@@ -81,22 +77,17 @@ message Stores {
 }
 
 message Store {
-       google.protobuf.StringValue description = 1;
-       google.protobuf.StringValue id = 2;
-       google.protobuf.StringValue name = 3;
-       DayOfWeek dayOfWeek = 4;
-       google.protobuf.StringValue phoneNo = 5;
-       Type type = 6;
+    google.protobuf.StringValue description = 1;
+    google.protobuf.StringValue id = 2;
+    google.protobuf.StringValue name = 3;
+    map<int32, OpeningHours> hours = 4;
+    google.protobuf.StringValue phoneNo = 5;
+    Type type = 6;
 }
 
-enum DayOfWeek {
-    MONDAY = 0;
-    TUESDAY = 1;
-    WEDNESDAY = 2;
-    THURSDAY = 3;
-    FRIDAY = 4;
-    SATURDAY = 5;
-    SUNDAY = 6;
+message OpeningHours {
+    google.protobuf.Timestamp opening = 2;
+    google.protobuf.Timestamp closing = 3;
 }
 
 enum Type {
@@ -116,9 +107,3 @@ enum Type {
     SPORTS = 14;
     UNKOWN = 15;
 }
-
-/*message OpeningHours {
-    DayOfWeek dayOfWeek = 1;
-}*/
-
-

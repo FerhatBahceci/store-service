@@ -1,10 +1,6 @@
 package utility
 
 import com.google.protobuf.MessageLite
-import io.micronaut.context.annotation.Bean
-import io.micronaut.context.annotation.Factory
-import kotlinx.coroutines.ObsoleteCoroutinesApi
-import kotlinx.coroutines.newFixedThreadPoolContext
 import kotlinx.serialization.*
 import kotlinx.serialization.protobuf.ProtoBuf
 import org.slf4j.LoggerFactory
@@ -12,11 +8,13 @@ import org.slf4j.LoggerFactory
 val LOGGER = LoggerFactory.getLogger("GrpcExecute")
 
 @ExperimentalSerializationApi
-suspend inline fun <T : MessageLite, reified U : Request<U>, V> execute(request: T, crossinline callBack: suspend (U) -> V) {
+suspend inline fun <T : MessageLite, reified U : Request<U>, V> execute(
+    request: T,
+    crossinline callBack: suspend (U) -> V
+) {
     runCatching {
         val requestDecoded = ProtoBuf.decodeFromByteArray<U>(request.toByteArray())
-        val response = callBack.invoke(requestDecoded)
-        response
+        callBack.invoke(requestDecoded)
     }.getOrElse {
         LOGGER.error(it.message)
         throw it

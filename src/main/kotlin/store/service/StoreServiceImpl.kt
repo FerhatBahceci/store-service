@@ -29,12 +29,13 @@ private class CoroutineContextFactory {
 TODO How to go from Kotlin --> Proto e.g  ProtoBuf.decodeFromByteArray<DayOfWeek>(ProtoBuf.encodeToByteArray(proto.store.service.DayOfWeek.forNumber(2)))
 */
 
-
 @ExperimentalSerializationApi
 @GrpcService
-class StoreServiceImpl constructor(@Inject private val gateway: StoreGateway,
-                                   @Inject override val coroutineContext: CoroutineContext) :
-        StoreServiceGrpcKt.StoreServiceCoroutineImplBase(), CoroutineScope {
+class StoreServiceImpl constructor(
+    @Inject private val gateway: StoreGateway,
+    @Inject override val coroutineContext: CoroutineContext
+) :
+    StoreServiceGrpcKt.StoreServiceCoroutineImplBase(), CoroutineScope {
 
     override suspend fun getStoreByType(request: proto.store.service.GetStoreByTypeRequest): GetStoresResponse = throw
     StatusException(Status.UNIMPLEMENTED.withDescription("Method proto.store.service.StoreService.GetStoreByType is unimplemented"))
@@ -42,7 +43,8 @@ class StoreServiceImpl constructor(@Inject private val gateway: StoreGateway,
     override suspend fun geAllStores(request: GetStoresRequest): GetStoresResponse = throw
     StatusException(Status.UNIMPLEMENTED.withDescription("Method proto.store.service.StoreService.GeAllStores is unimplemented"))
 
-    override suspend fun createStore(request: proto.store.service.CreateStoreRequest): CreatedStoreResponse = execute(request, gateway::createStore).let { CreatedStoreResponse.newBuilder().build() }
+    override suspend fun createStore(request: proto.store.service.CreateStoreRequest): CreatedStoreResponse =
+        execute(request, gateway::createStore).let { CreatedStoreResponse.newBuilder().build() }
 
     override suspend fun getStoreById(request: GetStoreByIdRequest): GetStoreResponse = throw
     StatusException(Status.UNIMPLEMENTED.withDescription("Method proto.store.service.StoreService.GetStoreById is unimplemented"))

@@ -1,12 +1,12 @@
 package store.service
 
 import com.google.protobuf.StringValue
+import com.google.protobuf.Timestamp
 import io.grpc.ManagedChannel
 import io.micronaut.context.annotation.Bean
 import io.micronaut.context.annotation.Factory
 import io.micronaut.grpc.annotation.GrpcChannel
 import io.micronaut.grpc.server.GrpcServerChannel
-import io.micronaut.test.annotation.MockBean
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.junit.jupiter.api.Test
@@ -41,15 +41,18 @@ class Clients {
 }
 
 val PROTO_STORE = Store.newBuilder()
-        .setDayOfWeek(DayOfWeek.SATURDAY)
-        .setDescription(StringValue.of("DESCRIPTION"))
-/*
-        .setId(StringValue.of("ID")) DUPLICATE KEY if uncommented
-*/
-        .setName(StringValue.of("NAME"))
-        .setPhoneNo(StringValue.of("112"))
-        .setType(Type.GROCERIES)
-        .build()
+    .putHours(1,
+        OpeningHours.newBuilder()
+            .setOpening(Timestamp.newBuilder().setNanos(19).setSeconds(199L))
+            .setClosing(Timestamp.newBuilder().setNanos(19).setSeconds(199L))
+            .build()
+    )
+    .setDescription(StringValue.of("DESCRIPTION"))
+    .setId(StringValue.of("ID"))
+    .setName(StringValue.of("NAME"))
+    .setPhoneNo(StringValue.of("112"))
+    .setType(Type.GROCERIES)
+    .build()
 
 val PROTO_REQUEST = CreateStoreRequest.newBuilder().setStore(PROTO_STORE).build()
 
