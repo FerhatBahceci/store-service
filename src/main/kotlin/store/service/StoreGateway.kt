@@ -5,10 +5,10 @@ import utility.UnitData
 
 @ExperimentalSerializationApi
 interface StoreGateway {
-    suspend fun getAllStores(request: GetAllStoresRequest): List<Store>
-    suspend fun getStoreById(request: GetStoreByIdRequest): Store
-    suspend fun getStoreByType(request: GetStoreByTypeRequest): List<Store>
-    suspend fun createStore(request: CreateStoreRequest): UnitData
-    suspend fun deleteStore(request: DeleteStoreByIdRequest): UnitData
-    suspend fun updateStore(request: UpdateStoreRequest): UnitData
+    suspend fun getAllStores(r: GetAllStoresRequest): List<Store>
+    suspend fun getStoreById(r: GetStoreByIdRequest): Store
+    suspend fun getStoreByType(r: GetStoreByTypeRequest): List<Store>
+    suspend fun createStore(r: CreateStoreRequest): UnitData
+    suspend fun deleteStore(r: DeleteStoreByIdRequest): UnitData
+    suspend fun updateStore(r: UpdateStoreRequest): UnitData
 }

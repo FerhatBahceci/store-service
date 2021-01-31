@@ -30,7 +30,7 @@ service StoreService {
 
 // REQUEST
 message GetStoreByIdRequest {
-    google.protobuf.StringValue id = 1;
+    string id = 1;
 }
 
 message GetStoresRequest {
@@ -45,7 +45,7 @@ message CreateStoreRequest {
 }
 
 message UpdateStoreRequest {
-    google.protobuf.StringValue id = 1;
+    string id = 1;
     Store update = 2;
 }
 
@@ -77,11 +77,11 @@ message Stores {
 }
 
 message Store {
-    google.protobuf.StringValue description = 1;
-    google.protobuf.StringValue id = 2;
-    google.protobuf.StringValue name = 3;
+    string description = 1;
+    string id = 2;
+    string name = 3;
     map<int32, OpeningHours> hours = 4;
-    google.protobuf.StringValue phoneNo = 5;
+    string phoneNo = 5;
     Type type = 6;
 }
 

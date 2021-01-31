@@ -17,16 +17,16 @@ class StoreGatewayImpl(@Inject private val client: MongoClient) : StoreGateway {
 
     private val collection: MongoCollection<Store> = client.getDatabase("store-db").getCollection("store", Store::class.java)
 
-    override suspend fun getAllStores(request: GetAllStoresRequest): List<Store> = collection.find().asFlow().toList()
+    override suspend fun getAllStores(r: GetAllStoresRequest): List<Store> = collection.find().asFlow().toList()
 
-    override suspend fun getStoreById(request: GetStoreByIdRequest): Store = collection.find(Filters.eq("id", request.id)).awaitFirst()
+    override suspend fun getStoreById(r: GetStoreByIdRequest): Store = collection.find(Filters.eq("id", r.id)).awaitFirst()
 
-    override suspend fun getStoreByType(request: GetStoreByTypeRequest): List<Store> = collection.find(Filters.eq("type", request.type)).asFlow().toList()
+    override suspend fun getStoreByType(r: GetStoreByTypeRequest): List<Store> = collection.find(Filters.eq("type", r.type)).asFlow().toList()
 
-    override suspend fun createStore(request: CreateStoreRequest): UnitData =
-            collection.insertOne(request.store).awaitFirst().let { UnitData() }
+    override suspend fun createStore(r: CreateStoreRequest): UnitData =
+            collection.insertOne(r.store).awaitFirst().let { UnitData() }
 
-    override suspend fun deleteStore(request: DeleteStoreByIdRequest): UnitData = collection.deleteOne(Filters.eq("id", request.id)).awaitFirst().let { UnitData() }
+    override suspend fun deleteStore(r: DeleteStoreByIdRequest): UnitData = collection.deleteOne(Filters.eq("id", r.id)).awaitFirst().let { UnitData() }
 
-    override suspend fun updateStore(request: UpdateStoreRequest): UnitData = collection.updateOne(Filters.eq("id"), Filters.eq(request.store)).awaitFirst().let { UnitData() }
+    override suspend fun updateStore(r: UpdateStoreRequest): UnitData = collection.updateOne(Filters.eq("id"), Filters.eq(r.store)).awaitFirst().let { UnitData() }
 }
