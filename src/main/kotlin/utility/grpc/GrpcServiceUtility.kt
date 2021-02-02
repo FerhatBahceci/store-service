@@ -1,9 +1,10 @@
-package utility
+package utility.grpc
 
 import com.google.protobuf.MessageLite
 import kotlinx.serialization.*
 import kotlinx.serialization.protobuf.ProtoBuf
 import org.slf4j.LoggerFactory
+import utility.Request
 
 val LOGGER = LoggerFactory.getLogger("GrpcExecute")
 

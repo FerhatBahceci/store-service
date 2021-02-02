@@ -15,7 +15,7 @@ import proto.store.service.GetStoreByIdRequest
 import proto.store.service.UpdateStoreRequest
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
-import utility.execute
+import utility.grpc.execute
 
 @ObsoleteCoroutinesApi
 @Factory

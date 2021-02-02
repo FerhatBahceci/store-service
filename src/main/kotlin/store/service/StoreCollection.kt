@@ -1,10 +1,7 @@
 package store.service
 
 import kotlinx.serialization.ExperimentalSerializationApi
-import java.time.LocalDateTime
-import java.time.LocalTime
-import java.time.ZoneOffset
-import java.time.format.DateTimeFormatter
+import utility.Timestamp
 
 @ExperimentalSerializationApi
 data class StoreCollection(
@@ -29,7 +26,7 @@ data class StoreCollection(
             DailyHour(dayOfWeek = key.name, opening = value.opening.mapToLocalDateTimeString(), closing = value.closing.mapToLocalDateTimeString())
         }
 
-        private fun Store.Hours.OpeningHours.Timestamp.mapToLocalDateTimeString() : String {
+        private fun Timestamp.mapToLocalDateTimeString() : String {
             return ""
 
             //TODO fix mapping back and forth
