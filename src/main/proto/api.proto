@@ -86,8 +86,8 @@ message Store {
 }
 
 message OpeningHours {
-    google.protobuf.Timestamp opening = 2;
-    google.protobuf.Timestamp closing = 3;
+    google.protobuf.Timestamp opening = 1;
+    google.protobuf.Timestamp closing = 2;
 }
 
 enum Type {

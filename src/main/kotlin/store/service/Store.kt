@@ -9,7 +9,6 @@ import kotlinx.serialization.encoding.decodeStructure
 import kotlinx.serialization.protobuf.ProtoBuf
 import utility.ProtoTimestampInstantSerializer
 import utility.Response
-import java.lang.Exception
 import java.time.Instant
 
 @ExperimentalSerializationApi
@@ -18,12 +17,12 @@ data class Store(
     val description: String? = null,
     val id: String? = null,
     val name: String? = null,
-    @Serializable(with = Hours.HoursSerializer::class) val hours: Hours? = null,
+    val hours: Hours? = null,
     val phoneNo: String? = null,
     val type: Type? = null
 ) : Response<Store> {
 
-    @Serializable
+    @Serializable(with = Hours.HoursSerializer::class)
     data class Hours(val hours: Map<DayOfWeek, OpeningHours>) {  //TODO preferably use EnumMap
 
         @ExperimentalSerializationApi
@@ -38,38 +37,38 @@ data class Store(
                 Hours(MapSerializer(DayOfWeek.serializer(), OpeningHours.serializer()).deserialize(decoder))
         }
 
-        @Serializable(with = OpeningHours.OpeningHoursSerializer::class)
-        data class OpeningHours(val opening: Instant?, val closing: Instant?) {
+        @Serializable
+        data class OpeningHours(val opening: Timestamp, val closing: Timestamp) {
 
-            @ExperimentalSerializationApi
-            @Serializer(forClass = OpeningHours::class)
-            object OpeningHoursSerializer : DeserializationStrategy<OpeningHours> {
+            @Serializable(with = Timestamp.TimestampSerializer::class)
+            data class Timestamp(val seconds: Long?, val nanos: Int?) {
 
-                override fun serialize(encoder: Encoder, value: OpeningHours) {
-                    ProtoBuf.encodeToByteArray(value)
-                }
+                @ExperimentalSerializationApi
+                @Serializer(forClass = Timestamp::class)
+                object TimestampSerializer : DeserializationStrategy<Timestamp> {
 
-                override fun deserialize(decoder: Decoder): OpeningHours {
-                    var opening: Instant? = null
-                    var closing: Instant? = null
+                    override fun serialize(encoder: Encoder, value: Timestamp) {
+                        ProtoBuf.encodeToByteArray(value)
+                    }
 
-                    try {
+                    override fun deserialize(decoder: Decoder): Timestamp {
+                        var seconds: Long? = null
+                        var nanos: Int? = null
+
                         decoder.decodeStructure(descriptor) {
                             while (true) {
                                 when (val index = decodeElementIndex(descriptor)) {
-                                    0 -> opening =
-                                        decodeSerializableElement(descriptor, 0, ProtoTimestampInstantSerializer)
-                                    1 -> closing =
-                                        decodeSerializableElement(descriptor, 1, ProtoTimestampInstantSerializer)
+                                    0 -> seconds =
+                                        decodeLongElement(descriptor, 0)
+                                    1 -> nanos =
+                                        decodeIntElement(descriptor, 1)
                                     CompositeDecoder.DECODE_DONE -> break
                                     else -> error("Unexpected index: $index")
                                 }
                             }
                         }
-                    } catch (e: Exception) {
-
+                        return Timestamp(seconds, nanos)
                     }
-                    return OpeningHours(opening, closing)
                 }
             }
         }
