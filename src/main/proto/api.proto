@@ -77,12 +77,18 @@ message Stores {
 }
 
 message Store {
-    string description = 1;
-    string id = 2;
-    string name = 3;
-    map<int32, OpeningHours> hours = 4;
-    string phoneNo = 5;
-    Type type = 6;
+    Coordinates coordinates = 1;
+    string description = 2;
+    string id = 3;
+    string name = 4;
+    map<int32, OpeningHours> hours = 5;
+    string phoneNo = 6;
+    Type type = 7;
+}
+
+message Coordinates {
+    int64 longitude = 1;
+    int64 latitude = 2;
 }
 
 message OpeningHours {

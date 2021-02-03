@@ -1,35 +1,63 @@
 package store.service
 
 import kotlinx.serialization.ExperimentalSerializationApi
-import utility.Timestamp
+import java.time.LocalTime
 
 @ExperimentalSerializationApi
 data class StoreCollection(
-    val description: String? = null,
-    val id: String? = null,
-    val name: String? = null,
-    val hours: List<DailyHour> = emptyList(),
-    val phoneNo: String? = null,
-    val type: String? = null
-) {
-    data class DailyHour(val dayOfWeek: String, val opening: String, val closing: String)
+    override val coordinates: Coordinates? = null,
+    override val description: String? = null,
+    override val id: String? = null,
+    override val name: String? = null,
+    val hours: List<DailyHour>? = emptyList(),
+    override val phoneNo: String? = null,
+    val type: String? = null,
+) : AbstractStore {
+
+    data class DailyHour(val dayOfWeek: String, val opening: LocalTime?, val closing: LocalTime?)
 
     companion object {
 
-        fun Store.mapToCollection() =
-            StoreCollection(description = description, id = id, name = name) // TODO continue mapping
+        fun StoreCollection.mapToStore() =
+            Store(
+                coordinates = coordinates,
+                description = description,
+                id = id,
+                name = name,
+                hours = hours?.mapToHours(),
+                phoneNo = phoneNo,
+                type = type?.mapToType()
+            )
 
-        private fun Store.Hours.mapToHours() =
-            this.hours.map { it }
+        private fun String.mapToType() = Store.Type.valueOf(this)
 
-        private fun Map.Entry<Store.Hours.DayOfWeek, Store.Hours.OpeningHours>.mapToDailyHour() {
-            DailyHour(dayOfWeek = key.name, opening = value.opening.mapToLocalDateTimeString(), closing = value.closing.mapToLocalDateTimeString())
-        }
+        private fun List<DailyHour>.mapToHours() =
+            Store.Hours(mutableMapOf<Store.Hours.DayOfWeek, Store.Hours.OpeningHours>()
+                .apply {
+                    this.forEach { this.put(it.key, it.value) }
+                }
+            )
 
-        private fun Timestamp.mapToLocalDateTimeString() : String {
-            return ""
+        fun Store.mapToStoreCollection() =
+            StoreCollection(
+                coordinates = coordinates,
+                description = description,
+                id = id,
+                name = name,
+                hours = hours?.mapToHoursCollection(),
+                phoneNo = phoneNo,
+                type = type?.name
+            ) // TODO continue mapping
 
-            //TODO fix mapping back and forth
-        }
+
+        private fun Store.Hours.mapToHoursCollection() =
+            this.hours.map { it.mapToDailyHourCollection() }
+
+        private fun Map.Entry<Store.Hours.DayOfWeek, Store.Hours.OpeningHours>.mapToDailyHourCollection() =
+            DailyHour(
+                dayOfWeek = key.name,
+                opening = value.opening.getLocalTime(),
+                closing = value.closing.getLocalTime()
+            )
     }
 }

@@ -1,6 +1,5 @@
 package store.service
 
-import com.google.protobuf.StringValue
 import com.google.protobuf.Timestamp
 import io.grpc.ManagedChannel
 import io.micronaut.context.annotation.Bean
@@ -11,6 +10,7 @@ import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.junit.jupiter.api.Test
 import proto.store.service.*
+import proto.store.service.Coordinates
 import proto.store.service.CreateStoreRequest
 import proto.store.service.Store
 import javax.inject.Inject
@@ -41,12 +41,14 @@ class Clients {
 }
 
 val PROTO_STORE = Store.newBuilder()
-    .putHours(1,
+    .putHours(
+        1,
         OpeningHours.newBuilder()
             .setOpening(Timestamp.newBuilder().setNanos(19).setSeconds(199L))
             .setClosing(Timestamp.newBuilder().setNanos(19).setSeconds(199L))
             .build()
     )
+    .setCoordinates(Coordinates.newBuilder().setLatitude(420L).setLongitude(420L).build())
     .setDescription("DESCRIPTION")
     .setId("ID")
     .setName("NAME")
