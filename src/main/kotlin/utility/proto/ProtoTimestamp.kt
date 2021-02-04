@@ -6,6 +6,7 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.encoding.decodeStructure
 import kotlinx.serialization.protobuf.ProtoBuf
+import java.time.Instant
 import java.time.LocalTime
 import java.util.Objects.nonNull
 
@@ -43,9 +44,13 @@ data class Timestamp(val seconds: Long?, val nanos: Int?) {
         }
     }
 
-    fun getLocalTime() =
+    fun mapToInstant() =
         if (nonNull(seconds)) {
-            LocalTime.ofSecondOfDay(seconds!!)
+            if (nonNull(nanos)) {
+                Instant.ofEpochSecond(seconds!!, nanos!!.toLong())
+            } else {
+                Instant.ofEpochSecond(seconds!!)
+            }
         } else {
             null
         }

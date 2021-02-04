@@ -1,20 +1,21 @@
 package store.service
 
-import kotlinx.serialization.ExperimentalSerializationApi
-import java.time.LocalTime
+import kotlinx.serialization.*
+import utility.proto.Timestamp
+import java.time.Instant
 
 @ExperimentalSerializationApi
 data class StoreCollection(
-    override val coordinates: Coordinates? = null,
     override val description: String? = null,
     override val id: String? = null,
     override val name: String? = null,
     val hours: List<DailyHour>? = emptyList(),
     override val phoneNo: String? = null,
     val type: String? = null,
+    override val coordinates: Coordinates? = null,
 ) : AbstractStore {
 
-    data class DailyHour(val dayOfWeek: String, val opening: LocalTime?, val closing: LocalTime?)
+    data class DailyHour(val dayOfWeek: String, val opening: Instant?, val closing: Instant?)
 
     companion object {
 
@@ -32,11 +33,17 @@ data class StoreCollection(
         private fun String.mapToType() = Store.Type.valueOf(this)
 
         private fun List<DailyHour>.mapToHours() =
-            Store.Hours(mutableMapOf<Store.Hours.DayOfWeek, Store.Hours.OpeningHours>()
-                .apply {
-                    this.forEach { this.put(it.key, it.value) }
-                }
+            Store.Hours(
+                sortedMapOf(
+                    * this.map { Pair(Store.Hours.DayOfWeek.valueOf(it.dayOfWeek), it.mapToOpeningHours()) }
+                        .toTypedArray()
+                )
             )
+
+        private fun DailyHour.mapToOpeningHours() =
+            Store.Hours.OpeningHours(this.opening?.mapToTimestamp(), this.closing?.mapToTimestamp())
+
+        private fun Instant.mapToTimestamp() = Timestamp(this.epochSecond, this.nano)
 
         fun Store.mapToStoreCollection() =
             StoreCollection(
@@ -56,8 +63,8 @@ data class StoreCollection(
         private fun Map.Entry<Store.Hours.DayOfWeek, Store.Hours.OpeningHours>.mapToDailyHourCollection() =
             DailyHour(
                 dayOfWeek = key.name,
-                opening = value.opening.getLocalTime(),
-                closing = value.closing.getLocalTime()
+                opening = value.opening?.mapToInstant(),
+                closing = value.closing?.mapToInstant()
             )
     }
 }

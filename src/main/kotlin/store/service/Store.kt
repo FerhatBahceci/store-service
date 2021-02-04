@@ -20,7 +20,6 @@ data class Store(
     val type: Type? = null,
 ) : AbstractStore, Response<Store> {
 
-
     @Serializable(with = Hours.HoursSerializer::class)
     data class Hours(val hours: Map<DayOfWeek, OpeningHours>) {  //TODO preferably use EnumMap
 
@@ -36,7 +35,7 @@ data class Store(
         }
 
         @Serializable
-        data class OpeningHours(val opening: Timestamp, val closing: Timestamp)
+        data class OpeningHours(val opening: Timestamp?, val closing: Timestamp?)
 
         @Serializable
         enum class DayOfWeek {

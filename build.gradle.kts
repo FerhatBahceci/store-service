@@ -18,6 +18,7 @@ plugins {
     id("io.micronaut.application") version "1.2.0"
     id("org.jetbrains.kotlin.kapt") version "1.4.20-M2"
     id("org.jetbrains.kotlin.plugin.allopen") version "1.4.20-M2"
+
 }
 
 application {
