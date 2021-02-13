@@ -6,9 +6,6 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.encoding.decodeStructure
 import kotlinx.serialization.protobuf.ProtoBuf
-import java.time.Instant
-import java.time.LocalTime
-import java.util.Objects.nonNull
 
 /*This class and its corresponding serializer are intended to manage google.protobuf.Timestamp data.
 LocalDateTime, Instant, LocalTime etc can be instantiated once the seconds and nanos are contained during deserialization*/
@@ -43,15 +40,4 @@ data class Timestamp(val seconds: Long?, val nanos: Int?) {
             return Timestamp(seconds, nanos)
         }
     }
-
-    fun mapToInstant() =
-        if (nonNull(seconds)) {
-            if (nonNull(nanos)) {
-                Instant.ofEpochSecond(seconds!!, nanos!!.toLong())
-            } else {
-                Instant.ofEpochSecond(seconds!!)
-            }
-        } else {
-            null
-        }
 }

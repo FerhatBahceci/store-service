@@ -5,20 +5,25 @@ import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.protobuf.ProtoBuf
-import utility.Response
 import utility.proto.Timestamp
 
 @ExperimentalSerializationApi
 @Serializable
 data class Store(
-    override val coordinates: Coordinates? = null,
-    override val description: String? = null,
-    override val id: String? = null,
-    override val name: String? = null,
+  val coordinates: Coordinates? = null,
+    val description: String? = null,
+    val id: String? = null,
+    val name: String? = null,
     val hours: Hours? = null,
-    override val phoneNo: String? = null,
+    val phoneNo: String? = null,
     val type: Type? = null,
-) : AbstractStore, Response<Store> {
+)  {
+
+
+    @ExperimentalSerializationApi
+    @Serializable
+    data class Coordinates(val longitude: Long?, val latitude: Long?)
+
 
     @Serializable(with = Hours.HoursSerializer::class)
     data class Hours(val hours: Map<DayOfWeek, OpeningHours>) {  //TODO preferably use EnumMap
@@ -67,3 +72,4 @@ data class Store(
         TOYS_HOBBY;
     }
 }
+

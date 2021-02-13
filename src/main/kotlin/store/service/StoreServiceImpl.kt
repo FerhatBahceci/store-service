@@ -9,13 +9,17 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.newFixedThreadPoolContext
 import kotlinx.serialization.*
+import kotlinx.serialization.protobuf.ProtoBuf
 import proto.store.service.*
 import proto.store.service.DeleteStoreByIdRequest
-import proto.store.service.GetStoreByIdRequest
+import proto.store.service.GetAllStoresRequest
+import proto.store.service.GetStoreByNameRequest
 import proto.store.service.UpdateStoreRequest
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 import utility.grpc.execute
+import proto.store.service.CreateStoreRequest
+import proto.store.service.GetStoreByTypeRequest
 
 @ObsoleteCoroutinesApi
 @Factory
@@ -37,17 +41,19 @@ class StoreServiceImpl constructor(
 ) :
     StoreServiceGrpcKt.StoreServiceCoroutineImplBase(), CoroutineScope {
 
-    override suspend fun getStoreByType(request: proto.store.service.GetStoreByTypeRequest): GetStoresResponse = throw
+    override suspend fun getStoreByType(request: GetStoreByTypeRequest): GetStoresResponse = throw
     StatusException(Status.UNIMPLEMENTED.withDescription("Method proto.store.service.StoreService.GetStoreByType is unimplemented"))
 
-    override suspend fun geAllStores(request: GetStoresRequest): GetStoresResponse = throw
-    StatusException(Status.UNIMPLEMENTED.withDescription("Method proto.store.service.StoreService.GeAllStores is unimplemented"))
+    override suspend fun getAllStores(request: GetAllStoresRequest): GetStoresResponse =
+        execute(request, gateway::getAllStores).let {
+            GetStoresResponse.getDefaultInstance()
+        }
 
-    override suspend fun createStore(request: proto.store.service.CreateStoreRequest): CreatedStoreResponse =
-        execute(request, gateway::createStore).let { CreatedStoreResponse.newBuilder().build() }
+    override suspend fun createStore(request: CreateStoreRequest): CreatedStoreResponse =
+        execute(request, gateway::createStore).let { CreatedStoreResponse.getDefaultInstance() }
 
-    override suspend fun getStoreById(request: GetStoreByIdRequest): GetStoreResponse = throw
-    StatusException(Status.UNIMPLEMENTED.withDescription("Method proto.store.service.StoreService.GetStoreById is unimplemented"))
+    override suspend fun getStoreByName(request: GetStoreByNameRequest): GetStoreResponse =
+        ProtoBuf.decodeFromByteArray(ProtoBuf.encodeToByteArray(execute(request, gateway::getStoreByName)))
 
     override suspend fun updateStore(request: UpdateStoreRequest): UpdateStoreResponse = throw
     StatusException(Status.UNIMPLEMENTED.withDescription("Method proto.store.service.StoreService.UpdateStore is unimplemented"))

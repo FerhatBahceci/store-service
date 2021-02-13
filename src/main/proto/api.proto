@@ -12,13 +12,13 @@ service StoreService {
     rpc GetStoreByType (GetStoreByTypeRequest) returns (GetStoresResponse) {
     }
 
-    rpc GeAllStores (GetStoresRequest) returns (GetStoresResponse) {
+    rpc GetAllStores (GetAllStoresRequest) returns (GetStoresResponse) {
     }
 
     rpc CreateStore (CreateStoreRequest) returns (CreatedStoreResponse) {
     }
 
-    rpc GetStoreById (GetStoreByIdRequest) returns (GetStoreResponse) {
+    rpc GetStoreByName (GetStoreByNameRequest) returns (GetStoreResponse) {
     }
 
     rpc UpdateStore (UpdateStoreRequest) returns (UpdateStoreResponse) {
@@ -29,11 +29,11 @@ service StoreService {
 }
 
 // REQUEST
-message GetStoreByIdRequest {
-    string id = 1;
+message GetStoreByNameRequest {
+    string name = 1;
 }
 
-message GetStoresRequest {
+message GetAllStoresRequest {
 }
 
 message GetStoreByTypeRequest {

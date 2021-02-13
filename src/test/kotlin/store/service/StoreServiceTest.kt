@@ -18,17 +18,33 @@ import javax.inject.Inject
 @ExperimentalSerializationApi
 @MicronautTest
 class StoreServiceTest(@Inject private val blockingStub: StoreServiceGrpc.StoreServiceBlockingStub) {
-/*
-    @MockBean(StoreGatewayImpl::class)
-    fun mathService() {
-    }*/
+    /*   @MockBean(StoreGatewayImpl::class)
+       fun mathService() {
+       }
 
+   */
     @Test
     fun createStoreTest() {
         val response = blockingStub.createStore(PROTO_REQUEST)
         assert(response is CreatedStoreResponse)
         assert(response == CreatedStoreResponse.getDefaultInstance())
     }
+
+ /*   @Test
+    fun getAllStoresTest() {
+        val r = GetAllStoresRequest.getDefaultInstance()
+        val response = blockingStub.getAllStores(r)
+        assert(response is GetStoresResponse)
+        assert(response == GetStoresResponse.getDefaultInstance())
+    }*/
+
+/*    @Test
+    fun getStoreByNameTest() {
+        val r = GetStoreByNameRequest.newBuilder().setName("Wallmart").build()
+        val response = blockingStub.getStoreByName(r)
+        assert(response is GetStoreResponse)
+        assert(response == GetStoreResponse.getDefaultInstance())
+    }*/
 }
 
 @Factory
@@ -50,7 +66,8 @@ val PROTO_STORE = Store.newBuilder()
     )
     .setCoordinates(Coordinates.newBuilder().setLatitude(420L).setLongitude(420L).build())
     .setDescription("DESCRIPTION")
-    .setName("NAME")
+    .setId("420".plus(Math.random()))
+    .setName("Wallmart")
     .setPhoneNo("112")
     .setType(Type.GROCERIES)
     .build()
