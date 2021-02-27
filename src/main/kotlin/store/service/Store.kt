@@ -1,12 +1,12 @@
 package store.service
 
+import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer
 import kotlinx.serialization.*
 import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.protobuf.ProtoBuf
-import utility.proto.InstantSerializer
-import java.time.Instant
+import utility.proto.Timestamp
 
 @ExperimentalSerializationApi
 @Serializable
@@ -38,8 +38,8 @@ data class Store(
                 Hours(MapSerializer(DayOfWeek.serializer(), OpeningHours.serializer()).deserialize(decoder))
         }
 
-        @Serializable(with = InstantSerializer::class)
-        data class OpeningHours(val opening: Instant?, val closing: Instant?)
+        @Serializable
+        data class OpeningHours(val opening: Timestamp, val closing: Timestamp)
 
         @Serializable
         enum class DayOfWeek {

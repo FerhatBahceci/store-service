@@ -46,7 +46,7 @@ class StoreServiceImpl constructor(
 
     override suspend fun getAllStores(request: GetAllStoresRequest): GetStoresResponse =
         execute(request, gateway::getAllStores).let {
-            GetStoresResponse.getDefaultInstance()
+            GetStoresResponse.getDefaultInstance() //TODO fix response
         }
 
     override suspend fun createStore(request: CreateStoreRequest): CreatedStoreResponse =
