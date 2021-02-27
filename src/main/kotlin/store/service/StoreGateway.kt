@@ -4,10 +4,10 @@ import kotlinx.serialization.ExperimentalSerializationApi
 
 @ExperimentalSerializationApi
 interface StoreGateway {
-    suspend fun getAllStores(r: GetAllStoresRequest): List<Store>
-    suspend fun getStoreByName(r: GetStoreByNameRequest): Store
-    suspend fun getStoreByType(r: GetStoreByTypeRequest): List<Store>
-    suspend fun createStore(r: CreateStoreRequest)
-    suspend fun deleteStore(r: DeleteStoreByIdRequest)
-    suspend fun updateStore(r: UpdateStoreRequest)
+    suspend fun getAllStores(request: GetAllStoresRequest): List<Store>
+    suspend fun getStoreByName(request: GetStoreByNameRequest): Store
+    suspend fun getStoreByType(request: GetStoreByTypeRequest): List<Store>
+    suspend fun createStore(request: CreateStoreRequest)
+    suspend fun deleteStore(request: DeleteStoreByIdRequest)
+    suspend fun updateStore(request: UpdateStoreRequest)
 }

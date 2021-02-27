@@ -5,28 +5,27 @@ import kotlinx.serialization.builtins.MapSerializer
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlinx.serialization.protobuf.ProtoBuf
-import utility.proto.Timestamp
+import utility.proto.InstantSerializer
+import java.time.Instant
 
 @ExperimentalSerializationApi
 @Serializable
 data class Store(
-  val coordinates: Coordinates? = null,
+    val coordinates: Coordinates? = null,
     val description: String? = null,
     val id: String? = null,
     val name: String? = null,
     val hours: Hours? = null,
     val phoneNo: String? = null,
     val type: Type? = null,
-)  {
-
+) {
 
     @ExperimentalSerializationApi
     @Serializable
     data class Coordinates(val longitude: Long?, val latitude: Long?)
 
-
     @Serializable(with = Hours.HoursSerializer::class)
-    data class Hours(val hours: Map<DayOfWeek, OpeningHours>) {  //TODO preferably use EnumMap
+    data class Hours(val hours: Map<DayOfWeek, OpeningHours>) {
 
         @Serializer(forClass = Hours::class)
         object HoursSerializer : DeserializationStrategy<Hours> {
@@ -39,8 +38,8 @@ data class Store(
                 Hours(MapSerializer(DayOfWeek.serializer(), OpeningHours.serializer()).deserialize(decoder))
         }
 
-        @Serializable
-        data class OpeningHours(val opening: Timestamp?, val closing: Timestamp?)
+        @Serializable(with = InstantSerializer::class)
+        data class OpeningHours(val opening: Instant?, val closing: Instant?)
 
         @Serializable
         enum class DayOfWeek {
@@ -72,4 +71,3 @@ data class Store(
         TOYS_HOBBY;
     }
 }
-
