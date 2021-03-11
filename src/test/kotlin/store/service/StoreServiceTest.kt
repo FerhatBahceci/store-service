@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test
 import proto.store.service.*
 import proto.store.service.Coordinates
 import proto.store.service.CreateStoreRequest
+import proto.store.service.GetAllStoresRequest
 import proto.store.service.Store
 import javax.inject.Inject
 
@@ -30,13 +31,20 @@ class StoreServiceTest(@Inject private val blockingStub: StoreServiceGrpc.StoreS
         assert(response == CreatedStoreResponse.getDefaultInstance())
     }
 
- /*   @Test
+    @Test
     fun getAllStoresTest() {
         val r = GetAllStoresRequest.getDefaultInstance()
         val response = blockingStub.getAllStores(r)
         assert(response is GetStoresResponse)
         assert(response == GetStoresResponse.getDefaultInstance())
-    }*/
+
+        /*   @Test
+           fun getAllStoresTest() {
+               val r = GetAllStoresRequest.getDefaultInstance()
+               val response = blockingStub.getAllStores(r)
+               assert(response is GetStoresResponse)
+               assert(response == GetStoresResponse.getDefaultInstance())
+           }*/
 
 /*    @Test
     fun getStoreByNameTest() {
@@ -45,32 +53,25 @@ class StoreServiceTest(@Inject private val blockingStub: StoreServiceGrpc.StoreS
         assert(response is GetStoreResponse)
         assert(response == GetStoreResponse.getDefaultInstance())
     }*/
-}
-
-@Factory
-class Clients {
-
-    @Bean
-    fun blockingStub(@GrpcChannel(GrpcServerChannel.NAME) channel: ManagedChannel): StoreServiceGrpc.StoreServiceBlockingStub {
-        return StoreServiceGrpc.newBlockingStub(channel)
     }
-}
 
-val PROTO_STORE = Store.newBuilder()
-    .putHours(
-        "FRIDAY",
-        OpeningHours.newBuilder()
-            .setOpening(Timestamp.newBuilder().setNanos(19).setSeconds(199L))
-            .setClosing(Timestamp.newBuilder().setNanos(19).setSeconds(199L))
+    val PROTO_STORE = Store.newBuilder()
+            .putHours(
+                    "FRIDAY",
+                    OpeningHours.newBuilder()
+                            .setOpening(Timestamp.newBuilder().setNanos(19).setSeconds(199L))
+                            .setClosing(Timestamp.newBuilder().setNanos(19).setSeconds(199L))
+                            .build()
+            )
+            .setCoordinates(Coordinates.newBuilder().setLatitude(420L).setLongitude(420L).build())
+            .setDescription("DESCRIPTION")
+            .setId("420".plus(Math.random()))
+            .setName("Wallmart")
+            .setPhoneNo("112")
+            .setType(Type.GROCERIES)
             .build()
-    )
-    .setCoordinates(Coordinates.newBuilder().setLatitude(420L).setLongitude(420L).build())
-    .setDescription("DESCRIPTION")
-    .setId("420".plus(Math.random()))
-    .setName("Wallmart")
-    .setPhoneNo("112")
-    .setType(Type.GROCERIES)
-    .build()
 
-val PROTO_REQUEST = CreateStoreRequest.newBuilder().setStore(PROTO_STORE).build()
+    val PROTO_REQUEST = CreateStoreRequest.newBuilder().setStore(PROTO_STORE).build()
+
+}
 
