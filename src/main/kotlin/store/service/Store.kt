@@ -1,57 +1,51 @@
 package store.service
 
-import com.fasterxml.jackson.datatype.jsr310.ser.InstantSerializer
 import kotlinx.serialization.*
-import kotlinx.serialization.builtins.MapSerializer
-import kotlinx.serialization.encoding.Decoder
-import kotlinx.serialization.encoding.Encoder
-import kotlinx.serialization.protobuf.ProtoBuf
 import utility.proto.Timestamp
 
 @ExperimentalSerializationApi
 @Serializable
 data class Store(
-    val coordinates: Coordinates? = null,
-    val description: String? = null,
-    val id: String? = null,
-    val name: String? = null,
-    val hours: Hours? = null,
-    val phoneNo: String? = null,
-    val type: Type? = null,
+        val coordinates: Coordinates,
+        val description: String,
+        val id: String? = null,
+        val name: String,
+        val hours: Map<String, OpeningHours>,
+        val phoneNo: String,
+        val type: Type,
 ) {
 
     @ExperimentalSerializationApi
     @Serializable
-    data class Coordinates(val longitude: Long?, val latitude: Long?)
+    data class Coordinates(val longitude: Long, val latitude: Long)
 
-    @Serializable(with = Hours.HoursSerializer::class)
-    data class Hours(val hours: Map<DayOfWeek, OpeningHours>) {
+    //  TODO Invalid Map type. Maps MUST have string keys, does not work by simply providing the below custom codec for the Enum. Could possibly be wrapped into its own class Hours and then provide a custom Hours codec
+/*    @Serializable
+    enum class DayOfWeek {
+        MONDAY,
+        TUESDAY,
+        WEDNESDAY,
+        THURSDAY,
+        FRIDAY,
+        SATURDAY,
+        SUNDAY;
 
-        @Serializer(forClass = Hours::class)
-        object HoursSerializer : DeserializationStrategy<Hours> {
+    private class DayOfWeekCodec : Codec<Store.DayOfWeek> {
 
-            override fun serialize(encoder: Encoder, value: Hours) {
-                ProtoBuf.encodeToByteArray(value)
-            }
+        override fun decode(reader: BsonReader, decoderContext: DecoderContext): Store.DayOfWeek =
+                Store.DayOfWeek.valueOf(reader.readString())
 
-            override fun deserialize(decoder: Decoder): Hours =
-                Hours(MapSerializer(DayOfWeek.serializer(), OpeningHours.serializer()).deserialize(decoder))
+        override fun encode(writer: BsonWriter?, value: Store.DayOfWeek?, encoderContext: EncoderContext?) {
+            writer?.writeString(value?.name)
         }
 
-        @Serializable
-        data class OpeningHours(val opening: Timestamp, val closing: Timestamp)
-
-        @Serializable
-        enum class DayOfWeek {
-            MONDAY,
-            TUESDAY,
-            WEDNESDAY,
-            THURSDAY,
-            FRIDAY,
-            SATURDAY,
-            SUNDAY;
-        }
+        override fun getEncoderClass(): Class<Store.DayOfWeek> =
+                Store.DayOfWeek::class.java
     }
+    }*/
+
+    @Serializable
+    data class OpeningHours(val opening: Timestamp, val closing: Timestamp)
 
     @Serializable
     enum class Type {

@@ -9,6 +9,7 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Singleton
 import kotlinx.coroutines.reactive.*
 import org.bson.codecs.configuration.CodecRegistries
+import org.bson.codecs.pojo.PojoCodecProvider
 import utility.bson.ProtoTimestampCodec
 
 @ExperimentalSerializationApi
@@ -46,7 +47,9 @@ class StoreGatewayImpl : StoreGateway {
                     MongoClientSettings.builder()
                             .codecRegistry(
                                     CodecRegistries.fromRegistries(
-                                            CodecRegistries.fromCodecs(ProtoTimestampCodec())
+                                            CodecRegistries.fromCodecs(ProtoTimestampCodec()),
+                                            MongoClientSettings.getDefaultCodecRegistry(),
+                                            CodecRegistries.fromProviders(PojoCodecProvider.builder().automatic(true).build())
                                     )
                             )
                             .build()

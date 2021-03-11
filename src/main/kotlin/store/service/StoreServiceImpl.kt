@@ -36,24 +36,24 @@ TODO How to go from Kotlin --> Proto e.g  ProtoBuf.decodeFromByteArray<DayOfWeek
 @ExperimentalSerializationApi
 @GrpcService
 class StoreServiceImpl constructor(
-    @Inject private val gateway: StoreGateway,
-    @Inject override val coroutineContext: CoroutineContext
+        @Inject private val gateway: StoreGateway,
+        @Inject override val coroutineContext: CoroutineContext
 ) :
-    StoreServiceGrpcKt.StoreServiceCoroutineImplBase(), CoroutineScope {
+        StoreServiceGrpcKt.StoreServiceCoroutineImplBase(), CoroutineScope {
 
     override suspend fun getStoreByType(request: GetStoreByTypeRequest): GetStoresResponse = throw
     StatusException(Status.UNIMPLEMENTED.withDescription("Method proto.store.service.StoreService.GetStoreByType is unimplemented"))
 
     override suspend fun getAllStores(request: GetAllStoresRequest): GetStoresResponse =
-        execute(request, gateway::getAllStores).let {
-            GetStoresResponse.getDefaultInstance() //TODO fix response
-        }
+            execute(request, gateway::getAllStores).let {
+                GetStoresResponse.getDefaultInstance()
+            }
 
     override suspend fun createStore(request: CreateStoreRequest): CreatedStoreResponse =
-        execute(request, gateway::createStore).let { CreatedStoreResponse.getDefaultInstance() }
+            execute(request, gateway::createStore).let { CreatedStoreResponse.getDefaultInstance() }
 
     override suspend fun getStoreByName(request: GetStoreByNameRequest): GetStoreResponse =
-        ProtoBuf.decodeFromByteArray(ProtoBuf.encodeToByteArray(execute(request, gateway::getStoreByName)))
+            ProtoBuf.decodeFromByteArray(ProtoBuf.encodeToByteArray(execute(request, gateway::getStoreByName)))
 
     override suspend fun updateStore(request: UpdateStoreRequest): UpdateStoreResponse = throw
     StatusException(Status.UNIMPLEMENTED.withDescription("Method proto.store.service.StoreService.UpdateStore is unimplemented"))

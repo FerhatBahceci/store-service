@@ -58,7 +58,7 @@ class Clients {
 
 val PROTO_STORE = Store.newBuilder()
     .putHours(
-        1,
+        "FRIDAY",
         OpeningHours.newBuilder()
             .setOpening(Timestamp.newBuilder().setNanos(19).setSeconds(199L))
             .setClosing(Timestamp.newBuilder().setNanos(19).setSeconds(199L))

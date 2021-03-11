@@ -1,7 +1,6 @@
 package utility.bson
 
 import kotlinx.serialization.*
-import java.util.*
 import org.bson.BsonReader
 import org.bson.BsonTimestamp
 import org.bson.BsonWriter

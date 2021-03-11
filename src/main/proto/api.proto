@@ -81,7 +81,7 @@ message Store {
     string description = 2;
     string id = 3;
     string name = 4;
-    map<int32, OpeningHours> hours = 5;
+    map<string, OpeningHours> hours = 5;
     string phoneNo = 6;
     Type type = 7;
 }
