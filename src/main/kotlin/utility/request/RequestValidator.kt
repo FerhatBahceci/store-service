@@ -1,6 +1,6 @@
 package utility.request
 
-fun interface RequestValidator<T> {
+fun interface Request<T> {
     fun validate()
 }
 

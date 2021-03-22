@@ -9,7 +9,7 @@ import kotlinx.serialization.protobuf.ProtoBuf
 
 @ExperimentalSerializationApi
 @Serializable(with = Timestamp.TimestampSerializer::class)
-data class Timestamp(val seconds: Long, val nanos: Int) {
+data class Timestamp(val seconds: Long, val nanos: Int? = 0) {
 
     @ExperimentalSerializationApi
     @Serializer(forClass = Timestamp::class)

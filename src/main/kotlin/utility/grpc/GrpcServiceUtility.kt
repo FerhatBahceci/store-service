@@ -14,6 +14,7 @@ suspend inline fun <T : MessageLite, reified U : Request<U>, V> execute(
     crossinline callBack: suspend (U) -> V
 ): V = runCatching {
     val requestDecoded = ProtoBuf.decodeFromByteArray<U>(request.toByteArray())
+    requestDecoded.validate()
     callBack.invoke(requestDecoded)
 }.getOrElse {
     LOGGER.error(it.message)
