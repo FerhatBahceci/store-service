@@ -8,7 +8,7 @@ import io.micronaut.grpc.server.GrpcServerChannel
 import proto.store.service.StoreServiceGrpc
 
 @Factory
-class GrpcClients {
+class GrpcClient {
 
     @Bean
     fun blockingStub(@GrpcChannel(GrpcServerChannel.NAME) channel: ManagedChannel): StoreServiceGrpc.StoreServiceBlockingStub {

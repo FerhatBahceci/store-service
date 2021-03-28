@@ -9,17 +9,16 @@ import utility.request.Request
 val LOGGER = LoggerFactory.getLogger("GrpcExecute")
 
 @ExperimentalSerializationApi
-suspend inline fun <T : MessageLite, reified U : Request<U>, V> execute(
+suspend inline fun <T : MessageLite, reified U : Request<U>, R> execute(
     request: T,
-    crossinline callBack: suspend (U) -> V
-): V = runCatching {
+    crossinline gatewayCallback: suspend (U) -> R,
+): R = runCatching {
     val requestDecoded = ProtoBuf.decodeFromByteArray<U>(request.toByteArray())
-    requestDecoded.validate()
-    callBack.invoke(requestDecoded)
+    requestDecoded.validate() //TODO move to init?
+    gatewayCallback.invoke(requestDecoded)
 }.getOrElse {
     LOGGER.error(it.message)
     throw it
     // TODO avoid logging all failed responses as error, NOT_FOUND(404) should for instance be logged as warning or something wiser than error. Fix LOGGING evaluation
     // TODO onError, package into a response with the error message, status etc. instead of letting the service just throw exceptions abruptly crashing the call
 }
-// TODO Fix Error handling classes with status

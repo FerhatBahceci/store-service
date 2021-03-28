@@ -4,8 +4,11 @@ import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.junit.jupiter.api.Test
 import proto.store.service.*
+import proto.store.service.CreateStoreRequest
+import proto.store.service.GetAllStoresRequest
 import proto.store.service.GetStoreByNameRequest
-import store.service.DummyData.Companion.PROTO_REQUEST
+import store.service.DummyData.Companion.createId
+import store.service.DummyData.Companion.createProtoStore
 import javax.inject.Inject
 
 @ExperimentalSerializationApi
@@ -18,30 +21,38 @@ class StoreServiceTest(@Inject private val blockingStub: StoreServiceGrpc.StoreS
 
     @Test
     fun createStoreTest() {
-        val response = blockingStub.createStore(PROTO_REQUEST)
+        val store = createProtoStore(name = "Walmart", id = createId())
+        val request = CreateStoreRequest.newBuilder().setStore(store).build()
+        val response = blockingStub.createStore(request)
+        assert(response is CreatedStoreResponse)
+        assert(response.response.status == 201)
     }
 
     @Test
     fun getStoreByNameTest() {
-        val r = GetStoreByNameRequest.newBuilder().setName("Wallmart").build()
-        val response = blockingStub.getStoreByName(r)
+        val request = GetStoreByNameRequest.newBuilder().setName("Wallmart").build()
+        val response = blockingStub.getStoreByName(request)
         assert(response is GetStoreResponse)
-        assert(response == GetStoreResponse.getDefaultInstance())
+        assert(response.response.status == 200)
+        assert(response.store.name == request.name)
     }
 
-    /*    @Test
+    @Test
     fun getAllStoresTest() {
-        val r = GetAllStoresRequest.getDefaultInstance()
-        val response = blockingStub.getAllStores(r)
+        createStoreTest()
+        val request = GetAllStoresRequest.getDefaultInstance()
+        val response = blockingStub.getAllStores(request)
+        assert(response.stores.storesCount > 0)
+        assert(response.response.status == 200)
+    }
 
-        assert(response.stores.storesList.isNotEmpty())
-        *//*   @Test
-           fun getAllStoresTest() {
-               val r = GetAllStoresRequest.getDefaultInstance()
-               val response = blockingStub.getAllStores(r)
-               assert(response is GetStoresResponse)
-               assert(response == GetStoresResponse.getDefaultInstance())
-           }*//*
-    }*/
+    @Test
+    fun deleteStoreById() {
+        createStoreTest()
+        val request = GetAllStoresRequest.getDefaultInstance()
+        val response = blockingStub.getAllStores(request)
+        assert(response.stores.storesCount > 0)
+        assert(response.response.status == 200)
+    }
 }
 

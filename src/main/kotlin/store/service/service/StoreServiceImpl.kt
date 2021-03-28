@@ -23,6 +23,8 @@ import store.service.gateway.StoreGateway
 /*
 TODO How to go from Kotlin --> Proto e.g  ProtoBuf.decodeFromByteArray<DayOfWeek>(ProtoBuf.encodeToByteArray(proto.store.service.DayOfWeek.forNumber(2))),
   since proto messages are not @Serializable, how will this be sovled?
+
+ evualateAndPackage to failed response with stacktrace message and status
 */
 
 @ExperimentalSerializationApi
@@ -40,23 +42,23 @@ class StoreServiceImpl constructor(
         execute(request, gateway::getStoreByType).mapToProtoStores()
 
     override suspend fun getStoreByName(request: GetStoreByNameRequest): GetStoreResponse =
-        execute(request, gateway::getStoreByName).mapToProtoStore().let {
-            GetStoreResponse.newBuilder().setStore(it).build()
-        }
+        execute(request, gateway::getStoreByName).mapToProtoStore()
+            .let { GetStoreResponse.newBuilder().setResponse(createResponse()).setStore(it).build() }
 
     override suspend fun createStore(request: CreateStoreRequest): CreatedStoreResponse =
-        execute(request, gateway::createStore).let { CreatedStoreResponse.getDefaultInstance() }
+        execute(request, gateway::createStore).let { CreatedStoreResponse.newBuilder().setResponse(createResponse(201)).build() }
 
     override suspend fun updateStore(request: UpdateStoreRequest): UpdateStoreResponse =
-        execute(request, gateway::updateStore).let { UpdateStoreResponse.getDefaultInstance() }
+        execute(request, gateway::updateStore).let { UpdateStoreResponse.newBuilder().setResponse(createResponse(204)).build() }
 
     override suspend fun deleteStore(request: DeleteStoreByIdRequest): DeleteStoreResponse =
-        execute(request, gateway::deleteStore).let { DeleteStoreResponse.getDefaultInstance() }
+        execute(request, gateway::deleteStore).let { DeleteStoreResponse.newBuilder().setResponse(createResponse(204)).build() }
 
     private fun List<store.service.gateway.Store>.mapToProtoStores() =
         this.map { it.mapToProtoStore() }.let {
             GetStoresResponse.newBuilder()
-                .setStores(Stores.newBuilder().addAllStores(it).build())
+                .setResponse(createResponse())  //TODO shoul be evaluated if exception is thrown, NOT_FOUND(404), INTERAL_ERROR(500), fix evaluation
+                .setStores(Stores.newBuilder().addAllStores(it).build()).setResponse(createResponse())
                 .build()
         }
 
@@ -78,6 +80,9 @@ class StoreServiceImpl constructor(
 
     private fun store.service.gateway.Store.Type.mapToProtoStoreType() =
         Type.forNumber(this.ordinal)
+
+    private fun createResponse(status: Int = 200, errorMessage: String = "") =
+        Response.newBuilder().setStatus(status).setMessage(errorMessage).build()
 }
 
 @ObsoleteCoroutinesApi

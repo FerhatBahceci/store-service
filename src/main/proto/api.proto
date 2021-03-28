@@ -28,7 +28,6 @@ service StoreService {
     }
 }
 
-// REQUEST
 message GetStoreByNameRequest {
     string name = 1;
 }
@@ -53,22 +52,31 @@ message DeleteStoreByIdRequest {
     google.protobuf.StringValue id = 1;
 }
 
-// RESPONSE
 message GetStoresResponse {
     Stores stores = 1;
+    Response response = 2;
 }
 
 message GetStoreResponse {
     Store store = 1;
+    Response response = 2;
 }
 
 message CreatedStoreResponse {
+    Response response = 1;
 }
 
 message DeleteStoreResponse {
+    Response response = 1;
 }
 
 message UpdateStoreResponse {
+    Response response = 1;
+}
+
+message Response {
+    int32 status = 1;
+    string message = 2;
 }
 
 // MODEL

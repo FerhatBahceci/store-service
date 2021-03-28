@@ -45,7 +45,6 @@ class StoreGatewayImpl(@Inject private val mongoClient: MongoClient) : StoreGate
     override suspend fun updateStore(request: UpdateStoreRequest) {
         collection.updateOne(eq("id"), eq(request.store)).awaitFirst()
     }
-
 }
 
 @Factory
