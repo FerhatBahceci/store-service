@@ -1,6 +1,5 @@
 package store.service
 
-import com.mongodb.internal.bulk.DeleteRequest
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.junit.jupiter.api.Test
@@ -49,7 +48,8 @@ class StoreServiceTest(@Inject private val blockingStub: StoreServiceGrpc.StoreS
     @Test
     fun deleteStoreById() {
         val id = createId()
-        val store = createProtoStore(name = "DELETE_ME_STORE", id = id)
+        val storeName = "INSERT_ME_STORE".plus(Math.random())
+        val store = createProtoStore(name = storeName, id = id)
         val createRequest = CreateStoreRequest.newBuilder().setStore(store).build()
         val createResponse = blockingStub.createStore(createRequest)
         assert(createResponse.response.status == 201)
@@ -57,6 +57,28 @@ class StoreServiceTest(@Inject private val blockingStub: StoreServiceGrpc.StoreS
         val deleteRequest = DeleteStoreByIdRequest.newBuilder().setId(id).build()
         val deleteResponse = blockingStub.deleteStore(deleteRequest)
         assert(deleteResponse.response.status == 204)
+
+        val getStoreByNameRequest = GetStoreByNameRequest.newBuilder().setName(storeName).build()
+        val getStoreByNameResponse = blockingStub.getStoreByName(getStoreByNameRequest)
+    }
+
+    @Test
+    fun updateStoreById() {
+        val id = createId()
+        val storeName = "INSERT_ME_STORE".plus(Math.random())
+        val store = createProtoStore(name = storeName, id = id)
+        val createRequest = CreateStoreRequest.newBuilder().setStore(store).build()
+        val createResponse = blockingStub.createStore(createRequest)
+        assert(createResponse.response.status == 201)
+
+        val deleteRequest = DeleteStoreByIdRequest.newBuilder().setId(id).build()
+        val deleteResponse = blockingStub.deleteStore(deleteRequest)
+        assert(deleteResponse.response.status == 204)
+
+        val getStoreByNameRequest = GetStoreByNameRequest.newBuilder().setName(storeName).build()
+        val getStoreByNameResponse = blockingStub.getStoreByName(getStoreByNameRequest)
+
+        //TODO fix delete
     }
 }
 
