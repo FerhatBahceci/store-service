@@ -1,10 +1,12 @@
 package store.service
 
+import com.mongodb.internal.bulk.DeleteRequest
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.junit.jupiter.api.Test
 import proto.store.service.*
 import proto.store.service.CreateStoreRequest
+import proto.store.service.DeleteStoreByIdRequest
 import proto.store.service.GetAllStoresRequest
 import proto.store.service.GetStoreByNameRequest
 import store.service.DummyData.Companion.createId
@@ -24,7 +26,6 @@ class StoreServiceTest(@Inject private val blockingStub: StoreServiceGrpc.StoreS
         val store = createProtoStore(name = "Walmart", id = createId())
         val request = CreateStoreRequest.newBuilder().setStore(store).build()
         val response = blockingStub.createStore(request)
-        assert(response is CreatedStoreResponse)
         assert(response.response.status == 201)
     }
 
@@ -32,7 +33,6 @@ class StoreServiceTest(@Inject private val blockingStub: StoreServiceGrpc.StoreS
     fun getStoreByNameTest() {
         val request = GetStoreByNameRequest.newBuilder().setName("Wallmart").build()
         val response = blockingStub.getStoreByName(request)
-        assert(response is GetStoreResponse)
         assert(response.response.status == 200)
         assert(response.store.name == request.name)
     }
@@ -48,11 +48,15 @@ class StoreServiceTest(@Inject private val blockingStub: StoreServiceGrpc.StoreS
 
     @Test
     fun deleteStoreById() {
-        createStoreTest()
-        val request = GetAllStoresRequest.getDefaultInstance()
-        val response = blockingStub.getAllStores(request)
-        assert(response.stores.storesCount > 0)
-        assert(response.response.status == 200)
+        val id = createId()
+        val store = createProtoStore(name = "DELETE_ME_STORE", id = id)
+        val createRequest = CreateStoreRequest.newBuilder().setStore(store).build()
+        val createResponse = blockingStub.createStore(createRequest)
+        assert(createResponse.response.status == 201)
+
+        val deleteRequest = DeleteStoreByIdRequest.newBuilder().setId(id).build()
+        val deleteResponse = blockingStub.deleteStore(deleteRequest)
+        assert(deleteResponse.response.status == 204)
     }
 }
 

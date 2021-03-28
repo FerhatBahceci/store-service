@@ -49,7 +49,7 @@ message UpdateStoreRequest {
 }
 
 message DeleteStoreByIdRequest {
-    google.protobuf.StringValue id = 1;
+    string id = 1;
 }
 
 message GetStoresResponse {
