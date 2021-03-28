@@ -23,10 +23,12 @@ class StoreGatewayImpl : StoreGateway {
             .getCollection("store", Store::class.java)
 
     override suspend fun getAllStores(request: GetAllStoresRequest): List<Store> =
-            collection.find().asFlow().toList()
+        collection.find().asFlow().toList()
 
-    override suspend fun getStoreByName(request: GetStoreByNameRequest): Store =
-            collection.find(eq("name", request.name)).awaitFirst()
+    override suspend fun getStoreByName(request: GetStoreByNameRequest): Store {
+        val test = collection.find(eq("name", request.name)).awaitFirst()
+        return collection.find(eq("name", request.name)).awaitFirst()
+    }
 
     override suspend fun getStoreByType(request: GetStoreByTypeRequest): List<Store> =
         collection.find().asFlow().toList()

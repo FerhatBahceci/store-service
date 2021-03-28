@@ -70,6 +70,6 @@ private fun Map<String, Store.OpeningHours>.validateHours() {
 }
 
 private fun String.validatePhoneNo() {
-    val pattern = Pattern.compile("^(\\+\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$") // TODO fix
+    val pattern = Pattern.compile("^(\\+\\d{1,3}( )?)?((xn\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$") // TODO fix
     if (!pattern.matcher(this).matches()) throw IllegalArgumentException("Invalid telephone number!")
 }

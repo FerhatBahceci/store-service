@@ -6,13 +6,13 @@ import utility.proto.Timestamp
 @ExperimentalSerializationApi
 @Serializable
 data class Store(
-        val coordinates: Coordinates? = null,
-        val description: String? = null,
-        val id: String? = null,
-        val name: String? = null,
-        val hours: Map<String, OpeningHours>? = null,
-        val phoneNo: String? = null,
-        val type: Type? = null,
+    val coordinates: Coordinates? = null,
+    val description: String? = null,
+    val id: String? = null,
+    val name: String? = null,
+    val hours: Map<String,OpeningHours>? = null,
+    val phoneNo: String? = null,
+    val type: Type? = null,
 ) {
 
     @ExperimentalSerializationApi

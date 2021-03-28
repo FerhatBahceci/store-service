@@ -11,14 +11,13 @@ repositories {
 
 plugins {
     idea
-    kotlin("jvm") version "1.4.20"
-    kotlin("plugin.serialization") version "1.4.20"
-    id("com.google.protobuf") version "0.8.14"
+    id("org.jetbrains.kotlin.jvm") version "1.4.32"
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.4.32"
+    id("com.google.protobuf") version "0.8.15"
     id("com.github.johnrengelman.shadow") version "6.1.0"
-    id("io.micronaut.application") version "1.2.0"
-    id("org.jetbrains.kotlin.kapt") version "1.4.20-M2"
-    id("org.jetbrains.kotlin.plugin.allopen") version "1.4.20-M2"
-
+    id("io.micronaut.application") version "1.4.2"
+    id("org.jetbrains.kotlin.kapt") version "1.4.32"
+    id("org.jetbrains.kotlin.plugin.allopen") version "1.4.32"
 }
 
 application {
@@ -26,8 +25,8 @@ application {
 }
 
 configure<JavaPluginConvention> {
-    sourceCompatibility = JavaVersion.VERSION_1_9
-    targetCompatibility = JavaVersion.VERSION_1_9
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
 }
 
 micronaut {
@@ -48,46 +47,49 @@ dependencies {
 
     implementation("io.micronaut:micronaut-validation")
     implementation("io.micronaut:micronaut-runtime")
-    implementation("io.micronaut.grpc:micronaut-grpc-server-runtime:2.2.0")
+    implementation("io.micronaut.grpc:micronaut-grpc-server-runtime:2.3.0")
     implementation("io.micronaut.mongodb:micronaut-mongo-reactive:3.1.0")
     implementation("io.micronaut:micronaut-management")
+    implementation("io.micronaut:micronaut-inject:2.4.1")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.4.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.4.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.0.1")
 
-    implementation("io.grpc:grpc-protobuf-lite:1.33.1")
-    implementation("io.grpc:grpc-protobuf:1.33.1")
-    implementation("io.grpc:grpc-kotlin-stub-lite:0.2.1")
-    implementation("io.grpc:grpc-netty:1.33.1")
+    implementation("io.grpc:grpc-protobuf-lite:1.36.0")
+    implementation("io.grpc:grpc-protobuf:1.36.0")
+    implementation("io.grpc:grpc-kotlin-stub-lite:1.0.0")
+    implementation("io.grpc:grpc-netty:1.36.0")
 
-    implementation("com.google.protobuf:protobuf-java:3.14.0")
+    implementation("com.google.protobuf:protobuf-java:3.15.6")
     implementation("com.google.guava:guava:30.0-jre")
 
     implementation("javax.annotation:javax.annotation-api:1.3.2")
     implementation("org.slf4j:slf4j-simple:2.0.0-alpha1")
 
-    kapt(platform("io.micronaut:micronaut-bom:1.2.0"))
-    kapt("io.micronaut:micronaut-inject-java")
-    kapt("io.micronaut:micronaut-validation")
+
+    kapt(platform("io.micronaut:micronaut-bom:1.3.0"))
+    kapt("io.micronaut:micronaut-validation:2.4.1")
+    kapt("io.micronaut:micronaut-inject-java:2.4.1")
     kapt("io.micronaut.configuration:micronaut-openapi")
 
-    kaptTest("io.micronaut.grpc:micronaut-grpc-client-runtime:2.2.0")
-    kaptTest("io.micronaut.test:micronaut-test-junit5")
-    kaptTest("org.junit.jupiter:junit-jupiter-api")
-    testImplementation("io.micronaut.test:micronaut-test-spock")
-    testImplementation("org.spockframework:spock-core") {
-        exclude("org.codehaus.groovy:groovy-all")
-    }
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
+    kaptTest("io.micronaut.test:micronaut-test-junit5:2.3.3")
+    kaptTest("org.junit.jupiter:junit-jupiter-api:5.7.1")
+
+    testImplementation("io.micronaut.grpc:micronaut-grpc-client-runtime:2.3.0")
+    testImplementation("io.micronaut.test:micronaut-test-spock:2.3.3")
+    testImplementation("io.micronaut:micronaut-core:2.4.1")
+
+    testRuntimeOnly("io.micronaut:micronaut-http-server-netty:2.4.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.1")
 }
 
 tasks {
 
     withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "15"
+        kotlinOptions.jvmTarget = "11"
     }
 
     withType<Test> {
