@@ -2,6 +2,7 @@ package store.service
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
+import store.service.gateway.Store
 import utility.request.Request
 import java.lang.IllegalArgumentException
 import java.time.DayOfWeek
@@ -31,10 +32,6 @@ data class GetStoreByTypeRequest(val type: Store.Type?) : Request<GetStoreByType
 @ExperimentalSerializationApi
 @Serializable
 data class CreateStoreRequest(val store: Store?) : Request<CreateStoreRequest> {
-
-    init {
-        validate()
-    }
 
     override fun validate() {
         store?.validateStore()

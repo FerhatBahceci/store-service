@@ -20,7 +20,7 @@ class ProtoTimestampCodec : Codec<Timestamp> {
     override fun encode(writer: BsonWriter, value: Timestamp, encoderContext: EncoderContext) {
         writer.writeString(
             formatter.format(
-                LocalTime.ofSecondOfDay(value.seconds)
+                LocalTime.ofSecondOfDay(value.seconds ?: 0)
             )
         )
     }

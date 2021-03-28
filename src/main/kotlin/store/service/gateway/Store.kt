@@ -1,4 +1,4 @@
-package store.service
+package store.service.gateway
 
 import kotlinx.serialization.*
 import utility.proto.Timestamp
@@ -6,21 +6,21 @@ import utility.proto.Timestamp
 @ExperimentalSerializationApi
 @Serializable
 data class Store(
-    val coordinates: Coordinates? = null,
-    val description: String? = null,
-    val id: String? = null,
-    val name: String? = null,
-    val hours: Map<String,OpeningHours>? = null,
-    val phoneNo: String? = null,
-    val type: Type? = null,
+    var coordinates: Coordinates? = null,
+    var description: String? = null,
+    var id: String? = null,
+    var name: String? = null,
+    var hours: Map<String, OpeningHours>? = null,
+    var phoneNo: String? = null,
+    var type: Type? = null,
 ) {
 
     @ExperimentalSerializationApi
     @Serializable
-    data class Coordinates(val longitude: Long? = null, val latitude: Long? = null)
+    data class Coordinates(var longitude: Long? = null, var latitude: Long? = null)
 
     @Serializable
-    data class OpeningHours(val opening: Timestamp? = null, val closing: Timestamp? = null)
+    data class OpeningHours(var opening: Timestamp? = null, var closing: Timestamp? = null)
 
     @Serializable
     enum class Type {
@@ -37,6 +37,7 @@ data class Store(
         SERVICE,
         SPORTS,
         STAND,
-        TOYS_HOBBY;
+        TOYS_HOBBY,
+        UNKNOWN
     }
 }

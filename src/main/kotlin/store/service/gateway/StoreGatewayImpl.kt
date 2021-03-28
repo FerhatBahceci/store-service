@@ -1,37 +1,38 @@
-package store.service
+package store.service.gateway
 
 import com.mongodb.MongoClientSettings
 import com.mongodb.client.model.Filters.eq
 import com.mongodb.reactivestreams.client.MongoClient
 import com.mongodb.reactivestreams.client.MongoClients
 import com.mongodb.reactivestreams.client.MongoCollection
+import io.micronaut.context.annotation.Bean
+import io.micronaut.context.annotation.Factory
 import kotlinx.coroutines.flow.toList
 import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Singleton
 import kotlinx.coroutines.reactive.*
 import org.bson.codecs.configuration.CodecRegistries.*
 import org.bson.codecs.pojo.PojoCodecProvider
+import store.service.*
 import utility.bson.ProtoTimestampCodec
+import javax.inject.Inject
 
 @ExperimentalSerializationApi
 @Singleton
-class StoreGatewayImpl : StoreGateway {
+class StoreGatewayImpl(@Inject private val mongoClient: MongoClient) : StoreGateway {
 
     private val collection: MongoCollection<Store> =
-        createMongoClient()
+        mongoClient
             .getDatabase("store-db")
             .getCollection("store", Store::class.java)
 
-    override suspend fun getAllStores(request: GetAllStoresRequest): List<Store> =
-        collection.find().asFlow().toList()
+    override suspend fun getAllStores(request: GetAllStoresRequest): List<Store> = collection.find().asFlow().toList()
 
-    override suspend fun getStoreByName(request: GetStoreByNameRequest): Store {
-        val test = collection.find(eq("name", request.name)).awaitFirst()
-        return collection.find(eq("name", request.name)).awaitFirst()
-    }
+    override suspend fun getStoreByName(request: GetStoreByNameRequest): Store =
+        collection.find(eq("name", request.name)).limit(1).awaitFirst()
 
     override suspend fun getStoreByType(request: GetStoreByTypeRequest): List<Store> =
-        collection.find().asFlow().toList()
+        collection.find(eq("type", request.type)).asFlow().toList()
 
     override suspend fun createStore(request: CreateStoreRequest) {
         collection.insertOne(request.store).awaitFirst()
@@ -45,8 +46,15 @@ class StoreGatewayImpl : StoreGateway {
         collection.updateOne(eq("id"), eq(request.store)).awaitFirst()
     }
 
-    private fun createMongoClient(): MongoClient {
-        return MongoClients.create(
+}
+
+@Factory
+private class MongoClientFactory {
+
+    @ExperimentalSerializationApi
+    @Bean
+    private fun mongoClient(): MongoClient =
+        MongoClients.create(
             MongoClientSettings.builder()
                 .codecRegistry(
                     fromRegistries(
@@ -57,5 +65,4 @@ class StoreGatewayImpl : StoreGateway {
                 )
                 .build()
         )
-    }
 }
