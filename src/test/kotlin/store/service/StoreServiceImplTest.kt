@@ -29,15 +29,15 @@ class StoreServiceImplTest : BehaviorSpec({
         } returns Unit
     }
 
-    val storeService = createStoreService(storeGateway)
+    val storeService =  StoreServiceImpl(gateway = storeGateway, coroutineContext = newSingleThreadContext("gprc-test"))
 
     given("the store service") {
 
         `when`("a store is created with the service") {
             val createRequest = CreateStoreRequest.newBuilder().setStore(store.mapToProtoStore()).build()
             val createResponse = storeService.createStore(createRequest)
-            then("the response is 201") {
-                assert(createResponse.response.status == 201)
+            then("the response should be 201") {
+                createResponse.response.status shouldBe 201
             }
         }
 
@@ -49,8 +49,3 @@ class StoreServiceImplTest : BehaviorSpec({
          }*/
     }
 })
-
-@ObsoleteCoroutinesApi
-@ExperimentalSerializationApi
-fun createStoreService(storeGateway: StoreGateway) =
-    StoreServiceImpl(gateway = storeGateway, coroutineContext = newSingleThreadContext("gprc-test"))
