@@ -17,8 +17,8 @@ import kotlin.coroutines.CoroutineContext
 import utility.grpc.execute
 import proto.store.service.CreateStoreRequest
 import proto.store.service.GetStoreByTypeRequest
-import proto.store.service.Store
 import store.service.gateway.StoreGateway
+import store.service.service.StoreMapper.Companion.mapToProtoStore
 
 /*
 TODO How to go from Kotlin --> Proto e.g  ProtoBuf.decodeFromByteArray<DayOfWeek>(ProtoBuf.encodeToByteArray(proto.store.service.DayOfWeek.forNumber(2))),
@@ -46,13 +46,19 @@ class StoreServiceImpl constructor(
             .let { GetStoreResponse.newBuilder().setResponse(createResponse()).setStore(it).build() }
 
     override suspend fun createStore(request: CreateStoreRequest): CreatedStoreResponse =
-        execute(request, gateway::createStore).let { CreatedStoreResponse.newBuilder().setResponse(createResponse(201)).build() }
+        execute(request, gateway::createStore).let {
+            CreatedStoreResponse.newBuilder().setResponse(createResponse(201)).build()
+        }
 
     override suspend fun updateStore(request: UpdateStoreRequest): UpdateStoreResponse =
-        execute(request, gateway::updateStore).let { UpdateStoreResponse.newBuilder().setResponse(createResponse(204)).build() }
+        execute(request, gateway::updateStore).let {
+            UpdateStoreResponse.newBuilder().setResponse(createResponse(204)).build()
+        }
 
     override suspend fun deleteStore(request: DeleteStoreByIdRequest): DeleteStoreResponse =
-        execute(request, gateway::deleteStore).let { DeleteStoreResponse.newBuilder().setResponse(createResponse(204)).build() }
+        execute(request, gateway::deleteStore).let {
+            DeleteStoreResponse.newBuilder().setResponse(createResponse(204)).build()
+        }
 
     private fun List<store.service.gateway.Store>.mapToProtoStores() =
         this.map { it.mapToProtoStore() }.let {
@@ -62,33 +68,20 @@ class StoreServiceImpl constructor(
                 .build()
         }
 
-    private fun store.service.gateway.Store.mapToProtoStore() =
-        Store.newBuilder()
-            .setCoordinates(coordinates?.mapToProtoCoordinates())
-            .setDescription(description)
-            .setId(id)
-            .setName(name)
-            .setPhoneNo(phoneNo)
-            .setType(type?.mapToProtoStoreType())
-            .build()
 
-    private fun store.service.gateway.Store.Coordinates.mapToProtoCoordinates() =
-        Coordinates.newBuilder()
-            .setLatitude(latitude ?: 0)
-            .setLongitude(longitude ?: 0)
-            .build()
-
-    private fun store.service.gateway.Store.Type.mapToProtoStoreType() =
-        Type.forNumber(this.ordinal)
-
+    //TODO should be replaced once Response classes are fixed
     private fun createResponse(status: Int = 200, errorMessage: String = "") =
         Response.newBuilder().setStatus(status).setMessage(errorMessage).build()
 }
 
 @ObsoleteCoroutinesApi
 @Factory
-private class CoroutineContextFactory {
+class CoroutineContextFactory {
 
-    @Bean
-    fun coroutineContext() = newFixedThreadPoolContext(4, "grpc-thread-pool")
+    companion object {
+
+        @Bean
+        fun coroutineContext() = newFixedThreadPoolContext(4, "grpc-thread-pool")
+
+    }
 }

@@ -45,19 +45,18 @@ dependencies {
     annotationProcessor("io.micronaut:micronaut-graal")
 */
 
+    implementation("io.micronaut:micronaut-core-reactive:2.4.1")
     implementation("io.micronaut:micronaut-validation")
     implementation("io.micronaut:micronaut-runtime")
-    implementation("io.micronaut.grpc:micronaut-grpc-server-runtime:2.3.0")
     implementation("io.micronaut.mongodb:micronaut-mongo-reactive:3.1.0")
     implementation("io.micronaut:micronaut-management")
     implementation("io.micronaut:micronaut-inject:2.4.1")
-
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.4.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.0.1")
-
+    implementation("io.micronaut.grpc:micronaut-grpc-server-runtime:2.3.0")
     implementation("io.grpc:grpc-protobuf-lite:1.36.0")
     implementation("io.grpc:grpc-protobuf:1.36.0")
     implementation("io.grpc:grpc-kotlin-stub-lite:1.0.0")
@@ -69,7 +68,6 @@ dependencies {
     implementation("javax.annotation:javax.annotation-api:1.3.2")
     implementation("org.slf4j:slf4j-simple:2.0.0-alpha1")
 
-
     kapt(platform("io.micronaut:micronaut-bom:1.3.0"))
     kapt("io.micronaut:micronaut-validation:2.4.1")
     kapt("io.micronaut:micronaut-inject-java:2.4.1")
@@ -79,8 +77,11 @@ dependencies {
     kaptTest("org.junit.jupiter:junit-jupiter-api:5.7.1")
 
     testImplementation("io.micronaut.grpc:micronaut-grpc-client-runtime:2.3.0")
-    testImplementation("io.micronaut.test:micronaut-test-spock:2.3.3")
-    testImplementation("io.micronaut:micronaut-core:2.4.1")
+
+    kaptTest("io.micronaut:micronaut-inject-java")
+    testImplementation("io.micronaut.test:micronaut-test-kotlintest:2.3.3")
+    testImplementation("io.mockk:mockk:1.10.5")
+    testImplementation("io.kotlintest:kotlintest-runner-junit5:3.3.2")
 
     testRuntimeOnly("io.micronaut:micronaut-http-server-netty:2.4.1")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.1")

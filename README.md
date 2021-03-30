@@ -12,6 +12,8 @@
 
 [Kotlin Protobuf Serialization](https://kotlin.github.io/kotlinx.serialization/kotlinx-serialization-protobuf/kotlinx-serialization-protobuf/kotlinx.serialization.protobuf/index.html)
 
+[Kotest ](https://kotest.io/)
+
 ### Store-service packaging and JPMS
 
 [Package by feature](http://www.javapractices.com/topic/TopicAction.do?Id=205)
