@@ -57,7 +57,7 @@ class StoreServiceImplTest : ShouldSpec({
         createResponse.response.status shouldBe 201
     }
 
-    should("fetch a store by name") {
+    should("GET a store by name") {
         val getStoreByNameRequest = GetStoreByNameRequest.newBuilder()
                 .setName(store.name)
                 .build()
@@ -65,14 +65,14 @@ class StoreServiceImplTest : ShouldSpec({
         ProtoBuf.decodeFromByteArray<Store>(getStoreByNameResponse.store.toByteArray()) shouldBe store
     }
 
-    should("fetch all stores") {
+    should("GET all stores") {
         val getAllStoresRequest = GetAllStoresRequest.getDefaultInstance()
         val getAllStoresResponse = storeService.getAllStores(getAllStoresRequest)
         getAllStoresResponse.stores.storesCount shouldBe 2
         getAllStoresResponse.stores.storesList.map { ProtoBuf.decodeFromByteArray<Store>(it.toByteArray()) } shouldBe listOf(store, store)
     }
 
-    should("fetch all stores by type") {
+    should("GET all stores by type") {
         val getStoreByTypeRequest = proto.store.service.GetStoreByTypeRequest.newBuilder()
                 .setType(Type.valueOf(store.type?.name ?: Store.Type.UNKNOWN.name))
                 .build()
@@ -81,7 +81,7 @@ class StoreServiceImplTest : ShouldSpec({
         getAllStoresResponse.stores.storesList.map { ProtoBuf.decodeFromByteArray<Store>(it.toByteArray()) } shouldBe listOf(store)
     }
 
-    should("be able to delete a store by id") {
+    should("DELETE a store by id") {
         val deleteStoreByIdRequest = DeleteStoreByIdRequest.newBuilder()
                 .setId(store.id)
                 .build()
@@ -89,7 +89,7 @@ class StoreServiceImplTest : ShouldSpec({
         getStoreByNameResponse.response.status shouldBe 204
     }
 
-    should("be able to update a store by id") {
+    should("UPDATE a store by id") {
         val updateStoreByIdRequest = UpdateStoreRequest.newBuilder().setUpdate(store.mapToProtoStore()).setId(store.id).build()
         val getStoreByIdResponse = storeService.updateStore(updateStoreByIdRequest)
         getStoreByIdResponse.response.status shouldBe 204
