@@ -106,18 +106,18 @@ message OpeningHours {
 
 enum Type {
     ACCESSORIES = 0;
-    LEISURE = 1;
-    BOOKS_MEDIA_ELECTRONICS = 3;
+    BOOKS_MEDIA_ELECTRONIC = 1;
+    FASHION = 2;
+    GROCERIES = 3;
     HEALTH_BEAUTY = 4;
-    OPTICIAN = 5;
-    HOME_DECORATION = 6;
-    TOYS_HOBBY = 7;
-    GROCERIES = 8;
+    HOME_DECORATION = 5;
+    JEWELLERY = 6;
+    LEISURE = 7;
+    OPTICIAN = 8;
     RESTAURANT_CAFE = 9;
-    JEWELLERY = 10;
-    STAND = 11;
-    FASHION = 12;
-    SERVICE = 13;
-    SPORTS = 14;
-    UNKOWN = 15;
+    SERVICE = 10;
+    SPORTS = 11;
+    STAND = 12;
+    TOYS_HOBBY = 13;
+    UNKNOWN = 14;
 }
