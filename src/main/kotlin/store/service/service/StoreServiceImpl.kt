@@ -68,7 +68,6 @@ class StoreServiceImpl constructor(
                 .build()
         }
 
-
     //TODO should be replaced once Response classes are fixed
     private fun createResponse(status: Int = 200, errorMessage: String = "") =
         Response.newBuilder().setStatus(status).setMessage(errorMessage).build()

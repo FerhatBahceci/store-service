@@ -15,7 +15,8 @@ suspend inline fun <T : MessageLite, reified U : Request<U>, R> execute(
 ): R = runCatching {
     val requestDecoded = ProtoBuf.decodeFromByteArray<U>(request.toByteArray())
     requestDecoded.validate() //TODO move to init?
-    gatewayCallback.invoke(requestDecoded)
+    val response = gatewayCallback.invoke(requestDecoded)
+    response
 }.getOrElse {
     LOGGER.error(it.message)
     throw it

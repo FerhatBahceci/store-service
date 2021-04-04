@@ -13,7 +13,6 @@ import javax.inject.Singleton
 import kotlinx.coroutines.reactive.*
 import org.bson.codecs.configuration.CodecRegistries.*
 import org.bson.codecs.pojo.PojoCodecProvider
-import store.service.*
 import utility.bson.ProtoTimestampCodec
 import javax.inject.Inject
 
@@ -22,17 +21,18 @@ import javax.inject.Inject
 class StoreGatewayImpl(@Inject private val mongoClient: MongoClient) : StoreGateway {
 
     private val collection: MongoCollection<Store> =
-        mongoClient
-            .getDatabase("store-db")
-            .getCollection("store", Store::class.java)
+            mongoClient
+                    .getDatabase("store-db")
+                    .getCollection("store", Store::class.java)
 
-    override suspend fun getAllStores(request: GetAllStoresRequest): List<Store> = collection.find().asFlow().toList()
+    override suspend fun getAllStores(request: GetAllStoresRequest): List<Store> =
+            collection.find().asFlow().toList()
 
     override suspend fun getStoreByName(request: GetStoreByNameRequest): Store =
-        collection.find(eq("name", request.name)).limit(1).awaitFirst()
+            collection.find(eq("name", request.name)).limit(1).awaitFirst()
 
     override suspend fun getStoreByType(request: GetStoreByTypeRequest): List<Store> =
-        collection.find(eq("type", request.type)).asFlow().toList()
+            collection.find(eq("type", request.type)).asFlow().toList()
 
     override suspend fun createStore(request: CreateStoreRequest) {
         collection.insertOne(request.store).awaitFirst()
@@ -53,15 +53,15 @@ private class MongoClientFactory {
     @ExperimentalSerializationApi
     @Bean
     private fun mongoClient(): MongoClient =
-        MongoClients.create(
-            MongoClientSettings.builder()
-                .codecRegistry(
-                    fromRegistries(
-                        fromCodecs(ProtoTimestampCodec()),
-                        MongoClientSettings.getDefaultCodecRegistry(),
-                        fromProviders(PojoCodecProvider.builder().automatic(true).build())
-                    )
-                )
-                .build()
-        )
+            MongoClients.create(
+                    MongoClientSettings.builder()
+                            .codecRegistry(
+                                    fromRegistries(
+                                            fromCodecs(ProtoTimestampCodec()),
+                                            MongoClientSettings.getDefaultCodecRegistry(),
+                                            fromProviders(PojoCodecProvider.builder().automatic(true).build())
+                                    )
+                            )
+                            .build()
+            )
 }

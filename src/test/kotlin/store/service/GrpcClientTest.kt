@@ -6,10 +6,10 @@ import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import kotlinx.serialization.ExperimentalSerializationApi
 import org.junit.jupiter.api.Test
 import proto.store.service.*
-import proto.store.service.CreateStoreRequest
-import proto.store.service.DeleteStoreByIdRequest
-import proto.store.service.GetAllStoresRequest
-import proto.store.service.GetStoreByNameRequest
+import proto.store.service.gateway.CreateStoreRequest
+import proto.store.service.gateway.DeleteStoreByIdRequest
+import proto.store.service.gateway.GetAllStoresRequest
+import proto.store.service.gateway.GetStoreByNameRequest
 import spock.lang.Specification
 import store.service.DummyData.Companion.createId
 import store.service.DummyData.Companion.createProtoStore
@@ -33,7 +33,7 @@ class StoreServiceTest(@Inject private val blockingStub: StoreServiceGrpc.StoreS
     @Test
     suspend fun createStoreTest() {
 
-        storeGateway.createStore(store.service.CreateStoreRequest(createStore("ICA")))
+        storeGateway.createStore(store.service.gateway.CreateStoreRequest(createStore("ICA")))
 
         val store = createProtoStore(name = "Walmart", id = createId())
         val request = CreateStoreRequest.newBuilder().setStore(store).build()

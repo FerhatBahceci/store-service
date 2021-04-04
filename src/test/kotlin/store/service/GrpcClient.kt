@@ -10,8 +10,11 @@ import proto.store.service.StoreServiceGrpc
 @Factory
 class GrpcClient {
 
-    @Bean
-    fun blockingStub(@GrpcChannel(GrpcServerChannel.NAME) channel: ManagedChannel): StoreServiceGrpc.StoreServiceBlockingStub {
-        return StoreServiceGrpc.newBlockingStub(channel)
+    companion object {
+
+        @Bean
+        fun blockingStub(@GrpcChannel(GrpcServerChannel.NAME) channel: ManagedChannel): StoreServiceGrpc.StoreServiceBlockingStub {
+            return StoreServiceGrpc.newBlockingStub(channel)
+        }
     }
 }

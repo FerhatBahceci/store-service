@@ -2,8 +2,6 @@ package store.service
 
 import com.google.protobuf.Timestamp
 import kotlinx.serialization.ExperimentalSerializationApi
-import proto.store.service.*
-import proto.store.service.Coordinates
 import proto.store.service.Store
 
 class DummyData {
@@ -21,41 +19,42 @@ class DummyData {
 
         @ExperimentalSerializationApi
         fun createStore(
-            name: String,
-            id: String = createId(),
-            type: store.service.gateway.Store.Type = store.service.gateway.Store.Type.GROCERIES
+                name: String,
+                id: String = createId(),
+                type: store.service.gateway.Store.Type = store.service.gateway.Store.Type.GROCERIES
         ) =
-            store.service.gateway.Store(
-                description = DESCRIPTION,
-                id = id,
-                type = type,
-                name = name,
-                phoneNo = PHONE_NO,
-                coordinates = store.service.gateway.Store.Coordinates(latitude = LATITUDE, longitude = LONGITUDE),
-                hours = mapOf(
-                    DAY_OF_WEEK to store.service.gateway.Store.OpeningHours(
-                        opening = utility.proto.Timestamp(nanos = NANOS, seconds = OPENING_SECONDS),
-                        closing = utility.proto.Timestamp(nanos = NANOS, seconds = CLOSING_SECONDS)
-                    )
+                store.service.gateway.Store(
+                        description = DESCRIPTION,
+                        id = id,
+                        type = type,
+                        name = name,
+                        phoneNo = PHONE_NO,
+                        coordinates = store.service.gateway.Store.Coordinates(latitude = LATITUDE, longitude = LONGITUDE),
+                        hours = mapOf(
+                                DAY_OF_WEEK to store.service.gateway.Store.OpeningHours(
+                                        opening = utility.proto.Timestamp(nanos = NANOS, seconds = OPENING_SECONDS),
+                                        closing = utility.proto.Timestamp(nanos = NANOS, seconds = CLOSING_SECONDS)
+                                )
+                        )
                 )
-            )
 
-        fun createProtoStore(name: String, id: String = createId(), type: Type = Type.GROCERIES) =
-            Store.newBuilder()
-                .putHours(
-                    DAY_OF_WEEK,
-                    OpeningHours.newBuilder()
-                        .setOpening(Timestamp.newBuilder().setNanos(NANOS).setSeconds(OPENING_SECONDS))  // 10.30
-                        .setClosing(Timestamp.newBuilder().setNanos(NANOS).setSeconds(CLOSING_SECONDS))  // 22.00
+        @ExperimentalSerializationApi
+        fun createProtoStore(name: String, id: String = createId(), type: Store.Type = Store.Type.GROCERIES) =
+                Store.newBuilder()
+                        .putHours(
+                                DAY_OF_WEEK,
+                                Store.OpeningHours.newBuilder()
+                                        .setOpening(Timestamp.newBuilder().setNanos(NANOS).setSeconds(OPENING_SECONDS))  // 10.30
+                                        .setClosing(Timestamp.newBuilder().setNanos(NANOS).setSeconds(CLOSING_SECONDS))  // 22.00
+                                        .build()
+                        )
+                        .setCoordinates(Store.Coordinates.newBuilder().setLatitude(LATITUDE).setLongitude(LONGITUDE).build())
+                        .setDescription(DESCRIPTION)
+                        .setId(id)
+                        .setName(name)
+                        .setPhoneNo(PHONE_NO)
+                        .setType(type)
                         .build()
-                )
-                .setCoordinates(Coordinates.newBuilder().setLatitude(LATITUDE).setLongitude(LONGITUDE).build())
-                .setDescription(DESCRIPTION)
-                .setId(id)
-                .setName(name)
-                .setPhoneNo(PHONE_NO)
-                .setType(type)
-                .build()
 
         fun createId() = (Math.random() * 100).toString()
     }

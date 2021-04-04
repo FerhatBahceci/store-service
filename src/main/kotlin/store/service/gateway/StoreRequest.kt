@@ -1,8 +1,7 @@
-package store.service
+package store.service.gateway
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
-import store.service.gateway.Store
 import utility.request.Request
 import java.lang.IllegalArgumentException
 import java.time.DayOfWeek
@@ -11,27 +10,27 @@ import java.util.regex.Pattern
 //TODO, once more knowledge about the Store requirements are gathered, validate() method should be implemented properly rather than only null asserting.
 
 @Serializable
-class GetAllStoresRequest : Request<GetAllStoresRequest> {
+data class GetAllStoresRequest(override val type: Request.Type = Request.Type.GET) : Request<GetAllStoresRequest> {
     override fun validate() {
     }
 }
 
 @Serializable
-data class GetStoreByNameRequest(val name: String?) : Request<GetStoreByNameRequest> {
-    override fun validate() {
-    }
-}
-
-@ExperimentalSerializationApi
-@Serializable
-data class GetStoreByTypeRequest(val type: Store.Type?) : Request<GetStoreByTypeRequest> {
+data class GetStoreByNameRequest(val name: String?, override val type: Request.Type = Request.Type.GET) : Request<GetStoreByNameRequest> {
     override fun validate() {
     }
 }
 
 @ExperimentalSerializationApi
 @Serializable
-data class CreateStoreRequest(val store: Store?) : Request<CreateStoreRequest> {
+data class GetStoreByTypeRequest(val storeType: Store.Type?, override val type: Request.Type = Request.Type.GET) : Request<GetStoreByTypeRequest> {
+    override fun validate() {
+    }
+}
+
+@ExperimentalSerializationApi
+@Serializable
+data class CreateStoreRequest(val store: Store?, override val type: Request.Type = Request.Type.POST) : Request<CreateStoreRequest> {
 
     override fun validate() {
         store?.validateStore()
@@ -39,14 +38,14 @@ data class CreateStoreRequest(val store: Store?) : Request<CreateStoreRequest> {
 }
 
 @Serializable
-data class DeleteStoreByIdRequest(val id: String?) : Request<DeleteStoreByIdRequest> {
+data class DeleteStoreByIdRequest(val id: String?, override val type: Request.Type = Request.Type.DELETE) : Request<DeleteStoreByIdRequest> {
     override fun validate() {
     }
 }
 
 @ExperimentalSerializationApi
 @Serializable
-data class UpdateStoreRequest(val id: String?, val store: Store?) : Request<UpdateStoreRequest> {
+data class UpdateStoreRequest(val id: String?, val store: Store?, override val type: Request.Type = Request.Type.PUT) : Request<UpdateStoreRequest> {
     override fun validate() {
         store?.validateStore()
     }

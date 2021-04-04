@@ -28,28 +28,41 @@ service StoreService {
     }
 }
 
+enum RequestType {
+    GET = 0;
+    POST = 1;
+    PUT = 2;
+    DELETE = 3;
+}
+
 message GetStoreByNameRequest {
     string name = 1;
+    RequestType type = 2;
 }
 
 message GetAllStoresRequest {
+    RequestType type = 1;
 }
 
 message GetStoreByTypeRequest {
-    Type type = 1;
+    Store.Type storeType = 1;
+    RequestType type = 2;
 }
 
 message CreateStoreRequest {
     Store store = 1;
+    RequestType type = 2;
 }
 
 message UpdateStoreRequest {
     string id = 1;
     Store update = 2;
+    RequestType type = 3;
 }
 
 message DeleteStoreByIdRequest {
     string id = 1;
+    RequestType type = 2;
 }
 
 message GetStoresResponse {
@@ -92,32 +105,33 @@ message Store {
     map<string, OpeningHours> hours = 5;
     string phoneNo = 6;
     Type type = 7;
-}
 
-message Coordinates {
-    int64 longitude = 1;
-    int64 latitude = 2;
-}
+    message Coordinates {
+        int64 longitude = 1;
+        int64 latitude = 2;
+    }
 
-message OpeningHours {
-    google.protobuf.Timestamp opening = 1;
-    google.protobuf.Timestamp closing = 2;
-}
+    message OpeningHours {
+        google.protobuf.Timestamp opening = 1;
+        google.protobuf.Timestamp closing = 2;
+    }
 
-enum Type {
-    ACCESSORIES = 0;
-    BOOKS_MEDIA_ELECTRONIC = 1;
-    FASHION = 2;
-    GROCERIES = 3;
-    HEALTH_BEAUTY = 4;
-    HOME_DECORATION = 5;
-    JEWELLERY = 6;
-    LEISURE = 7;
-    OPTICIAN = 8;
-    RESTAURANT_CAFE = 9;
-    SERVICE = 10;
-    SPORTS = 11;
-    STAND = 12;
-    TOYS_HOBBY = 13;
-    UNKNOWN = 14;
+    enum Type {
+        ACCESSORIES = 0;
+        BOOKS_MEDIA_ELECTRONIC = 1;
+        FASHION = 2;
+        GROCERIES = 3;
+        HEALTH_BEAUTY = 4;
+        HOME_DECORATION = 5;
+        JEWELLERY = 6;
+        LEISURE = 7;
+        OPTICIAN = 8;
+        RESTAURANT_CAFE = 9;
+        SERVICE = 10;
+        SPORTS = 11;
+        STAND = 12;
+        TOYS_HOBBY = 13;
+        UNKNOWN = 14;
+    }
+
 }

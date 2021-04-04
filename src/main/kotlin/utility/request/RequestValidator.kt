@@ -1,5 +1,7 @@
+@file:Suppress("LeakingThis")
+
 package utility.request
 
-fun interface Request<T> {
+fun interface RequestValidator<T> {
     fun validate()
 }
