@@ -4,7 +4,6 @@ import com.google.protobuf.Timestamp
 import kotlinx.serialization.ExperimentalSerializationApi
 import proto.store.service.Store
 
-
 @ExperimentalSerializationApi
 class StoreMapper {
 
@@ -35,10 +34,12 @@ class StoreMapper {
 
         private fun store.service.gateway.Store.OpeningHours.mapToProtoOpeningHours() =
                 Store.OpeningHours.newBuilder()
-                        .setOpening(Timestamp.newBuilder().setSeconds(this.opening?.seconds
-                                ?: 0).setNanos(this.opening?.nanos ?: 0)
-                        ).setClosing(Timestamp.newBuilder().setSeconds(this.closing?.seconds
-                                ?: 0).setNanos(this.closing?.nanos ?: 0)
-                        ).build()
+                        .setOpening(this.opening?.mapToTimestamp())
+                        .setClosing(this.closing?.mapToTimestamp())
+                        .build()
+
+        private fun utility.proto.Timestamp.mapToTimestamp() =
+                Timestamp.newBuilder().setSeconds(this.seconds ?: 0).setNanos(this.nanos ?: 0).build()
+
     }
 }

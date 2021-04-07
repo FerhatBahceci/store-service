@@ -58,8 +58,10 @@ class StoreServiceImplTest : ShouldSpec({
                 .setType(RequestType.GET)
                 .build()
         val getAllStoresResponse = storeService.getAllStores(getAllStoresRequest)
-        getAllStoresResponse.stores.storesCount shouldBe 2
-        getAllStoresResponse.stores.storesList.map { ProtoBuf.decodeFromByteArray<Store>(it.toByteArray()) } shouldBe listOf(store, store)
+        getAllStoresResponse.also {
+            it.stores.storesCount shouldBe 2
+            it.stores.storesList.map { ProtoBuf.decodeFromByteArray<Store>(it.toByteArray()) } shouldBe listOf(store, store)
+        }
     }
 
     should("GET a store by name") {
@@ -77,8 +79,10 @@ class StoreServiceImplTest : ShouldSpec({
                 .setType(RequestType.GET)
                 .build()
         val getAllStoresResponse = storeService.getStoreByType(getStoreByTypeRequest)
-        getAllStoresResponse.stores.storesCount shouldBe 1
-        getAllStoresResponse.stores.storesList.map { ProtoBuf.decodeFromByteArray<Store>(it.toByteArray()) } shouldBe listOf(store)
+        getAllStoresResponse.also {
+            it.stores.storesCount shouldBe 1
+            it.stores.storesList.map { ProtoBuf.decodeFromByteArray<Store>(it.toByteArray()) } shouldBe listOf(store)
+        }
     }
 
     should("CREATE a store") {

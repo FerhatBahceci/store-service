@@ -1,3 +1,5 @@
+package store.service
+
 import io.kotlintest.shouldBe
 import io.kotlintest.specs.ShouldSpec
 import kotlinx.serialization.ExperimentalSerializationApi

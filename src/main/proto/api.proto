@@ -84,7 +84,8 @@ message DeleteStoreResponse {
 }
 
 message UpdateStoreResponse {
-    Response response = 1;
+    Store update = 1;
+    Response response = 2;
 }
 
 message Response {

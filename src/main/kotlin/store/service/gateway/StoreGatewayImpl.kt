@@ -1,19 +1,12 @@
 package store.service.gateway
 
-import com.mongodb.MongoClientSettings
 import com.mongodb.client.model.Filters.eq
 import com.mongodb.reactivestreams.client.MongoClient
-import com.mongodb.reactivestreams.client.MongoClients
 import com.mongodb.reactivestreams.client.MongoCollection
-import io.micronaut.context.annotation.Bean
-import io.micronaut.context.annotation.Factory
 import kotlinx.coroutines.flow.toList
 import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Singleton
 import kotlinx.coroutines.reactive.*
-import org.bson.codecs.configuration.CodecRegistries.*
-import org.bson.codecs.pojo.PojoCodecProvider
-import utility.bson.ProtoTimestampCodec
 import javax.inject.Inject
 
 @ExperimentalSerializationApi
@@ -42,26 +35,6 @@ class StoreGatewayImpl(@Inject private val mongoClient: MongoClient) : StoreGate
         collection.deleteOne(eq("id", request.id)).awaitFirst()
     }
 
-    override suspend fun updateStore(request: UpdateStoreRequest) {
-        collection.updateOne(eq("id"), eq(request.store)).awaitFirst()
-    }
-}
-
-@Factory
-private class MongoClientFactory {
-
-    @ExperimentalSerializationApi
-    @Bean
-    private fun mongoClient(): MongoClient =
-            MongoClients.create(
-                    MongoClientSettings.builder()
-                            .codecRegistry(
-                                    fromRegistries(
-                                            fromCodecs(ProtoTimestampCodec()),
-                                            MongoClientSettings.getDefaultCodecRegistry(),
-                                            fromProviders(PojoCodecProvider.builder().automatic(true).build())
-                                    )
-                            )
-                            .build()
-            )
+    override suspend fun updateStore(request: UpdateStoreRequest): Store =
+            collection.findOneAndReplace(eq("id"), request.store?.copy(id = request.id)).awaitFirst()
 }

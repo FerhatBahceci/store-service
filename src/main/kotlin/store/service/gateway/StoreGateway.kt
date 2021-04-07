@@ -9,5 +9,5 @@ interface StoreGateway {
     suspend fun getStoreByType(request: GetStoreByTypeRequest): List<Store>
     suspend fun createStore(request: CreateStoreRequest)
     suspend fun deleteStore(request: DeleteStoreByIdRequest)
-    suspend fun updateStore(request: UpdateStoreRequest)
+    suspend fun updateStore(request: UpdateStoreRequest) : Store
 }

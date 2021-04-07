@@ -82,6 +82,7 @@ dependencies {
     testImplementation("io.micronaut.test:micronaut-test-kotlintest:2.3.3")
     testImplementation("io.mockk:mockk:1.10.5")
     testImplementation("io.kotlintest:kotlintest-runner-junit5:3.3.2")
+    testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.1")
 
     testRuntimeOnly("io.micronaut:micronaut-http-server-netty:2.4.1")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.1")
