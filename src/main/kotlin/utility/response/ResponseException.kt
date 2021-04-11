@@ -1,6 +1,6 @@
 package utility.response
 
-abstract class ResponseException : Throwable() {
+sealed class ResponseException : Throwable() {
 
     abstract override val message: String
     abstract val status: Int
