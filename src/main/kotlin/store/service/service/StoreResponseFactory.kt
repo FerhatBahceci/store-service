@@ -42,7 +42,7 @@ class StoreResponseFactory {
                         .setResponse(response)
                         .build()
 
-        fun createResponse(status: Int = 200, errorMessage: String? = null) =
+        fun createResponse(status: Int = 200, errorMessage: String? = "") =
                 Response.newBuilder()
                         .setStatus(status)
                         .setMessage(errorMessage)

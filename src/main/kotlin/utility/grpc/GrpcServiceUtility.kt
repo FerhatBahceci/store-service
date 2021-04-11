@@ -5,7 +5,7 @@ import kotlinx.serialization.*
 import kotlinx.serialization.protobuf.ProtoBuf
 import org.slf4j.LoggerFactory
 import proto.store.service.Response
-import store.service.service.StoreResponse.Companion.createResponse
+import store.service.service.StoreResponseFactory.Companion.createResponse
 import utility.request.Request
 import utility.response.ResponseException
 
@@ -25,11 +25,11 @@ suspend inline fun <T : MessageLite, reified U : Request<U>, R, PR : MessageLite
     it.toFailureResponse(protoResponseFactoryMethod)
 }
 
-
 inline fun <R, PR> Throwable.toFailureResponse(protoResponseFactoryMethod: (R?, Response) -> PR): PR =
         when (this) {
             is ResponseException.BadRequest -> protoResponseFactoryMethod.invoke(null, createResponse(400, this.message))
             is ResponseException.NotFound -> protoResponseFactoryMethod.invoke(null, createResponse(404, this.message))
-            else -> protoResponseFactoryMethod.invoke(null, createResponse(400, this.message ?: this.stackTrace.toString()))
+            else -> protoResponseFactoryMethod.invoke(null, createResponse(400, this.message
+                    ?: this.stackTrace.toString()))
         }
 

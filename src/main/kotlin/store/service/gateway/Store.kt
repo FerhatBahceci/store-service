@@ -1,7 +1,6 @@
 package store.service.gateway
 
 import kotlinx.serialization.*
-import org.bson.codecs.pojo.annotations.BsonProperty
 import utility.proto.Timestamp
 
 @ExperimentalSerializationApi
