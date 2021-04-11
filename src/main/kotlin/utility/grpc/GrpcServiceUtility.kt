@@ -29,7 +29,6 @@ inline fun <R, PR> Throwable.toFailureResponse(protoResponseFactoryMethod: (R?, 
         when (this) {
             is ResponseException.BadRequest -> protoResponseFactoryMethod.invoke(null, createResponse(400, this.message))
             is ResponseException.NotFound -> protoResponseFactoryMethod.invoke(null, createResponse(404, this.message))
-            else -> protoResponseFactoryMethod.invoke(null, createResponse(400, this.message
-                    ?: this.stackTrace.toString()))
+            else -> protoResponseFactoryMethod.invoke(null, createResponse(500, this.message))
         }
 

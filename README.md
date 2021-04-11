@@ -12,7 +12,7 @@
 
 [Kotlin Protobuf Serialization](https://kotlin.github.io/kotlinx.serialization/kotlinx-serialization-protobuf/kotlinx-serialization-protobuf/kotlinx.serialization.protobuf/index.html)
 
-[Kotest ](https://kotest.io/)
+[Kotest](https://kotest.io/)
 
 ### Store-service packaging and JPMS
 
