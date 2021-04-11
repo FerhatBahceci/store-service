@@ -25,8 +25,7 @@ import store.service.service.StoreResponseFactory.Companion.updatedStoreResponse
 class StoreServiceImpl constructor(
         @Inject private val gateway: StoreGateway,
         @Inject override val coroutineContext: CoroutineContext
-) :
-        StoreServiceGrpcKt.StoreServiceCoroutineImplBase(), CoroutineScope {
+) : StoreServiceGrpcKt.StoreServiceCoroutineImplBase(), CoroutineScope {
 
     override suspend fun getAllStores(request: GetAllStoresRequest): GetStoresResponse =
             execute(request, gateway::getAllStores, ::getStoresResponse)
