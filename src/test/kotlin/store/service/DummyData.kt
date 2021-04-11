@@ -3,7 +3,6 @@ package store.service
 import com.google.protobuf.Timestamp
 import kotlinx.serialization.ExperimentalSerializationApi
 import proto.store.service.Store
-import java.time.Instant
 
 class DummyData {
 

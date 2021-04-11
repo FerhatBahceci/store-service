@@ -3,6 +3,7 @@ package store.service.gateway
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import utility.request.Request
+import utility.response.ResponseException
 import java.lang.IllegalArgumentException
 import java.time.DayOfWeek
 import java.util.regex.Pattern
@@ -46,7 +47,7 @@ data class GetStoreByTypeRequest(val storeType: Store.Type?,
 
 @ExperimentalSerializationApi
 @Serializable
-data class CreateStoreRequest(val store: Store?,
+data class CreateStoreRequest(val store: Store,
                               override val type: Request.Type = Request.Type.POST,
                               override val status: Int = 201) : Request<CreateStoreRequest> {
 
@@ -55,7 +56,7 @@ data class CreateStoreRequest(val store: Store?,
     }
 
     override fun validate() {
-        store?.validateStore()
+        store.validateStore()
     }
 }
 
@@ -97,7 +98,16 @@ private fun Store.validateStore() {
 
 @ExperimentalSerializationApi
 private fun Map<String, Store.OpeningHours>.validateHours() {
-    this.keys.forEach { DayOfWeek.valueOf(it) }
+
+    this.keys.forEach {
+        val dayOfWeek = it
+        runCatching {
+            DayOfWeek.valueOf(it)
+        }.getOrElse {
+            throw ResponseException.BadRequest(it.message ?: "Invalid value for DayOfWeek: $dayOfWeek")
+        }
+    }
+
     this.values.forEach { if (it.opening?.seconds ?: 0 > it.closing?.seconds ?: 0) throw IllegalArgumentException("Invalid opening hour: $it") }
 }
 

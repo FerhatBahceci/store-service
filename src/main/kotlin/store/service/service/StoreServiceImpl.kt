@@ -44,6 +44,5 @@ class StoreServiceImpl constructor(
             execute(request, gateway::updateStore, ::updatedStoreResponse)
 
     override suspend fun deleteStore(request: DeleteStoreByIdRequest): DeleteStoreResponse =
-            execute(request, gateway::deleteStore,::deletedStoreResponse)
-
+            execute(request, gateway::deleteStore, ::deletedStoreResponse)
 }

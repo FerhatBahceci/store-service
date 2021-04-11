@@ -14,9 +14,4 @@ class GrpcClient {
     fun storeServiceBlockingStub(@GrpcChannel(GrpcServerChannel.NAME) channel: ManagedChannel): StoreServiceGrpc.StoreServiceBlockingStub {
         return StoreServiceGrpc.newBlockingStub(channel)
     }
-
-    @Bean
-    fun storeServiceFutureStub(@GrpcChannel(GrpcServerChannel.NAME) channel: ManagedChannel): StoreServiceGrpc.StoreServiceFutureStub {
-        return StoreServiceGrpc.newFutureStub(channel)
-    }
 }

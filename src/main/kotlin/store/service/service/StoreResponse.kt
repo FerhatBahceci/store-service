@@ -10,39 +10,39 @@ class StoreResponse {
     companion object {
 
         @ExperimentalSerializationApi
-        fun getStoresResponse(stores: List<Store>? = null, status: Int, errorMessage: String = ""): GetStoresResponse =
+        fun getStoresResponse(stores: List<Store>? = null, response: Response): GetStoresResponse =
                 stores?.map { it.mapToProtoStore() }.let {
                     GetStoresResponse.newBuilder()
-                            .setResponse(createResponse(status, errorMessage))
+                            .setResponse(response)
                             .setStores(Stores.newBuilder().addAllStores(it).build())
                             .build()
                 }
 
         @ExperimentalSerializationApi
-        fun getStoreResponse(store: Store, status: Int, errorMessage: String = "") =
+        fun getStoreResponse(store: Store? = null, response: Response) =
                 GetStoreResponse.newBuilder()
-                        .setResponse(createResponse(status, errorMessage))
-                        .setStore(store.mapToProtoStore())
+                        .setResponse(response)
+                        .setStore(store?.mapToProtoStore())
                         .build()
 
         @ExperimentalSerializationApi
-        fun updatedStoreResponse(update: Store, status: Int, errorMessage: String = "") =
+        fun updatedStoreResponse(update: Store? = null, response: Response) =
                 UpdateStoreResponse.newBuilder()
-                        .setResponse(createResponse(status, errorMessage))
-                        .setUpdate(update.mapToProtoStore())
+                        .setResponse(response)
+                        .setUpdate(update?.mapToProtoStore())
                         .build()
 
-        fun createdStoreResponse(create: Unit, status: Int, errorMessage: String = "") =
+        fun createdStoreResponse(create: Unit? = null, response: Response) =
                 CreatedStoreResponse.newBuilder()
-                        .setResponse(createResponse(status, errorMessage))
+                        .setResponse(response)
                         .build()
 
-        fun deletedStoreResponse(create: Unit, status: Int, errorMessage: String = "") =
+        fun deletedStoreResponse(create: Unit? = null, response: Response) =
                 DeleteStoreResponse.newBuilder()
-                        .setResponse(createResponse(status, errorMessage))
+                        .setResponse(response)
                         .build()
 
-        fun createResponse(status: Int = 200, errorMessage: String) =
+        fun createResponse(status: Int = 200, errorMessage: String = "") =
                 Response.newBuilder()
                         .setStatus(status)
                         .setMessage(errorMessage)
