@@ -9,14 +9,14 @@ import utility.request.Request
 val LOGGER = LoggerFactory.getLogger("GrpcExecute")
 
 @ExperimentalSerializationApi
-suspend inline fun <T : MessageLite, reified U : Request<U>, R> execute(
-    request: T,
-    crossinline gatewayCallback: suspend (U) -> R,
-): R = runCatching {
+suspend inline fun <T : MessageLite, reified U : Request<U>, R, PR : MessageLite> execute(
+        request: T,
+        crossinline gatewayCallback: suspend (U) -> R,
+        protoResponseFactoryMethod: (R, Int) -> PR
+): PR = runCatching {
     val requestDecoded = ProtoBuf.decodeFromByteArray<U>(request.toByteArray())
-    requestDecoded.validate() //TODO move to init?
     val response = gatewayCallback.invoke(requestDecoded)
-    response
+    protoResponseFactoryMethod.invoke(response, requestDecoded.status)
 }.getOrElse {
     LOGGER.error(it.message)
     throw it

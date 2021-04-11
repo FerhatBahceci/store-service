@@ -25,7 +25,7 @@ class StoreGatewayImpl(@Inject private val mongoClient: MongoClient) : StoreGate
             collection.find(eq("name", request.name)).limit(1).awaitFirst()
 
     override suspend fun getStoreByType(request: GetStoreByTypeRequest): List<Store> =
-            collection.find(eq("type", request.type)).asFlow().toList()
+            collection.find(eq("type", request.storeType)).asFlow().toList()
 
     override suspend fun createStore(request: CreateStoreRequest) {
         collection.insertOne(request.store).awaitFirst()
@@ -38,7 +38,6 @@ class StoreGatewayImpl(@Inject private val mongoClient: MongoClient) : StoreGate
     override suspend fun updateStore(request: UpdateStoreRequest): Store =
             collection.replaceOne(eq("_id", request.id), request.store.copy(id = request.id)).awaitFirst()
                     .run {
-                        collection.find(eq("_id", request.store.id)).limit(1).awaitFirst()
+                        collection.find(eq("_id", request.id)).limit(1).awaitFirst()
                     }
-
 }
