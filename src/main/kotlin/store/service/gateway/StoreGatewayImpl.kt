@@ -23,7 +23,7 @@ class StoreGatewayImpl(@Inject private val mongoClient: MongoClient) : StoreGate
             collection.find().asFlow().toList()
 
     override suspend fun getStoreByType(request: GetStoreByTypeRequest): List<Store> =
-            collection.find(eq("type", request.storeType)).asFlow().toList()
+            collection.find(eq("type", request.storeType?.name)).asFlow().toList()
 
     override suspend fun createStore(request: CreateStoreRequest) {
         collection.insertOne(request.store).awaitFirstOrElse {

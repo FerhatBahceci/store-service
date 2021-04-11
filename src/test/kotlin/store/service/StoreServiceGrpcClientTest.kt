@@ -24,8 +24,21 @@ class StoreServiceGrpcClientTest(@Inject private val storeServiceBlockingStub: S
     fun createStoreTest() {
         val request = CreateStoreRequest.newBuilder().setStore(createProtoStore(storeName)).build()
         val response = storeServiceBlockingStub.createStore(request)
-        response.also { assert(it.response.status == 201) }
+        assert(response.response.status == 201)
     }
+
+    @Test
+    fun getStoreByTypeTest() {
+        createStoreTest()
+        createStoreTest()
+        val request = GetStoreByTypeRequest.newBuilder().setType(RequestType.GET).setStoreType(proto.store.service.Store.Type.GROCERIES).build()
+        val response = storeServiceBlockingStub.getStoreByType(request)
+        response.also {
+            assert(it.stores.storesCount >= 2)
+            assert(it.response.status == 200)
+        }
+    }
+
 
     @Test
     fun getStoreByNameTest() {
