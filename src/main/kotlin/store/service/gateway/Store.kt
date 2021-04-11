@@ -1,11 +1,12 @@
 package store.service.gateway
 
 import kotlinx.serialization.*
+import org.bson.codecs.pojo.annotations.BsonProperty
 import utility.proto.Timestamp
 
 @ExperimentalSerializationApi
 @Serializable
-data class Store(
+data class  Store(
     var coordinates: Coordinates? = null,
     var description: String? = null,
     var id: String? = null,

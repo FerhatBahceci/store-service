@@ -45,9 +45,9 @@ data class DeleteStoreByIdRequest(val id: String?, override val type: Request.Ty
 
 @ExperimentalSerializationApi
 @Serializable
-data class UpdateStoreRequest(val id: String?, val store: Store?, override val type: Request.Type = Request.Type.PUT) : Request<UpdateStoreRequest> {
+data class UpdateStoreRequest(val id: String?, val store: Store, override val type: Request.Type = Request.Type.PUT) : Request<UpdateStoreRequest> {
     override fun validate() {
-        store?.validateStore()
+        store.validateStore()
     }
 }
 

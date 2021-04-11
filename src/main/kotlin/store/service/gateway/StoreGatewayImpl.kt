@@ -32,9 +32,13 @@ class StoreGatewayImpl(@Inject private val mongoClient: MongoClient) : StoreGate
     }
 
     override suspend fun deleteStore(request: DeleteStoreByIdRequest) {
-        collection.deleteOne(eq("id", request.id)).awaitFirst()
+        collection.deleteOne(eq("_id", request.id)).awaitFirst()
     }
 
     override suspend fun updateStore(request: UpdateStoreRequest): Store =
-            collection.findOneAndReplace(eq("id"), request.store?.copy(id = request.id)).awaitFirst()
+            collection.replaceOne(eq("_id", request.id), request.store.copy(id = request.id)).awaitFirst()
+                    .run {
+                        collection.find(eq("_id", request.store.id)).limit(1).awaitFirst()
+                    }
+
 }

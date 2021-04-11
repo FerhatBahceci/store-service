@@ -48,7 +48,7 @@ class StoreServiceImpl constructor(
 
     override suspend fun updateStore(request: UpdateStoreRequest): UpdateStoreResponse =
             execute(request, gateway::updateStore).let {
-                UpdateStoreResponse.newBuilder().setResponse(createResponse(204)).build()
+                UpdateStoreResponse.newBuilder().setResponse(createResponse(204)).setUpdate(it.mapToProtoStore()).build()
             }
 
     override suspend fun deleteStore(request: DeleteStoreByIdRequest): DeleteStoreResponse =

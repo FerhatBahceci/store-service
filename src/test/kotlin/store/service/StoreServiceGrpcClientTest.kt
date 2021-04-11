@@ -1,5 +1,7 @@
 package store.service
 
+import io.grpc.StatusRuntimeException
+import io.kotlintest.shouldThrow
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.decodeFromByteArray
@@ -14,7 +16,7 @@ import javax.inject.Inject
 
 @ExperimentalSerializationApi
 @MicronautTest
-class StoreServiceGrpcTest(@Inject private val storeServiceBlockingStub: StoreServiceGrpc.StoreServiceBlockingStub) {
+class StoreServiceGrpcClientTest(@Inject private val storeServiceBlockingStub: StoreServiceGrpc.StoreServiceBlockingStub) {
 
     val storeName = "ICA"
 
@@ -51,21 +53,23 @@ class StoreServiceGrpcTest(@Inject private val storeServiceBlockingStub: StoreSe
     @Test
     fun deleteStoreByIdTest() {
         val storeId = createId()
+        val storeName = "DeleteMe"
         val createStoreRequest = CreateStoreRequest.newBuilder().setStore(createProtoStore(storeName, storeId)).build()
         storeServiceBlockingStub.createStore(createStoreRequest)
 
         val request = DeleteStoreByIdRequest.newBuilder().setId(storeId).build()
         val response = storeServiceBlockingStub.deleteStore(request)
 
-        response.also {
-            assert(it.response.status == 204)
+        assert(response.response.status == 204)
+
+        shouldThrow<StatusRuntimeException> {
+            storeServiceBlockingStub.getStoreByName(GetStoreByNameRequest.newBuilder().setName(storeName).build())
         }
     }
 
     @Test
     fun updateStoreByIdTest() {
         val storeId = createId()
-        val storeName = "IKEA"
         val store = createProtoStore(storeName, storeId)
         val createStoreRequest = CreateStoreRequest.newBuilder().setStore(store).build()
         storeServiceBlockingStub.createStore(createStoreRequest)
@@ -75,8 +79,6 @@ class StoreServiceGrpcTest(@Inject private val storeServiceBlockingStub: StoreSe
         val request = UpdateStoreRequest.newBuilder().setUpdate(updatedStore).setId(storeId).build()
         val response = storeServiceBlockingStub.updateStore(request)
 
-        response.also {
-            assert(it.update.name == newName)
-        }
+        assert(response.update.name == newName)
     }
 }

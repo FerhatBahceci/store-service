@@ -45,8 +45,11 @@ class StoreServiceImplTest : ShouldSpec({
             getStoreByType(GetStoreByTypeRequest(store.type))
         } returns listOf(store)
 
+        coEvery {
+            updateStore(UpdateStoreRequest(store.id, store))
+        } returns store
+
         coJustRun { deleteStore(DeleteStoreByIdRequest(store.id)) }
-        coJustRun { updateStore(UpdateStoreRequest(store.id, store)) }
         coJustRun { createStore(CreateStoreRequest(store)) }
     }
 
