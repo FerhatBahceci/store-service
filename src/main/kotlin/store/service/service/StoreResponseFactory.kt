@@ -5,7 +5,7 @@ import proto.store.service.*
 import store.service.gateway.Store
 import store.service.service.StoreMapper.Companion.mapToProtoStore
 
-class StoreResponse {
+class StoreResponseFactory {
 
     companion object {
 
@@ -42,13 +42,12 @@ class StoreResponse {
                         .setResponse(response)
                         .build()
 
-        fun createResponse(status: Int = 200, errorMessage: String = "") =
+        fun createResponse(status: Int = 200, errorMessage: String? = null) =
                 Response.newBuilder()
                         .setStatus(status)
                         .setMessage(errorMessage)
                         .build()
     }
-
 }
 
 

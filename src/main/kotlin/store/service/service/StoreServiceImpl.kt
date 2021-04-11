@@ -14,11 +14,11 @@ import utility.grpc.execute
 import proto.store.service.CreateStoreRequest
 import proto.store.service.GetStoreByTypeRequest
 import store.service.gateway.StoreGateway
-import store.service.service.StoreResponse.Companion.createdStoreResponse
-import store.service.service.StoreResponse.Companion.deletedStoreResponse
-import store.service.service.StoreResponse.Companion.getStoreResponse
-import store.service.service.StoreResponse.Companion.getStoresResponse
-import store.service.service.StoreResponse.Companion.updatedStoreResponse
+import store.service.service.StoreResponseFactory.Companion.createdStoreResponse
+import store.service.service.StoreResponseFactory.Companion.deletedStoreResponse
+import store.service.service.StoreResponseFactory.Companion.getStoreResponse
+import store.service.service.StoreResponseFactory.Companion.getStoresResponse
+import store.service.service.StoreResponseFactory.Companion.updatedStoreResponse
 
 @ExperimentalSerializationApi
 @GrpcService
