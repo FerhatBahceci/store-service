@@ -15,7 +15,7 @@ class MongoClientFactory {
 
     @ExperimentalSerializationApi
     @Bean
-    private fun mongoClient(): MongoClient =
+    fun mongoClient(): MongoClient =
             MongoClients.create(
                     MongoClientSettings.builder()
                             .codecRegistry(

@@ -6,13 +6,13 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.decodeFromByteArray
 import kotlinx.serialization.protobuf.ProtoBuf
 import store.service.DummyData.Companion.createStore
-import store.service.gateway.Store
+import store.service.model.Store
 import store.service.service.StoreMapper.Companion.mapToProtoStore
 
 @ExperimentalSerializationApi
 class StoreMapperUnitTest : ShouldSpec({
 
-    should("map store.service.gateway.Store to proto.store.service.Store") {
+    should("map store.service.model.Store to proto.store.service.Store") {
 
         val store = createStore("Ica")
 

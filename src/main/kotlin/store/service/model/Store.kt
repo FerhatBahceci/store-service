@@ -1,4 +1,4 @@
-package store.service.gateway
+package store.service.model
 
 import kotlinx.serialization.*
 import utility.proto.Timestamp
@@ -6,13 +6,13 @@ import utility.proto.Timestamp
 @ExperimentalSerializationApi
 @Serializable
 data class  Store(
-    var coordinates: Coordinates? = null,
-    var description: String? = null,
-    var id: String? = null,
-    var name: String? = null,
-    var hours: Map<String, OpeningHours>? = null,
-    var phoneNo: String? = null,
-    var type: Type? = null,
+        var coordinates: Coordinates? = null,
+        var description: String? = null,
+        var id: String? = null,
+        var name: String? = null,
+        var hours: Map<String, OpeningHours>? = null,
+        var phoneNo: String? = null,
+        var type: Type? = null,
 ) {
 
     @ExperimentalSerializationApi

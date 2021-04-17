@@ -1,6 +1,7 @@
 package store.service.gateway
 
 import kotlinx.serialization.ExperimentalSerializationApi
+import store.service.model.*
 
 @ExperimentalSerializationApi
 interface StoreGateway {
@@ -9,5 +10,5 @@ interface StoreGateway {
     suspend fun getStoreByType(request: GetStoreByTypeRequest): List<Store>
     suspend fun createStore(request: CreateStoreRequest)
     suspend fun deleteStore(request: DeleteStoreByIdRequest)
-    suspend fun updateStore(request: UpdateStoreRequest) : Store
+    suspend fun updateStore(request: UpdateStoreRequest): Store
 }

@@ -2,7 +2,7 @@ package store.service.service
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import proto.store.service.*
-import store.service.gateway.Store
+import store.service.model.Store
 import store.service.service.StoreMapper.Companion.mapToProtoStore
 
 class StoreResponseFactory {

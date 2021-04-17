@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Singleton
 import kotlinx.coroutines.reactive.*
+import store.service.model.*
 import utility.response.ResponseException
 import javax.inject.Inject
 

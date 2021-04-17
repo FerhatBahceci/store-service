@@ -10,10 +10,11 @@ import org.junit.jupiter.api.Test
 import proto.store.service.*
 import store.service.DummyData.Companion.createId
 import store.service.DummyData.Companion.createProtoStore
-import store.service.gateway.Store
+import store.service.model.Store
 import store.service.service.StoreMapper.Companion.mapToProtoStore
 import javax.inject.Inject
 
+//TODO should be refactored into a single BDD test
 @ExperimentalSerializationApi
 @MicronautTest
 class StoreServiceGrpcClientTest(@Inject private val storeServiceBlockingStub: StoreServiceGrpc.StoreServiceBlockingStub) {

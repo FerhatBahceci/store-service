@@ -9,7 +9,7 @@ class StoreMapper {
 
     companion object {
 
-        fun store.service.gateway.Store.mapToProtoStore() =
+        fun store.service.model.Store.mapToProtoStore() =
                 Store.newBuilder()
                         .setCoordinates(coordinates?.mapToProtoCoordinates())
                         .setDescription(description)
@@ -20,19 +20,19 @@ class StoreMapper {
                         .setType(type?.mapToProtoStoreType())
                         .build()
 
-        private fun store.service.gateway.Store.Coordinates.mapToProtoCoordinates() =
+        private fun store.service.model.Store.Coordinates.mapToProtoCoordinates() =
                 Store.Coordinates.newBuilder()
                         .setLatitude(latitude ?: 0)
                         .setLongitude(longitude ?: 0)
                         .build()
 
-        private fun store.service.gateway.Store.Type.mapToProtoStoreType() =
+        private fun store.service.model.Store.Type.mapToProtoStoreType() =
                 Store.Type.forNumber(this.ordinal)
 
-        private fun Map<String, store.service.gateway.Store.OpeningHours>.mapToProtoHours() =
+        private fun Map<String, store.service.model.Store.OpeningHours>.mapToProtoHours() =
                 map { it.key to it.value.mapToProtoOpeningHours() }.toMap()
 
-        private fun store.service.gateway.Store.OpeningHours.mapToProtoOpeningHours() =
+        private fun store.service.model.Store.OpeningHours.mapToProtoOpeningHours() =
                 Store.OpeningHours.newBuilder()
                         .setOpening(this.opening?.mapToTimestamp())
                         .setClosing(this.closing?.mapToTimestamp())
