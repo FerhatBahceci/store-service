@@ -28,7 +28,7 @@ suspend inline fun <T : MessageLite, reified U : Request<U>, R, PR : MessageLite
 }
 
 inline fun <U : Request<U>, R, PR : MessageLite> R.toSuccessFulResponse(request: U, responseFactory: (R?, Response) -> PR) =
-        responseFactory.invoke(this, createResponse(request.status))
+        responseFactory.invoke(this, createResponse(request.expectedStatus))
 
 inline fun <R, PR> Throwable.toFailureResponse(protoResponseFactoryMethod: (R?, Response) -> PR): PR =
         when (this) {
@@ -40,6 +40,7 @@ inline fun <R, PR> Throwable.toFailureResponse(protoResponseFactoryMethod: (R?, 
 
 inline fun <R, PR> createEvaluatedResponse(protoResponseFactoryMethod: (R?, Response) -> PR, status: Int, message: String) =
         protoResponseFactoryMethod.invoke(null, createResponse(status, message))
+//TODO add logging!
 
 @ExperimentalSerializationApi
 inline fun <T : MessageLite, reified U : Request<U>> decodeProtoRequest(protoRequest: T): U =

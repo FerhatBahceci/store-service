@@ -10,7 +10,7 @@ import utility.request.Request
 @Serializable
 data class CreateStoreRequest(val store: Store,
                               override val type: Request.Type = Request.Type.POST,
-                              override val status: Int = 201) : Request<CreateStoreRequest> {
+                              override val expectedStatus: Int = 201) : Request<CreateStoreRequest> {
 
     init {
         validate()

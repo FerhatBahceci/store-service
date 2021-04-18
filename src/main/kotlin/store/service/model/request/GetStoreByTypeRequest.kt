@@ -9,7 +9,7 @@ import utility.request.Request
 @Serializable
 data class GetStoreByTypeRequest(val storeType: Store.Type?,
                                  override val type: Request.Type = Request.Type.GET,
-                                 override val status: Int = 200) : Request<GetStoreByTypeRequest> {
+                                 override val expectedStatus: Int = 200) : Request<GetStoreByTypeRequest> {
     init {
         validate()
     }
