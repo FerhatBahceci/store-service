@@ -1,6 +1,7 @@
 package utility.grpc
 
 import com.google.protobuf.MessageLite
+import io.micronaut.http.HttpStatus
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.decodeFromByteArray
 import kotlinx.serialization.protobuf.ProtoBuf
@@ -21,7 +22,6 @@ suspend inline fun <T : MessageLite, reified U : Request<U>, R, PR : MessageLite
     val requestDecoded = decodeProtoRequest<T, U>(request)
     val response = executeCall(requestDecoded, callback)
     response.toSuccessFulResponse(requestDecoded, responseFactory)
-
 }.getOrElse {
     LOGGER.error(it.message) // TODO move logging into failureResponse
     it.toFailureResponse(responseFactory)
@@ -32,10 +32,14 @@ inline fun <U : Request<U>, R, PR : MessageLite> R.toSuccessFulResponse(request:
 
 inline fun <R, PR> Throwable.toFailureResponse(protoResponseFactoryMethod: (R?, Response) -> PR): PR =
         when (this) {
-            is ResponseException.BadRequest -> protoResponseFactoryMethod.invoke(null, createResponse(400, this.message))
-            is ResponseException.NotFound -> protoResponseFactoryMethod.invoke(null, createResponse(404, this.message))
-            else -> protoResponseFactoryMethod.invoke(null, createResponse(500, this.message))
+            is ResponseException.BadRequest -> createEvaluatedResponse(protoResponseFactoryMethod, HttpStatus.BAD_REQUEST.code, this.message)
+            is ResponseException.NotFound -> createEvaluatedResponse(protoResponseFactoryMethod, HttpStatus.NOT_FOUND.code, this.message)
+            else -> createEvaluatedResponse(protoResponseFactoryMethod, HttpStatus.INTERNAL_SERVER_ERROR.code, this.message
+                    ?: HttpStatus.INTERNAL_SERVER_ERROR.reason)
         }
+
+inline fun <R, PR> createEvaluatedResponse(protoResponseFactoryMethod: (R?, Response) -> PR, status: Int, message: String) =
+        protoResponseFactoryMethod.invoke(null, createResponse(status, message))
 
 @ExperimentalSerializationApi
 inline fun <T : MessageLite, reified U : Request<U>> decodeProtoRequest(protoRequest: T): U =
