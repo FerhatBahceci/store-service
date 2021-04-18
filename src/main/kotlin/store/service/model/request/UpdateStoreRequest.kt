@@ -11,7 +11,6 @@ data class UpdateStoreRequest(val id: String?,
                               val store: Store,
                               override val type: Request.Type = Request.Type.PUT,
                               override val expectedStatus: Int = 204) : Request<UpdateStoreRequest> {
-
     init {
         validate()
     }

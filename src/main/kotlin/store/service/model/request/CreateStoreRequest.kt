@@ -11,7 +11,6 @@ import utility.request.Request
 data class CreateStoreRequest(val store: Store,
                               override val type: Request.Type = Request.Type.POST,
                               override val expectedStatus: Int = 201) : Request<CreateStoreRequest> {
-
     init {
         validate()
     }

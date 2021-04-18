@@ -7,7 +7,6 @@ import utility.request.Request
 data class DeleteStoreByIdRequest(val id: String?,
                                   override val type: Request.Type = Request.Type.DELETE,
                                   override val expectedStatus: Int = 204) : Request<DeleteStoreByIdRequest> {
-
     init {
         validate()
     }
