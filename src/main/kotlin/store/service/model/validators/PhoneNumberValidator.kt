@@ -1,4 +1,4 @@
-package store.service.model.request.validators
+package store.service.model.validators
 
 import java.util.regex.Pattern
 

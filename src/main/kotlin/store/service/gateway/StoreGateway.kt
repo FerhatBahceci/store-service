@@ -1,7 +1,8 @@
 package store.service.gateway
 
 import kotlinx.serialization.ExperimentalSerializationApi
-import store.service.model.*
+import store.service.model.request.*
+import store.service.model.Store
 
 @ExperimentalSerializationApi
 interface StoreGateway {

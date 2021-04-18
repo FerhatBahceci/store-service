@@ -1,4 +1,4 @@
-package store.service.model
+package store.service.model.request
 
 import kotlinx.serialization.Serializable
 import utility.request.Request

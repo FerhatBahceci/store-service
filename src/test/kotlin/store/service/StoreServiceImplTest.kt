@@ -12,15 +12,15 @@ import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.serialization.decodeFromByteArray
 import kotlinx.serialization.protobuf.ProtoBuf
 import proto.store.service.*
-import store.service.model.GetStoreByTypeRequest
+import store.service.model.request.GetStoreByTypeRequest
 import store.service.model.Store
 import store.service.gateway.StoreGateway
 import store.service.service.StoreServiceImpl
-import store.service.model.CreateStoreRequest
-import store.service.model.GetStoreByNameRequest
-import store.service.model.GetAllStoresRequest
-import store.service.model.DeleteStoreByIdRequest
-import store.service.model.UpdateStoreRequest
+import store.service.model.request.CreateStoreRequest
+import store.service.model.request.GetStoreByNameRequest
+import store.service.model.request.GetAllStoresRequest
+import store.service.model.request.DeleteStoreByIdRequest
+import store.service.model.request.UpdateStoreRequest
 import store.service.service.StoreMapper.Companion.mapToProtoStore
 import utility.request.Request
 

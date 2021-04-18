@@ -1,7 +1,9 @@
-package store.service.model
+package store.service.model.request
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
+import store.service.model.Store
+import store.service.model.validators.StoreValidator.Companion.validateStore
 import utility.request.Request
 
 @ExperimentalSerializationApi

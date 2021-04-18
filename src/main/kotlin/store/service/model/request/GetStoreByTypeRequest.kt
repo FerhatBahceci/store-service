@@ -1,8 +1,8 @@
-package store.service.model
+package store.service.model.request
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
-import store.service.model.request.validators.OpeningHoursValidator.Companion.validateHours
+import store.service.model.Store
 import utility.request.Request
 
 @ExperimentalSerializationApi
