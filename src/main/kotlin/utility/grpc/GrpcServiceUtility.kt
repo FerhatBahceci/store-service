@@ -21,24 +21,24 @@ suspend inline fun <T : MessageLite, reified U : Request<U>, R, PR : MessageLite
 ): PR = runCatching {
     val requestDecoded = decodeProtoRequest<T, U>(request)
     val response = executeCall(requestDecoded, callback)
-    response.toSuccessFulResponse(requestDecoded, responseFactory)
+    response.toSuccessfulResponse(requestDecoded, responseFactory)
 }.getOrElse {
     LOGGER.error(it.message) // TODO move logging into failureResponse
     it.toFailureResponse(responseFactory)
 }
 
-inline fun <U : Request<U>, R, PR : MessageLite> R.toSuccessFulResponse(request: U, responseFactory: (R?, Response) -> PR) =
+inline fun <U : Request<U>, R, PR : MessageLite> R.toSuccessfulResponse(request: U, responseFactory: (R?, Response) -> PR) =
         responseFactory.invoke(this, createResponse(request.expectedStatus))
 
 inline fun <R, PR> Throwable.toFailureResponse(protoResponseFactoryMethod: (R?, Response) -> PR): PR =
         when (this) {
-            is ResponseException.BadRequest -> createEvaluatedResponse(protoResponseFactoryMethod, HttpStatus.BAD_REQUEST.code, this.message)
-            is ResponseException.NotFound -> createEvaluatedResponse(protoResponseFactoryMethod, HttpStatus.NOT_FOUND.code, this.message)
-            else -> createEvaluatedResponse(protoResponseFactoryMethod, HttpStatus.INTERNAL_SERVER_ERROR.code, this.message
+            is ResponseException.BadRequest -> createFailureResponse(protoResponseFactoryMethod, HttpStatus.BAD_REQUEST.code, this.message)
+            is ResponseException.NotFound -> createFailureResponse(protoResponseFactoryMethod, HttpStatus.NOT_FOUND.code, this.message)
+            else -> createFailureResponse(protoResponseFactoryMethod, HttpStatus.INTERNAL_SERVER_ERROR.code, this.message
                     ?: HttpStatus.INTERNAL_SERVER_ERROR.reason)
         }
 
-inline fun <R, PR> createEvaluatedResponse(protoResponseFactoryMethod: (R?, Response) -> PR, status: Int, message: String) =
+inline fun <R, PR> createFailureResponse(protoResponseFactoryMethod: (R?, Response) -> PR, status: Int, message: String) =
         protoResponseFactoryMethod.invoke(null, createResponse(status, message))
 //TODO add logging!
 
