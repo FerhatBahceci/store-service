@@ -4,7 +4,6 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import proto.store.service.*
 import store.service.Store
 
-
 @ExperimentalSerializationApi
 fun getStoresResponse(stores: List<Store>? = null, response: Response): GetStoresResponse =
         stores?.map { it.mapToProtoStore() }.let {
