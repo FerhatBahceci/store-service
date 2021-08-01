@@ -14,11 +14,6 @@ import utility.grpc.execute
 import proto.store.service.CreateStoreRequest
 import proto.store.service.GetStoreByTypeRequest
 import store.service.gateway.StoreGateway
-import store.service.service.StoreResponseFactory.Companion.createdStoreResponse
-import store.service.service.StoreResponseFactory.Companion.deletedStoreResponse
-import store.service.service.StoreResponseFactory.Companion.getStoreResponse
-import store.service.service.StoreResponseFactory.Companion.getStoresResponse
-import store.service.service.StoreResponseFactory.Companion.updatedStoreResponse
 
 @ExperimentalSerializationApi
 @GrpcService
@@ -28,20 +23,38 @@ class StoreServiceImpl constructor(
 ) : StoreServiceGrpcKt.StoreServiceCoroutineImplBase(), CoroutineScope {
 
     override suspend fun getAllStores(request: GetAllStoresRequest): GetStoresResponse =
-            execute(request, gateway::getAllStores, ::getStoresResponse)
+            execute(request, ::getAllStores, ::getStoresResponse)
 
     override suspend fun getStoreByType(request: GetStoreByTypeRequest): GetStoresResponse =
-            execute(request, gateway::getStoreByType, ::getStoresResponse)
+            execute(request, ::getStoreByType, ::getStoresResponse)
 
     override suspend fun getStoreByName(request: GetStoreByNameRequest): GetStoreResponse =
-            execute(request, gateway::getStoreByName, ::getStoreResponse)
+            execute(request, ::getStoreByName, ::getStoreResponse)
 
     override suspend fun createStore(request: CreateStoreRequest): CreatedStoreResponse =
-            execute(request, gateway::createStore, ::createdStoreResponse)
+            execute(request, ::createStore, ::createdStoreResponse)
 
     override suspend fun updateStore(request: UpdateStoreRequest): UpdateStoreResponse =
-            execute(request, gateway::updateStore, ::updatedStoreResponse)
+            execute(request, ::updateStore, ::updatedStoreResponse)
 
     override suspend fun deleteStore(request: DeleteStoreByIdRequest): DeleteStoreResponse =
-            execute(request, gateway::deleteStore, ::deletedStoreResponse)
+            execute(request, ::deleteStore, ::deletedStoreResponse)
+
+    private suspend fun getAllStores(request: store.service.service.GetAllStoresRequest) =
+            gateway.getAllStores()
+
+    private suspend fun getStoreByName(request: store.service.service.GetStoreByNameRequest) =
+            gateway.getStoreByName(request.name)
+
+    private suspend fun getStoreByType(request: store.service.service.GetStoreByTypeRequest) =
+            gateway.getStoreByType(request.storeType)
+
+    private suspend fun createStore(request: store.service.service.CreateStoreRequest) =
+            gateway.createStore(request.store)
+
+    private suspend fun deleteStore(request: store.service.service.DeleteStoreByIdRequest) =
+            gateway.deleteStore(request.id)
+
+    private suspend fun updateStore(request: store.service.service.UpdateStoreRequest) =
+            gateway.updateStore(request.store, request.id)
 }

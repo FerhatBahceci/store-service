@@ -5,13 +5,9 @@ import io.micronaut.http.HttpStatus
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.decodeFromByteArray
 import kotlinx.serialization.protobuf.ProtoBuf
-import org.slf4j.LoggerFactory
 import proto.store.service.Response
-import store.service.service.StoreResponseFactory.Companion.createResponse
 import utility.request.Request
 import utility.response.ResponseException
-
-val LOGGER = LoggerFactory.getLogger("GrpcExecute")
 
 @ExperimentalSerializationApi
 suspend inline fun <T : MessageLite, reified U : Request<U>, R, PR : MessageLite> execute(
@@ -23,7 +19,6 @@ suspend inline fun <T : MessageLite, reified U : Request<U>, R, PR : MessageLite
     val response = executeCall(requestDecoded, callback)
     response.toSuccessfulResponse(requestDecoded, responseFactory)
 }.getOrElse {
-    LOGGER.error(it.message) // TODO move logging into failureResponse
     it.toFailureResponse(responseFactory)
 }
 
@@ -48,3 +43,9 @@ inline fun <T : MessageLite, reified U : Request<U>> decodeProtoRequest(protoReq
 
 suspend inline fun <reified U : Request<U>, R> executeCall(request: U, crossinline callback: suspend (U) -> R) =
         callback.invoke(request)
+
+fun createResponse(status: Int = 200, errorMessage: String? = ""): Response =
+        Response.newBuilder()
+                .setStatus(status)
+                .setMessage(errorMessage)
+                .build()

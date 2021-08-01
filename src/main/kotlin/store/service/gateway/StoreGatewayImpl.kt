@@ -7,8 +7,7 @@ import kotlinx.coroutines.flow.toList
 import kotlinx.serialization.ExperimentalSerializationApi
 import javax.inject.Singleton
 import kotlinx.coroutines.reactive.*
-import store.service.model.request.*
-import store.service.model.Store
+import store.service.Store
 import utility.response.ResponseException
 import javax.inject.Inject
 
@@ -21,36 +20,36 @@ class StoreGatewayImpl(@Inject private val mongoClient: MongoClient) : StoreGate
                     .getDatabase("store-db")
                     .getCollection("store", Store::class.java)
 
-    override suspend fun getAllStores(request: GetAllStoresRequest): List<Store> =
+    override suspend fun getAllStores(): List<Store> =
             collection.find().asFlow().toList()
 
-    override suspend fun getStoreByType(request: GetStoreByTypeRequest): List<Store> =
-            collection.find(eq("type", request.storeType?.name)).asFlow().toList()
+    override suspend fun getStoreByType(type: Store.Type): List<Store> =
+            collection.find(eq("type", type.name)).asFlow().toList()
 
-    override suspend fun createStore(request: CreateStoreRequest) {
-        collection.insertOne(request.store).awaitFirstOrElse {
-            throw ResponseException.InternalError("Could not CREATE store: ${request.store.name} ")
+    override suspend fun createStore(store: Store) {
+        collection.insertOne(store).awaitFirstOrElse {
+            throw ResponseException.InternalError("Could not CREATE store: ${store.name} ")
         }
     }
 
-    override suspend fun getStoreByName(request: GetStoreByNameRequest): Store =
-            collection.find(eq("name", request.name)).limit(1)
+    override suspend fun getStoreByName(name: String): Store =
+            collection.find(eq("name", name)).limit(1)
                     .awaitFirstOrElse {
-                        throw ResponseException.NotFound("Could not GET store by name: ${request.name}")
+                        throw ResponseException.NotFound("Could not GET store by name: ${name}")
                     }
 
-    override suspend fun deleteStore(request: DeleteStoreByIdRequest) {
-        collection.deleteOne(eq("_id", request.id)).awaitFirstOrElse {
-            throw ResponseException.InternalError("Could not DELETE store by id: ${request.id} ")
+    override suspend fun deleteStore(id: String) {
+        collection.deleteOne(eq("_id", id)).awaitFirstOrElse {
+            throw ResponseException.InternalError("Could not DELETE store by id: ${id} ")
         }
     }
 
-    override suspend fun updateStore(request: UpdateStoreRequest): Store =
-            collection.replaceOne(eq("_id", request.id), request.store.copy(id = request.id)).awaitFirst()
+    override suspend fun updateStore(store: Store, id: String): Store =
+            collection.replaceOne(eq("_id", id), store.copy(id = id)).awaitFirst()
                     .run {
                         if (!this.wasAcknowledged()) {
-                            throw ResponseException.InternalError("Could not UPDATE store by id: ${request.id} ")
+                            throw ResponseException.InternalError("Could not UPDATE store by id: ${id} ")
                         }
-                        collection.find(eq("_id", request.id)).limit(1).awaitFirst()
+                        collection.find(eq("_id", id)).limit(1).awaitFirst()
                     }
 }

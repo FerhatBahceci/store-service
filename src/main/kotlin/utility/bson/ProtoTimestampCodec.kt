@@ -15,7 +15,7 @@ import java.time.LocalTime
 @ExperimentalSerializationApi
 class ProtoTimestampCodec : Codec<Timestamp> {
 
-    val formatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT).withZone(ZoneId.systemDefault())
+    private val formatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT).withZone(ZoneId.systemDefault())
 
     override fun encode(writer: BsonWriter, value: Timestamp, encoderContext: EncoderContext) {
         writer.writeString(

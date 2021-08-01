@@ -6,8 +6,7 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.decodeFromByteArray
 import kotlinx.serialization.protobuf.ProtoBuf
 import store.service.DummyData.Companion.createStore
-import store.service.model.Store
-import store.service.service.StoreMapper.Companion.mapToProtoStore
+import store.service.service.mapToProtoStore
 
 @ExperimentalSerializationApi
 class StoreMapperUnitTest : ShouldSpec({

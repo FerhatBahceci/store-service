@@ -1,4 +1,4 @@
-package store.service.model
+package store.service
 
 import kotlinx.serialization.*
 import utility.proto.Timestamp

@@ -21,17 +21,17 @@ class DummyData {
         fun createStore(
                 name: String,
                 id: String = createId(),
-                type: store.service.model.Store.Type = store.service.model.Store.Type.GROCERIES
+                type: store.service.Store.Type = store.service.Store.Type.GROCERIES
         ) =
-                store.service.model.Store(
+                store.service.Store(
                         description = DESCRIPTION,
                         id = id,
                         type = type,
                         name = name,
                         phoneNo = PHONE_NO,
-                        coordinates = store.service.model.Store.Coordinates(latitude = LATITUDE, longitude = LONGITUDE),
+                        coordinates = store.service.Store.Coordinates(latitude = LATITUDE, longitude = LONGITUDE),
                         hours = mapOf(
-                                DAY_OF_WEEK to store.service.model.Store.OpeningHours(
+                                DAY_OF_WEEK to store.service.Store.OpeningHours(
                                         opening = utility.proto.Timestamp(nanos = NANOS, seconds = OPENING_SECONDS),
                                         closing = utility.proto.Timestamp(nanos = NANOS, seconds = CLOSING_SECONDS)
                                 )

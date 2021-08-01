@@ -12,17 +12,9 @@ import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.serialization.decodeFromByteArray
 import kotlinx.serialization.protobuf.ProtoBuf
 import proto.store.service.*
-import store.service.model.request.GetStoreByTypeRequest
-import store.service.model.Store
 import store.service.gateway.StoreGateway
 import store.service.service.StoreServiceImpl
-import store.service.model.request.CreateStoreRequest
-import store.service.model.request.GetStoreByNameRequest
-import store.service.model.request.GetAllStoresRequest
-import store.service.model.request.DeleteStoreByIdRequest
-import store.service.model.request.UpdateStoreRequest
-import store.service.service.StoreMapper.Companion.mapToProtoStore
-import utility.request.Request
+import store.service.service.mapToProtoStore
 
 @ObsoleteCoroutinesApi
 @ExperimentalSerializationApi
@@ -34,23 +26,23 @@ class StoreServiceImplTest : ShouldSpec({
     val storeGateway = mockk<StoreGateway> {
 
         coEvery {
-            getAllStores(GetAllStoresRequest(Request.Type.GET))
+            getAllStores()
         } returns listOf(store, store)
 
         coEvery {
-            getStoreByName(GetStoreByNameRequest(store.name))
+            getStoreByName(store.name!!)
         } returns store
 
         coEvery {
-            getStoreByType(GetStoreByTypeRequest(store.type))
+            getStoreByType(store.type!!)
         } returns listOf(store)
 
         coEvery {
-            updateStore(UpdateStoreRequest(store.id, store))
+            updateStore(store, store.id!!)
         } returns store
 
-        coJustRun { deleteStore(DeleteStoreByIdRequest(store.id)) }
-        coJustRun { createStore(CreateStoreRequest(store)) }
+        coJustRun { deleteStore(store.id!!) }
+        coJustRun { createStore(store) }
     }
 
     val storeService = StoreServiceImpl(gateway = storeGateway, coroutineContext = newSingleThreadContext("gprc-test"))

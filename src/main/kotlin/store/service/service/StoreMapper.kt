@@ -1,45 +1,46 @@
 package store.service.service
 
-import com.google.protobuf.Timestamp
 import kotlinx.serialization.ExperimentalSerializationApi
 import proto.store.service.Store
+import com.google.protobuf.Timestamp
 
 @ExperimentalSerializationApi
-class StoreMapper {
+fun store.service.Store.mapToProtoStore() =
+        Store.newBuilder()
+                .setCoordinates(coordinates?.mapToProtoCoordinates())
+                .setDescription(description)
+                .setId(id)
+                .setName(name)
+                .setPhoneNo(phoneNo)
+                .putAllHours(hours?.mapToProtoHours())
+                .setType(type?.mapToProtoStoreType())
+                .build()
 
-    companion object {
+@ExperimentalSerializationApi
+private fun store.service.Store.Coordinates.mapToProtoCoordinates() =
+        Store.Coordinates.newBuilder()
+                .setLatitude(latitude ?: 0)
+                .setLongitude(longitude ?: 0)
+                .build()
 
-        fun store.service.model.Store.mapToProtoStore() =
-                Store.newBuilder()
-                        .setCoordinates(coordinates?.mapToProtoCoordinates())
-                        .setDescription(description)
-                        .setId(id)
-                        .setName(name)
-                        .setPhoneNo(phoneNo)
-                        .putAllHours(hours?.mapToProtoHours())
-                        .setType(type?.mapToProtoStoreType())
-                        .build()
+@ExperimentalSerializationApi
+private fun store.service.Store.Type.mapToProtoStoreType() =
+        Store.Type.forNumber(this.ordinal)
 
-        private fun store.service.model.Store.Coordinates.mapToProtoCoordinates() =
-                Store.Coordinates.newBuilder()
-                        .setLatitude(latitude ?: 0)
-                        .setLongitude(longitude ?: 0)
-                        .build()
+@ExperimentalSerializationApi
+private fun Map<String, store.service.Store.OpeningHours>.mapToProtoHours() =
+        map { it.key to it.value.mapToProtoOpeningHours() }.toMap()
 
-        private fun store.service.model.Store.Type.mapToProtoStoreType() =
-                Store.Type.forNumber(this.ordinal)
+@ExperimentalSerializationApi
+private fun store.service.Store.OpeningHours.mapToProtoOpeningHours() =
+        Store.OpeningHours.newBuilder()
+                .setOpening(this.opening?.mapToTimestamp())
+                .setClosing(this.closing?.mapToTimestamp())
+                .build()
 
-        private fun Map<String, store.service.model.Store.OpeningHours>.mapToProtoHours() =
-                map { it.key to it.value.mapToProtoOpeningHours() }.toMap()
-
-        private fun store.service.model.Store.OpeningHours.mapToProtoOpeningHours() =
-                Store.OpeningHours.newBuilder()
-                        .setOpening(this.opening?.mapToTimestamp())
-                        .setClosing(this.closing?.mapToTimestamp())
-                        .build()
-
-        private fun utility.proto.Timestamp.mapToTimestamp() =
-                Timestamp.newBuilder().setSeconds(this.seconds ?: 0).setNanos(this.nanos ?: 0).build()
-
-    }
-}
+@ExperimentalSerializationApi
+private fun utility.proto.Timestamp.mapToTimestamp() =
+        Timestamp.newBuilder()
+                .setSeconds(this.seconds ?: 0)
+                .setNanos(this.nanos ?: 0)
+                .build()
