@@ -48,7 +48,7 @@ class StoreServiceImplTest : ShouldSpec({
     val storeService = StoreServiceImpl(gateway = storeGateway, coroutineContext = newSingleThreadContext("gprc-test"))
 
     should("GET all stores") {
-        val getAllStoresRequest = proto.store.service.GetAllStoresRequest
+        val getAllStoresRequest = GetAllStoresRequest
                 .newBuilder()
                 .setType(RequestType.GET)
                 .build()
@@ -60,7 +60,7 @@ class StoreServiceImplTest : ShouldSpec({
     }
 
     should("GET a store by name") {
-        val getStoreByNameRequest = proto.store.service.GetStoreByNameRequest.newBuilder()
+        val getStoreByNameRequest = GetStoreByNameRequest.newBuilder()
                 .setName(store.name)
                 .setType(RequestType.GET)
                 .build()
@@ -69,7 +69,7 @@ class StoreServiceImplTest : ShouldSpec({
     }
 
     should("GET all stores by type") {
-        val getStoreByTypeRequest = proto.store.service.GetStoreByTypeRequest.newBuilder()
+        val getStoreByTypeRequest = GetStoreByTypeRequest.newBuilder()
                 .setStoreType(proto.store.service.Store.Type.valueOf(store.type?.name ?: Store.Type.UNKNOWN.name))
                 .setType(RequestType.GET)
                 .build()
@@ -81,7 +81,7 @@ class StoreServiceImplTest : ShouldSpec({
     }
 
     should("CREATE a store") {
-        val createRequest = proto.store.service.CreateStoreRequest
+        val createRequest = CreateStoreRequest
                 .newBuilder()
                 .setStore(store.mapToProtoStore())
                 .setType(RequestType.POST)
@@ -100,7 +100,7 @@ class StoreServiceImplTest : ShouldSpec({
     }
 
     should("UPDATE a store by id") {
-        val updateStoreByIdRequest = proto.store.service.UpdateStoreRequest
+        val updateStoreByIdRequest = UpdateStoreRequest
                 .newBuilder()
                 .setUpdate(store.mapToProtoStore())
                 .setId(store.id)

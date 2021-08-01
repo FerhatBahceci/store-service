@@ -99,6 +99,8 @@ tasks {
     }
 }
 
+
+//TODO fix all dependencies for enabling JPMS.
 /*
 val moduleName by extra("org.test.modularLib")
 

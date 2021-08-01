@@ -23,7 +23,7 @@ class DummyData {
                 id: String = createId(),
                 type: store.service.Store.Type = store.service.Store.Type.GROCERIES
         ) =
-                store.service.Store(
+                Store(
                         description = DESCRIPTION,
                         id = id,
                         type = type,
@@ -39,7 +39,7 @@ class DummyData {
                 )
 
         @ExperimentalSerializationApi
-        fun createProtoStore(name: String, id: String = createId(), type: Store.Type = Store.Type.GROCERIES) =
+        fun createProtoStore(name: String, id: String = createId(), type: Store.Type = Store.Type.GROCERIES): Store =
                 Store.newBuilder()
                         .putHours(
                                 DAY_OF_WEEK,
