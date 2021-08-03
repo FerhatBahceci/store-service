@@ -44,7 +44,7 @@ inline fun <T : MessageLite, reified U : Request<U>> decodeProtoRequest(protoReq
 suspend inline fun <reified U : Request<U>, R> executeCall(request: U, crossinline callback: suspend (U) -> R) =
         callback.invoke(request)
 
-fun createResponse(status: Int = 200, errorMessage: String? = ""): Response =
+fun createResponse(status: Int = HttpStatus.OK.code, errorMessage: String? = ""): Response =
         Response.newBuilder()
                 .setStatus(status)
                 .setMessage(errorMessage)

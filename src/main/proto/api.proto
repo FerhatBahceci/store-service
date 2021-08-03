@@ -3,6 +3,7 @@ package proto.store.service;
 
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/wrappers.proto";
+import "google/api/annotations.proto";
 
 option java_multiple_files = true;
 option java_package = "proto.store.service";
@@ -10,21 +11,39 @@ option java_package = "proto.store.service";
 service StoreService {
 
     rpc GetStoreByType (GetStoreByTypeRequest) returns (GetStoresResponse) {
+        option (google.api.http) = {
+            get: "/store/type/*}"
+        };
     }
 
     rpc GetAllStores (GetAllStoresRequest) returns (GetStoresResponse) {
+        option (google.api.http) = {
+            get: "/store}"
+        };
     }
 
     rpc CreateStore (CreateStoreRequest) returns (CreatedStoreResponse) {
+        option (google.api.http) = {
+            post: "/store/*}"
+        };
     }
 
     rpc GetStoreByName (GetStoreByNameRequest) returns (GetStoreResponse) {
+        option (google.api.http) = {
+            get: "/store/name/*}"
+        };
     }
 
     rpc UpdateStore (UpdateStoreRequest) returns (UpdateStoreResponse) {
+        option (google.api.http) = {
+            put: "/store/*}"
+        };
     }
 
     rpc DeleteStore (DeleteStoreByIdRequest) returns (DeleteStoreResponse) {
+        option (google.api.http) = {
+            put: "/store/*}"
+        };
     }
 }
 
