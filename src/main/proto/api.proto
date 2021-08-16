@@ -42,7 +42,7 @@ service StoreService {
 
     rpc DeleteStore (DeleteStoreByIdRequest) returns (DeleteStoreResponse) {
         option (google.api.http) = {
-            put: "/store/*}"
+            delete: "/store/*}"
         };
     }
 }
