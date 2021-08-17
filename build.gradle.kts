@@ -6,7 +6,6 @@ version = "0.0.1-SNAPSHOT"
 
 repositories {
     mavenCentral()
-    jcenter()
 }
 
 plugins {
@@ -89,6 +88,20 @@ dependencies {
 }
 
 tasks {
+/*
+    val moduleName by extra("store.service")
+*/
+
+/*    compileJava {
+        inputs.property("moduleName", moduleName)
+        doFirst {
+            options.compilerArgs = listOf(
+                    "--module-path", classpath.asPath,
+                    "--patch-module", "$moduleName=${sourceSets["main"].output.asPath}"
+            )
+            classpath = files()
+        }
+    }*/
 
     withType<KotlinCompile> {
         kotlinOptions.jvmTarget = "11"
@@ -100,23 +113,6 @@ tasks {
 }
 
 
-//TODO fix all dependencies for enabling JPMS.
-/*
-val moduleName by extra("org.test.modularLib")
-
-tasks {
-    "compileJava"(JavaCompile::class) {
-        inputs.property("moduleName", moduleName)
-        doFirst {
-            options.compilerArgs = listOf(
-                    "--module-path", classpath.asPath,
-                    "--patch-module", "$moduleName=${sourceSets["main"].output.asPath}"
-            )
-            classpath = files()
-        }
-    }
-}
-*/
 
 protobuf {
     protoc {

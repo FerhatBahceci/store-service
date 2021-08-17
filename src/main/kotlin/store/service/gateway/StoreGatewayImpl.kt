@@ -33,7 +33,7 @@ class StoreGatewayImpl(@Inject private val mongoClient: MongoClient) : StoreGate
     }
 
     override suspend fun getStoreByName(name: String): Store =
-            collection.find(eq("name", name)).limit(1)
+            collection.find(eq("name", name))
                     .awaitFirstOrElse {
                         throw ResponseException.NotFound("Could not GET store by name: ${name}")
                     }
@@ -49,7 +49,8 @@ class StoreGatewayImpl(@Inject private val mongoClient: MongoClient) : StoreGate
                     .run {
                         if (!this.wasAcknowledged()) {
                             throw ResponseException.InternalError("Could not UPDATE store by id: ${id} ")
+                        } else {
+                            collection.find(eq("_id", id)).limit(1).awaitFirst()
                         }
-                        collection.find(eq("_id", id)).limit(1).awaitFirst()
                     }
 }
