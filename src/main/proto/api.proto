@@ -12,105 +12,85 @@ service StoreService {
 
     rpc GetStoreByType (GetStoreByTypeRequest) returns (GetStoresResponse) {
         option (google.api.http) = {
-            get: "/store/type/*}"
+            get: "/store-service/type/{storeType}}"
         };
     }
 
     rpc GetAllStores (GetAllStoresRequest) returns (GetStoresResponse) {
         option (google.api.http) = {
-            get: "/store}"
+            get: "/store-service}"
         };
     }
 
     rpc CreateStore (CreateStoreRequest) returns (CreatedStoreResponse) {
         option (google.api.http) = {
-            post: "/store/*}"
+            post: "/store-service}"
+            body : "store"
         };
     }
 
     rpc GetStoreByName (GetStoreByNameRequest) returns (GetStoreResponse) {
         option (google.api.http) = {
-            get: "/store/name/*}"
+            get: "/store-service/name/{name}"
         };
     }
 
     rpc UpdateStore (UpdateStoreRequest) returns (UpdateStoreResponse) {
         option (google.api.http) = {
-            put: "/store/*}"
+            put: "/store-service/{id}}"
+            body : "store"
         };
     }
 
     rpc DeleteStore (DeleteStoreByIdRequest) returns (DeleteStoreResponse) {
         option (google.api.http) = {
-            delete: "/store/*}"
+            delete: "/store-service/{id}}"
         };
     }
 }
 
-enum RequestType {
-    GET = 0;
-    POST = 1;
-    PUT = 2;
-    DELETE = 3;
-}
-
 message GetStoreByNameRequest {
     string name = 1;
-    RequestType type = 2;
 }
 
 message GetAllStoresRequest {
-    RequestType type = 1;
 }
 
 message GetStoreByTypeRequest {
     Store.Type storeType = 1;
-    RequestType type = 2;
 }
 
 message CreateStoreRequest {
     Store store = 1;
-    RequestType type = 2;
 }
 
 message UpdateStoreRequest {
     string id = 1;
     Store update = 2;
-    RequestType type = 3;
 }
 
 message DeleteStoreByIdRequest {
     string id = 1;
-    RequestType type = 2;
 }
 
 message GetStoresResponse {
     Stores stores = 1;
-    Response response = 2;
 }
 
 message GetStoreResponse {
     Store store = 1;
-    Response response = 2;
 }
 
 message CreatedStoreResponse {
-    Response response = 1;
 }
 
 message DeleteStoreResponse {
-    Response response = 1;
 }
 
 message UpdateStoreResponse {
     Store update = 1;
-    Response response = 2;
 }
 
-message Response {
-    int32 status = 1;
-    string message = 2;
-}
 
 // MODEL
 message Stores {

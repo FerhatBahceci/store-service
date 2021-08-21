@@ -7,9 +7,7 @@ import utility.request.Request
 
 @ExperimentalSerializationApi
 @Serializable
-data class CreateStoreRequest(val store: Store,
-                              override val type: Request.Type = Request.Type.POST,
-                              override val expectedStatus: Int = 201) : Request<CreateStoreRequest> {
+data class CreateStoreRequest(val store: Store) : Request<CreateStoreRequest> {
     init {
         validate()
     }
@@ -20,9 +18,7 @@ data class CreateStoreRequest(val store: Store,
 }
 
 @Serializable
-data class DeleteStoreByIdRequest(val id: String,
-                                  override val type: Request.Type = Request.Type.DELETE,
-                                  override val expectedStatus: Int = 204) : Request<DeleteStoreByIdRequest> {
+data class DeleteStoreByIdRequest(val id: String) : Request<DeleteStoreByIdRequest> {
     init {
         validate()
     }
@@ -31,8 +27,7 @@ data class DeleteStoreByIdRequest(val id: String,
 }
 
 @Serializable
-data class GetAllStoresRequest(override val type: Request.Type = Request.Type.GET,
-                               override val expectedStatus: Int = 200) : Request<GetAllStoresRequest> {
+class GetAllStoresRequest : Request<GetAllStoresRequest> {
     init {
         validate()
     }
@@ -41,9 +36,7 @@ data class GetAllStoresRequest(override val type: Request.Type = Request.Type.GE
 }
 
 @Serializable
-data class GetStoreByNameRequest(val name: String,
-                                 override val type: Request.Type = Request.Type.GET,
-                                 override val expectedStatus: Int = 200) : Request<GetStoreByNameRequest> {
+data class GetStoreByNameRequest(val name: String) : Request<GetStoreByNameRequest> {
     init {
         validate()
     }
@@ -53,9 +46,7 @@ data class GetStoreByNameRequest(val name: String,
 
 @ExperimentalSerializationApi
 @Serializable
-data class GetStoreByTypeRequest(val storeType: Store.Type,
-                                 override val type: Request.Type = Request.Type.GET,
-                                 override val expectedStatus: Int = 200) : Request<GetStoreByTypeRequest> {
+data class GetStoreByTypeRequest(val storeType: Store.Type) : Request<GetStoreByTypeRequest> {
     init {
         validate()
     }
@@ -66,9 +57,7 @@ data class GetStoreByTypeRequest(val storeType: Store.Type,
 @ExperimentalSerializationApi
 @Serializable
 data class UpdateStoreRequest(val id: String,
-                              val store: Store,
-                              override val type: Request.Type = Request.Type.PUT,
-                              override val expectedStatus: Int = 204) : Request<UpdateStoreRequest> {
+                              val store: Store) : Request<UpdateStoreRequest> {
     init {
         validate()
     }

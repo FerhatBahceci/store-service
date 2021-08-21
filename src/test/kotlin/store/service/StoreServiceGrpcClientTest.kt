@@ -24,18 +24,16 @@ class StoreServiceGrpcClientTest(@Inject private val storeServiceBlockingStub: S
     fun createStoreTest() {
         val request = CreateStoreRequest.newBuilder().setStore(createProtoStore(storeName)).build()
         val response = storeServiceBlockingStub.createStore(request)
-        assert(response.response.status == 201)
     }
 
     @Test
     fun getStoreByTypeTest() {
         createStoreTest()
         createStoreTest()
-        val request = GetStoreByTypeRequest.newBuilder().setType(RequestType.GET).setStoreType(proto.store.service.Store.Type.GROCERIES).build()
+        val request = GetStoreByTypeRequest.newBuilder().setStoreType(proto.store.service.Store.Type.GROCERIES).build()
         val response = storeServiceBlockingStub.getStoreByType(request)
         response.also {
             assert(it.stores.storesCount >= 2)
-            assert(it.response.status == 200)
         }
     }
 
@@ -46,7 +44,6 @@ class StoreServiceGrpcClientTest(@Inject private val storeServiceBlockingStub: S
         val request = GetStoreByNameRequest.newBuilder().setName(storeName).build()
         val response = storeServiceBlockingStub.getStoreByName(request)
         response.also {
-            assert(it.response.status == 200)
             assert(it.store.name == request.name)
         }
     }
@@ -59,7 +56,6 @@ class StoreServiceGrpcClientTest(@Inject private val storeServiceBlockingStub: S
         val response = storeServiceBlockingStub.getAllStores(request)
         response.also {
             assert(it.stores.storesCount >= 2)
-            assert(it.response.status == 200)
         }
     }
 
@@ -72,8 +68,6 @@ class StoreServiceGrpcClientTest(@Inject private val storeServiceBlockingStub: S
 
         val request = DeleteStoreByIdRequest.newBuilder().setId(storeId).build()
         val response = storeServiceBlockingStub.deleteStore(request)
-
-        assert(response.response.status == 204)
 
         shouldThrow<StatusRuntimeException> {
             storeServiceBlockingStub.getStoreByName(GetStoreByNameRequest.newBuilder().setName(storeName).build())

@@ -50,7 +50,6 @@ class StoreServiceImplTest : ShouldSpec({
     should("GET all stores") {
         val getAllStoresRequest = GetAllStoresRequest
                 .newBuilder()
-                .setType(RequestType.GET)
                 .build()
         val getAllStoresResponse = storeService.getAllStores(getAllStoresRequest)
         getAllStoresResponse.also {
@@ -62,7 +61,6 @@ class StoreServiceImplTest : ShouldSpec({
     should("GET a store by name") {
         val getStoreByNameRequest = GetStoreByNameRequest.newBuilder()
                 .setName(store.name)
-                .setType(RequestType.GET)
                 .build()
         val getStoreByNameResponse = storeService.getStoreByName(getStoreByNameRequest)
         ProtoBuf.decodeFromByteArray<Store>(getStoreByNameResponse.store.toByteArray()) shouldBe store
@@ -71,7 +69,6 @@ class StoreServiceImplTest : ShouldSpec({
     should("GET all stores by type") {
         val getStoreByTypeRequest = GetStoreByTypeRequest.newBuilder()
                 .setStoreType(proto.store.service.Store.Type.valueOf(store.type?.name ?: Store.Type.UNKNOWN.name))
-                .setType(RequestType.GET)
                 .build()
         val getAllStoresResponse = storeService.getStoreByType(getStoreByTypeRequest)
         getAllStoresResponse.also {
@@ -84,19 +81,15 @@ class StoreServiceImplTest : ShouldSpec({
         val createRequest = CreateStoreRequest
                 .newBuilder()
                 .setStore(store.mapToProtoStore())
-                .setType(RequestType.POST)
                 .build()
-        val createResponse = storeService.createStore(createRequest)
-        createResponse.response.status shouldBe 201
+        storeService.createStore(createRequest)
     }
 
     should("DELETE a store by id") {
-        val deleteStoreByIdRequest = proto.store.service.DeleteStoreByIdRequest.newBuilder()
+        val deleteStoreByIdRequest = DeleteStoreByIdRequest.newBuilder()
                 .setId(store.id)
-                .setType(RequestType.DELETE)
                 .build()
-        val getStoreByNameResponse = storeService.deleteStore(deleteStoreByIdRequest)
-        getStoreByNameResponse.response.status shouldBe 204
+         storeService.deleteStore(deleteStoreByIdRequest)
     }
 
     should("UPDATE a store by id") {
@@ -104,9 +97,7 @@ class StoreServiceImplTest : ShouldSpec({
                 .newBuilder()
                 .setUpdate(store.mapToProtoStore())
                 .setId(store.id)
-                .setType(RequestType.PUT)
                 .build()
-        val getStoreByIdResponse = storeService.updateStore(updateStoreByIdRequest)
-        getStoreByIdResponse.response.status shouldBe 204
+        storeService.updateStore(updateStoreByIdRequest)
     }
 })
