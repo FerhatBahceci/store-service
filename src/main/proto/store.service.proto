@@ -12,7 +12,7 @@ service StoreService {
 
     rpc GetStoreByType (GetStoreByTypeRequest) returns (GetStoresResponse) {
         option (google.api.http) = {
-            get: "/store-service/type/{storeType}}"
+            get: "/store-service/type/{type}}"
         };
     }
 
@@ -57,7 +57,7 @@ message GetAllStoresRequest {
 }
 
 message GetStoreByTypeRequest {
-    Store.Type storeType = 1;
+    Store.Type type = 1;
 }
 
 message CreateStoreRequest {
@@ -133,5 +133,4 @@ message Store {
         TOYS_HOBBY = 13;
         UNKNOWN = 14;
     }
-
 }

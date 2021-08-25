@@ -47,7 +47,7 @@ class StoreServiceImpl constructor(
             gateway.getStoreByName(request.name)
 
     private suspend fun getStoreByType(request: store.service.service.GetStoreByTypeRequest) =
-            gateway.getStoreByType(request.storeType)
+            gateway.getStoreByType(request.type)
 
     private suspend fun createStore(request: store.service.service.CreateStoreRequest) =
             gateway.createStore(request.store)

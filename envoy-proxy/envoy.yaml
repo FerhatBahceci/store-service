@@ -26,7 +26,7 @@ static_resources:
                   - name: envoy.grpc_json_transcoder
                     config:
                       proto_descriptor: "/data/reservation_service_definition.pb"
-                      services: ["reservations.v1.ReservationService"]
+                      services: ["proto.store.service.StoreService"]
                       print_options:
                         add_whitespace: true
                         always_print_primitive_fields: true

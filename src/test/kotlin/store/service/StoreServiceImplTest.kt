@@ -68,7 +68,7 @@ class StoreServiceImplTest : ShouldSpec({
 
     should("GET all stores by type") {
         val getStoreByTypeRequest = GetStoreByTypeRequest.newBuilder()
-                .setStoreType(proto.store.service.Store.Type.valueOf(store.type?.name ?: Store.Type.UNKNOWN.name))
+                .setType(proto.store.service.Store.Type.valueOf(store.type?.name ?: Store.Type.UNKNOWN.name))
                 .build()
         val getAllStoresResponse = storeService.getStoreByType(getStoreByTypeRequest)
         getAllStoresResponse.also {

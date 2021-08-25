@@ -46,7 +46,7 @@ data class GetStoreByNameRequest(val name: String) : Request<GetStoreByNameReque
 
 @ExperimentalSerializationApi
 @Serializable
-data class GetStoreByTypeRequest(val storeType: Store.Type) : Request<GetStoreByTypeRequest> {
+data class GetStoreByTypeRequest(val type: Store.Type) : Request<GetStoreByTypeRequest> {
     init {
         validate()
     }
