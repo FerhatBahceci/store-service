@@ -19,4 +19,4 @@ suspend inline fun <T : MessageLite, reified U : Request<U>, R, PR : MessageLite
 
 @ExperimentalSerializationApi
 inline fun <T : MessageLite, reified U : Request<U>> decodeProtoRequest(protoRequest: T): U =
-        ProtoBuf.decodeFromByteArray(protoRequest.toByteArray())
+    ProtoBuf.decodeFromByteArray(protoRequest.toByteArray())
