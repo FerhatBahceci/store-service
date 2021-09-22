@@ -5,7 +5,7 @@ import proto.store.service.Store
 import com.google.protobuf.Timestamp
 
 @ExperimentalSerializationApi
-fun store.service.Store.mapToProtoStore() =
+fun store.service.gateway.Store.mapToProtoStore() =
         Store.newBuilder()
                 .setCoordinates(coordinates?.mapToProtoCoordinates())
                 .setDescription(description)
@@ -17,22 +17,22 @@ fun store.service.Store.mapToProtoStore() =
                 .build()
 
 @ExperimentalSerializationApi
-private fun store.service.Store.Coordinates.mapToProtoCoordinates() =
+private fun store.service.gateway.Store.Coordinates.mapToProtoCoordinates() =
         Store.Coordinates.newBuilder()
                 .setLatitude(latitude ?: 0)
                 .setLongitude(longitude ?: 0)
                 .build()
 
 @ExperimentalSerializationApi
-private fun store.service.Store.Type.mapToProtoStoreType() =
+private fun store.service.gateway.Store.Type.mapToProtoStoreType() =
         Store.Type.forNumber(this.ordinal)
 
 @ExperimentalSerializationApi
-private fun Map<String, store.service.Store.OpeningHours>.mapToProtoHours() =
+private fun Map<String, store.service.gateway.Store.OpeningHours>.mapToProtoHours() =
         map { it.key to it.value.mapToProtoOpeningHours() }.toMap()
 
 @ExperimentalSerializationApi
-private fun store.service.Store.OpeningHours.mapToProtoOpeningHours() =
+private fun store.service.gateway.Store.OpeningHours.mapToProtoOpeningHours() =
         Store.OpeningHours.newBuilder()
                 .setOpening(this.opening?.mapToTimestamp())
                 .setClosing(this.closing?.mapToTimestamp())

@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test
 import proto.store.service.*
 import store.service.DummyData.Companion.createId
 import store.service.DummyData.Companion.createProtoStore
+import store.service.gateway.Store
 import store.service.service.mapToProtoStore
 import javax.inject.Inject
 

@@ -2,7 +2,8 @@ package store.service.service
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
-import store.service.Store
+import store.service.gateway.Store
+import store.service.gateway.validateStore
 import utility.request.Request
 
 @ExperimentalSerializationApi
@@ -56,8 +57,10 @@ data class GetStoreByTypeRequest(val type: Store.Type) : Request<GetStoreByTypeR
 
 @ExperimentalSerializationApi
 @Serializable
-data class UpdateStoreRequest(val id: String,
-                              val store: Store) : Request<UpdateStoreRequest> {
+data class UpdateStoreRequest(
+    val id: String,
+    val store: Store
+) : Request<UpdateStoreRequest> {
     init {
         validate()
     }

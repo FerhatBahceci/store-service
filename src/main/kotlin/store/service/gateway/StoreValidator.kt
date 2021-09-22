@@ -1,7 +1,6 @@
-package store.service.service
+package store.service.gateway
 
 import kotlinx.serialization.ExperimentalSerializationApi
-import store.service.Store
 import utility.response.ResponseException
 import java.time.DayOfWeek
 import java.util.regex.Pattern
@@ -24,7 +23,7 @@ private fun List<String>.validateDayOfWeek() {
         runCatching {
             DayOfWeek.valueOf(it)
         }.getOrElse {
-            throw ResponseException.BadRequest(it.message ?: "Invalid DayOfWeek: $it")
+            throw ResponseException.BadRequest("Invalid DayOfWeek:" + it.message)
         }
     }
 }

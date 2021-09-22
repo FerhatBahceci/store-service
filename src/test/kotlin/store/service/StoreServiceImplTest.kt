@@ -12,6 +12,7 @@ import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.serialization.decodeFromByteArray
 import kotlinx.serialization.protobuf.ProtoBuf
 import proto.store.service.*
+import store.service.gateway.Store
 import store.service.gateway.StoreGateway
 import store.service.service.StoreServiceImpl
 import store.service.service.mapToProtoStore
