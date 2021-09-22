@@ -4,4 +4,4 @@ set -e
 : ${VERSION:="latest"}
 export VERSION
 
-docker build -t envoy-proxy:${VERSION} .
+docker build -t store-service:${VERSION} .

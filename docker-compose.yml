@@ -1,10 +1,22 @@
-version: "3.9"
+version: "3.7"
 
 services:
+
+  envoy:
+    image: envoyproxy/envoy-dev:latest
+    ports:
+      - "10000:10000"
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml
+    links:
+      - store-service
+
   store-service:
-    image: store-service
+    image: store-service:latest
     ports:
       - 50051:50051
+    hostname:
+      store-service
     links:
       - mongodb
 
@@ -16,10 +28,3 @@ services:
       - ./database:/data
     hostname:
       mongodb
-
-  envoy:
-    image: envoyproxy/envoy-dev:latest
-    ports:
-      - "10000:10000"
-    volumes:
-      - ./envoy.yaml:/etc/envoy/envoy.yaml

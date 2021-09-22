@@ -24,7 +24,8 @@ class StoreServiceGrpcClientTest(@Inject private val storeServiceBlockingStub: S
     @Test
     fun createStoreTest() {
         val request = CreateStoreRequest.newBuilder().setStore(createProtoStore(storeName)).build()
-        val response = storeServiceBlockingStub.createStore(request)
+        storeServiceBlockingStub.createStore(request)
+
     }
 
     @Test
@@ -83,7 +84,8 @@ class StoreServiceGrpcClientTest(@Inject private val storeServiceBlockingStub: S
         storeServiceBlockingStub.createStore(createStoreRequest)
 
         val newName = "Hemköp"
-        val updatedStore = ProtoBuf.decodeFromByteArray<Store>(store.toByteArray()).copy(name = newName).mapToProtoStore()
+        val updatedStore =
+            ProtoBuf.decodeFromByteArray<Store>(store.toByteArray()).copy(name = newName).mapToProtoStore()
         val request = UpdateStoreRequest.newBuilder().setUpdate(updatedStore).setId(storeId).build()
         val response = storeServiceBlockingStub.updateStore(request)
 

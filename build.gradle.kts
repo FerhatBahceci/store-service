@@ -10,6 +10,7 @@ repositories {
 
 plugins {
     idea
+    id("java")
     id("org.jetbrains.kotlin.jvm") version "1.4.32"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.4.32"
     id("com.google.protobuf") version "0.8.15"
@@ -87,6 +88,7 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.1")
 }
 
+
 tasks {
 /*
     val moduleName by extra("store.service")
@@ -109,6 +111,12 @@ tasks {
 
     withType<Test> {
         useJUnitPlatform()
+    }
+
+    getting(Jar::class) {
+        manifest {
+            attributes["Main-Class"] = "store.service.App"
+        }
     }
 }
 
