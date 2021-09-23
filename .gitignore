@@ -1,6 +1,8 @@
 Thumbs.db
 .DS_Store
 .gradle
+gradlew
+gradlew.bat
 build/
 target/
 out/

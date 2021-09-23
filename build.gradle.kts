@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.google.protobuf.gradle.*
+import org.gradle.jvm.tasks.Jar
 
 group = "store.service"
 version = "0.0.1-SNAPSHOT"
@@ -9,8 +10,9 @@ repositories {
 }
 
 plugins {
+    application
     idea
-    id("java")
+    java
     id("org.jetbrains.kotlin.jvm") version "1.4.32"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.4.32"
     id("com.google.protobuf") version "0.8.15"
@@ -21,7 +23,7 @@ plugins {
 }
 
 application {
-    mainClass.set("store.service.App.java")
+    mainClass.set("store.service.App")
 }
 
 configure<JavaPluginConvention> {
@@ -45,6 +47,7 @@ dependencies {
     annotationProcessor("io.micronaut:micronaut-graal")
 */
 
+    implementation("commons-io:commons-io:2.6")
     implementation("io.micronaut:micronaut-core-reactive:2.4.1")
     implementation("io.micronaut:micronaut-validation")
     implementation("io.micronaut:micronaut-runtime")
@@ -113,13 +116,23 @@ tasks {
         useJUnitPlatform()
     }
 
-    getting(Jar::class) {
+    withType<Jar> {
         manifest {
             attributes["Main-Class"] = "store.service.App"
         }
+        from(sourceSets.main.get().output)
+
+        dependsOn(configurations.runtimeClasspath)
+
+        from({
+            configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
+        })
+
+        shadowJar {
+            mergeServiceFiles()
+        }
     }
 }
-
 
 
 protobuf {

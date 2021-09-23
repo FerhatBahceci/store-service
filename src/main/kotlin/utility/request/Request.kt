@@ -1,4 +1,3 @@
 package utility.request
 
-interface Request<T> : RequestValidator<T>{
-}
+interface Request<T> : RequestValidator<T>
