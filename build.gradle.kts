@@ -1,6 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.google.protobuf.gradle.*
-import org.gradle.jvm.tasks.Jar
 
 group = "store.service"
 version = "0.0.1-SNAPSHOT"
@@ -17,7 +16,6 @@ plugins {
     val kotlinVersion = "1.5.31"
     id("org.jetbrains.kotlin.jvm") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.serialization") version kotlinVersion
-    id("org.jetbrains.kotlin.kapt") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.allopen") version kotlinVersion
     id("io.micronaut.application") version "2.0.6"
     id("com.google.protobuf") version "0.8.17"
@@ -44,23 +42,15 @@ micronaut {
 
 dependencies {
 
-/*
-8 Generating a Micronaut Application's Native Image with GraalVM
-    annotationProcessor("io.micronaut:micronaut-graal")
-*/
-
     val micronautVersion = "3.0.2"
     val kotlinVersion = "1.5.31"
     val kotlinCoroutineVersion = "1.5.2"
     val protobufVersion = "1.41.0"
 
-    kapt(platform("io.micronaut:micronaut-bom:${micronautVersion}"))
-    kapt("io.micronaut:micronaut-validation:${micronautVersion}")
-    kapt("io.micronaut:micronaut-inject-java:${micronautVersion}")
+    annotationProcessor("io.micronaut:micronaut-http-validation")
+    compileOnly("org.graalvm.nativeimage:svm")
 
-    implementation("io.micronaut:micronaut-core-reactive:${micronautVersion}")
-    implementation("io.micronaut:micronaut-inject:${micronautVersion}")
-    implementation("io.micronaut:micronaut-http-server-netty:${micronautVersion}")
+    implementation("javax.inject:javax.inject:1")
     implementation("io.micronaut:micronaut-runtime:${micronautVersion}")
     implementation("io.micronaut:micronaut-management:${micronautVersion}")
     implementation("io.micronaut.mongodb:micronaut-mongo-reactive:4.0.0")
@@ -74,7 +64,6 @@ dependencies {
 
     implementation("io.grpc:grpc-protobuf-lite:${protobufVersion}")
     implementation("io.grpc:grpc-protobuf:${protobufVersion}")
-    implementation("io.grpc:grpc-netty:${protobufVersion}")
     implementation("io.grpc:grpc-kotlin-stub-lite:1.0.0")
 
     implementation("com.google.protobuf:protobuf-java:3.18.0")
@@ -83,16 +72,14 @@ dependencies {
     implementation("javax.annotation:javax.annotation-api:1.3.2")
     implementation("org.slf4j:slf4j-simple:1.7.32")
 
-    kaptTest("io.micronaut.test:micronaut-test-junit5:${micronautVersion}")
-    kaptTest("io.micronaut:micronaut-inject-java:${micronautVersion}")
-    kaptTest("org.junit.jupiter:junit-jupiter-api:5.8.1")
-
     testImplementation("io.micronaut.test:micronaut-test-kotlintest:2.3.7")
     testImplementation("io.mockk:mockk:1.12.0")
     testImplementation("io.kotlintest:kotlintest-runner-junit5:3.4.2")
-    testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:3.0.0")
+    testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.2.0")
     testImplementation("io.micronaut.grpc:micronaut-grpc-client-runtime:3.0.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-api:5.8.1")
+    testRuntimeOnly("io.micronaut.test:micronaut-test-junit5:${micronautVersion}")
 }
 
 tasks {
@@ -117,25 +104,7 @@ tasks {
     withType<Test> {
         useJUnitPlatform()
     }
-
-    withType<Jar> {
-        manifest {
-            attributes["Main-Class"] = "store.service.App"
-        }
-        from(sourceSets.main.get().output)
-
-        dependsOn(configurations.runtimeClasspath)
-
-        from({
-            configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
-        })
-
-        shadowJar {
-            mergeServiceFiles()
-        }
-    }
 }
-
 
 protobuf {
     protoc {
