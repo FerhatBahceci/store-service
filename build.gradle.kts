@@ -4,6 +4,10 @@ import com.google.protobuf.gradle.*
 group = "store.service"
 version = "0.0.1-SNAPSHOT"
 
+val protobufVersion = "1.41.0"
+val micronautVersion = "3.0.2"
+val kotlinCoroutineVersion = "1.5.2"
+
 repositories {
     mavenCentral()
 }
@@ -39,13 +43,8 @@ micronaut {
         annotations("store.service.*")
     }
 }
-val protobufVersion = "1.41.0"
 
 dependencies {
-
-    val micronautVersion = "3.0.2"
-    val kotlinVersion = "1.5.31"
-    val kotlinCoroutineVersion = "1.5.2"
 
     annotationProcessor("io.micronaut:micronaut-http-validation")
     compileOnly("org.graalvm.nativeimage:svm")
