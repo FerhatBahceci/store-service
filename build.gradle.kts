@@ -19,9 +19,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization") version kotlinVersion
     id("org.jetbrains.kotlin.kapt") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.allopen") version kotlinVersion
-
     id("io.micronaut.application") version "2.0.6"
-
     id("com.google.protobuf") version "0.8.17"
     id("com.github.johnrengelman.shadow") version "7.0.0"
 }
@@ -30,7 +28,7 @@ application {
     mainClass.set("store.service.App")
 }
 
-configure<JavaPluginConvention> {
+java {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
 }
@@ -52,8 +50,8 @@ dependencies {
 */
 
     val micronautVersion = "3.0.2"
-    val kotlinCoroutineVersion = "1.5.2"
     val kotlinVersion = "1.5.31"
+    val kotlinCoroutineVersion = "1.5.2"
     val protobufVersion = "1.41.0"
 
     kapt(platform("io.micronaut:micronaut-bom:${micronautVersion}"))
