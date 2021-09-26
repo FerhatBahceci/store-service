@@ -13,13 +13,17 @@ plugins {
     application
     idea
     java
-    id("org.jetbrains.kotlin.jvm") version "1.4.32"
-    id("org.jetbrains.kotlin.plugin.serialization") version "1.4.32"
-    id("com.google.protobuf") version "0.8.15"
-    id("com.github.johnrengelman.shadow") version "6.1.0"
-    id("io.micronaut.application") version "1.4.2"
-    id("org.jetbrains.kotlin.kapt") version "1.4.32"
-    id("org.jetbrains.kotlin.plugin.allopen") version "1.4.32"
+
+    val kotlinVersion = "1.5.31"
+    id("org.jetbrains.kotlin.jvm") version kotlinVersion
+    id("org.jetbrains.kotlin.plugin.serialization") version kotlinVersion
+    id("org.jetbrains.kotlin.kapt") version kotlinVersion
+    id("org.jetbrains.kotlin.plugin.allopen") version kotlinVersion
+
+    id("io.micronaut.application") version "2.0.6"
+
+    id("com.google.protobuf") version "0.8.17"
+    id("com.github.johnrengelman.shadow") version "7.0.0"
 }
 
 application {
@@ -47,57 +51,57 @@ dependencies {
     annotationProcessor("io.micronaut:micronaut-graal")
 */
 
-    implementation("commons-io:commons-io:2.6")
-    implementation("io.micronaut:micronaut-core-reactive:2.4.1")
-    implementation("io.micronaut:micronaut-validation")
-    implementation("io.micronaut:micronaut-runtime")
-    implementation("io.micronaut.mongodb:micronaut-mongo-reactive:3.1.0")
-    implementation("io.micronaut:micronaut-management")
-    implementation("io.micronaut:micronaut-inject:2.4.1")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:1.4.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.0.1")
-    implementation("io.micronaut.grpc:micronaut-grpc-server-runtime:2.3.0")
-    implementation("io.grpc:grpc-protobuf-lite:1.36.0")
-    implementation("io.grpc:grpc-protobuf:1.36.0")
-    implementation("io.grpc:grpc-kotlin-stub-lite:1.0.0")
-    implementation("io.grpc:grpc-netty:1.36.0")
+    val micronautVersion = "3.0.2"
+    val kotlinCoroutineVersion = "1.5.2"
+    val kotlinVersion = "1.5.31"
+    val protobufVersion = "1.41.0"
 
-    implementation("com.google.protobuf:protobuf-java:3.15.6")
-    implementation("com.google.guava:guava:30.0-jre")
+    kapt(platform("io.micronaut:micronaut-bom:${micronautVersion}"))
+    kapt("io.micronaut:micronaut-validation:${micronautVersion}")
+    kapt("io.micronaut:micronaut-inject-java:${micronautVersion}")
+
+    implementation("io.micronaut:micronaut-core-reactive:${micronautVersion}")
+    implementation("io.micronaut:micronaut-inject:${micronautVersion}")
+    implementation("io.micronaut:micronaut-http-server-netty:${micronautVersion}")
+    implementation("io.micronaut:micronaut-runtime:${micronautVersion}")
+    implementation("io.micronaut:micronaut-management:${micronautVersion}")
+    implementation("io.micronaut.mongodb:micronaut-mongo-reactive:4.0.0")
+    implementation("io.micronaut.grpc:micronaut-grpc-server-runtime:3.0.0")
+
+    implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:${kotlinCoroutineVersion}")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinCoroutineVersion}")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.3.0")
+
+    implementation("io.grpc:grpc-protobuf-lite:${protobufVersion}")
+    implementation("io.grpc:grpc-protobuf:${protobufVersion}")
+    implementation("io.grpc:grpc-netty:${protobufVersion}")
+    implementation("io.grpc:grpc-kotlin-stub-lite:1.0.0")
+
+    implementation("com.google.protobuf:protobuf-java:3.18.0")
+    implementation("com.google.guava:guava:31.0-jre")
 
     implementation("javax.annotation:javax.annotation-api:1.3.2")
-    implementation("org.slf4j:slf4j-simple:2.0.0-alpha1")
+    implementation("org.slf4j:slf4j-simple:1.7.32")
 
-    kapt(platform("io.micronaut:micronaut-bom:1.3.0"))
-    kapt("io.micronaut:micronaut-validation:2.4.1")
-    kapt("io.micronaut:micronaut-inject-java:2.4.1")
-    kapt("io.micronaut.configuration:micronaut-openapi")
+    kaptTest("io.micronaut.test:micronaut-test-junit5:${micronautVersion}")
+    kaptTest("io.micronaut:micronaut-inject-java:${micronautVersion}")
+    kaptTest("org.junit.jupiter:junit-jupiter-api:5.8.1")
 
-    kaptTest("io.micronaut.test:micronaut-test-junit5:2.3.3")
-    kaptTest("org.junit.jupiter:junit-jupiter-api:5.7.1")
-
-    testImplementation("io.micronaut.grpc:micronaut-grpc-client-runtime:2.3.0")
-
-    kaptTest("io.micronaut:micronaut-inject-java")
-    testImplementation("io.micronaut.test:micronaut-test-kotlintest:2.3.3")
-    testImplementation("io.mockk:mockk:1.10.5")
-    testImplementation("io.kotlintest:kotlintest-runner-junit5:3.3.2")
-    testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.0.1")
-
-    testRuntimeOnly("io.micronaut:micronaut-http-server-netty:2.4.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.1")
+    testImplementation("io.micronaut.test:micronaut-test-kotlintest:2.3.7")
+    testImplementation("io.mockk:mockk:1.12.0")
+    testImplementation("io.kotlintest:kotlintest-runner-junit5:3.4.2")
+    testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:3.0.0")
+    testImplementation("io.micronaut.grpc:micronaut-grpc-client-runtime:3.0.0")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
 }
 
-
 tasks {
-/*
-    val moduleName by extra("store.service")
-*/
 
-/*    compileJava {
+/*    val moduleName by extra("store.service")
+
+    compileJava {
         inputs.property("moduleName", moduleName)
         doFirst {
             options.compilerArgs = listOf(
