@@ -39,25 +39,21 @@ micronaut {
         annotations("store.service.*")
     }
 }
+val protobufVersion = "1.41.0"
 
 dependencies {
 
     val micronautVersion = "3.0.2"
     val kotlinVersion = "1.5.31"
     val kotlinCoroutineVersion = "1.5.2"
-    val protobufVersion = "1.41.0"
 
     annotationProcessor("io.micronaut:micronaut-http-validation")
     compileOnly("org.graalvm.nativeimage:svm")
 
     implementation("javax.inject:javax.inject:1")
-    implementation("io.micronaut:micronaut-runtime:${micronautVersion}")
-    implementation("io.micronaut:micronaut-management:${micronautVersion}")
     implementation("io.micronaut.mongodb:micronaut-mongo-reactive:4.0.0")
     implementation("io.micronaut.grpc:micronaut-grpc-server-runtime:3.0.0")
 
-    implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:${kotlinCoroutineVersion}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinCoroutineVersion}")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.3.0")
