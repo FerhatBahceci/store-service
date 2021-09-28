@@ -8,7 +8,8 @@ import utility.request.Request
 
 @ExperimentalSerializationApi
 @Serializable
-data class CreateStoreRequest(val store: Store) : Request<CreateStoreRequest> {
+data class CreateStoreRequest(val store: Store,
+                              override val type: Request.Type = Request.Type.POST) : Request<CreateStoreRequest> {
     init {
         validate()
     }
@@ -19,7 +20,8 @@ data class CreateStoreRequest(val store: Store) : Request<CreateStoreRequest> {
 }
 
 @Serializable
-data class DeleteStoreByIdRequest(val id: String) : Request<DeleteStoreByIdRequest> {
+data class DeleteStoreByIdRequest(val id: String,
+                                  override val type: Request.Type = Request.Type.DELETE) : Request<DeleteStoreByIdRequest> {
     init {
         validate()
     }
@@ -28,7 +30,7 @@ data class DeleteStoreByIdRequest(val id: String) : Request<DeleteStoreByIdReque
 }
 
 @Serializable
-class GetAllStoresRequest : Request<GetAllStoresRequest> {
+data class GetAllStoresRequest(override val type: Request.Type = Request.Type.GET) : Request<GetAllStoresRequest> {
     init {
         validate()
     }
@@ -37,17 +39,8 @@ class GetAllStoresRequest : Request<GetAllStoresRequest> {
 }
 
 @Serializable
-data class GetStoreByNameRequest(val name: String) : Request<GetStoreByNameRequest> {
-    init {
-        validate()
-    }
-
-    override fun validate() {}
-}
-
-@ExperimentalSerializationApi
-@Serializable
-data class GetStoreByTypeRequest(val type: Store.Type) : Request<GetStoreByTypeRequest> {
+data class GetStoreByNameRequest(val name: String,
+                                 override val type: Request.Type = Request.Type.GET) : Request<GetStoreByNameRequest> {
     init {
         validate()
     }
@@ -57,10 +50,20 @@ data class GetStoreByTypeRequest(val type: Store.Type) : Request<GetStoreByTypeR
 
 @ExperimentalSerializationApi
 @Serializable
-data class UpdateStoreRequest(
-    val id: String,
-    val store: Store
-) : Request<UpdateStoreRequest> {
+data class GetStoreByTypeRequest(val storeType: Store.Type,
+                                 override val type: Request.Type = Request.Type.GET) : Request<GetStoreByTypeRequest> {
+    init {
+        validate()
+    }
+
+    override fun validate() {}
+}
+
+@ExperimentalSerializationApi
+@Serializable
+data class UpdateStoreRequest(val id: String,
+                              val store: Store,
+                              override val type: Request.Type = Request.Type.PUT) : Request<UpdateStoreRequest> {
     init {
         validate()
     }

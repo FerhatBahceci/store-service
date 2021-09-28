@@ -13,6 +13,7 @@ import kotlin.coroutines.CoroutineContext
 import utility.grpc.execute
 import proto.store.service.CreateStoreRequest
 import proto.store.service.GetStoreByTypeRequest
+import store.service.gateway.Store
 import store.service.gateway.StoreGateway
 
 @ExperimentalSerializationApi
@@ -47,7 +48,7 @@ class StoreServiceImpl constructor(
         gateway.getStoreByName(request.name)
 
     private suspend fun getStoreByType(request: store.service.service.GetStoreByTypeRequest) =
-        gateway.getStoreByType(request.type)
+        gateway.getStoreByType(Store.Type.valueOf(request.storeType.name))
 
     private suspend fun createStore(request: store.service.service.CreateStoreRequest) =
         gateway.createStore(request.store)

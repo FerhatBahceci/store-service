@@ -10,127 +10,171 @@ option java_package = "proto.store.service";
 
 service StoreService {
 
-    rpc GetStoreByType (GetStoreByTypeRequest) returns (GetStoresResponse) {
-        option (google.api.http) = {
-            get: "/store-service/type/{type}"
-        };
-    }
+  rpc GetStoreByType (GetStoreByTypeRequest) returns (GetStoresResponse) {
+    option (google.api.http) = {
+      get: "/store-service/type/{type}"
+    };
+  }
 
-    rpc GetAllStores (GetAllStoresRequest) returns (GetStoresResponse) {
-        option (google.api.http) = {
-            get: "/store-service"
-        };
-    }
+  rpc GetAllStores (GetAllStoresRequest) returns (GetStoresResponse) {
+    option (google.api.http) = {
+      get: "/store-service"
+    };
+  }
 
-    rpc CreateStore (CreateStoreRequest) returns (CreatedStoreResponse) {
-        option (google.api.http) = {
-            post: "/store-service"
-            body : "store"
-        };
-    }
+  rpc CreateStore (CreateStoreRequest) returns (CreatedStoreResponse) {
+    option (google.api.http) = {
+      post: "/store-service"
+      body : "store"
+    };
+  }
 
-    rpc GetStoreByName (GetStoreByNameRequest) returns (GetStoreResponse) {
-        option (google.api.http) = {
-            get: "/store-service/name/{name}"
-        };
-    }
+  rpc GetStoreByName (GetStoreByNameRequest) returns (GetStoreResponse) {
+    option (google.api.http) = {
+      get: "/store-service/name/{name}"
+    };
+  }
 
-    rpc UpdateStore (UpdateStoreRequest) returns (UpdateStoreResponse) {
-        option (google.api.http) = {
-            put: "/store-service/{id}"
-            body : "store"
-        };
-    }
+  rpc UpdateStore (UpdateStoreRequest) returns (UpdateStoreResponse) {
+    option (google.api.http) = {
+      put: "/store-service/{id}"
+      body : "store"
+    };
+  }
 
-    rpc DeleteStore (DeleteStoreByIdRequest) returns (DeleteStoreResponse) {
-        option (google.api.http) = {
-            delete: "/store-service/{id}"
-        };
-    }
+  rpc DeleteStore (DeleteStoreByIdRequest) returns (DeleteStoreResponse) {
+    option (google.api.http) = {
+      delete: "/store-service/{id}"
+    };
+  }
 }
 
 message GetStoreByNameRequest {
-    string name = 1;
+  string name = 1;
 }
 
 message GetAllStoresRequest {
 }
 
 message GetStoreByTypeRequest {
-    Store.Type type = 1;
+  Store.Type storeType = 1;
 }
 
 message CreateStoreRequest {
-    Store store = 1;
+  Store store = 1;
 }
 
 message UpdateStoreRequest {
-    string id = 1;
-    Store update = 2;
+  string id = 1;
+  Store update = 2;
 }
 
 message DeleteStoreByIdRequest {
-    string id = 1;
+  string id = 1;
 }
 
 message GetStoresResponse {
+
+  oneof response {
+    GetStoresSuccessfulResponse  success = 1;
+    Response failure = 2;
+  }
+
+  message GetStoresSuccessfulResponse {
     Stores stores = 1;
+    Response response = 2;
+  }
+
 }
 
 message GetStoreResponse {
+
+  oneof response {
+    GetStoreSuccessfulResponse success = 1;
+    Response failure = 2;
+  }
+
+  message GetStoreSuccessfulResponse {
     Store store = 1;
+    Response response = 2;
+  }
+
 }
 
 message CreatedStoreResponse {
+
+  oneof response {
+    Response success = 1;
+    Response failure = 2;
+  }
+
 }
 
 message DeleteStoreResponse {
+
+  oneof response {
+    Response success = 1;
+    Response failure = 2;
+  }
 }
 
 message UpdateStoreResponse {
+
+  oneof response {
+        UpdateStoreSuccessfulResponse success = 1;
+        Response failure = 2;
+  }
+
+  message UpdateStoreSuccessfulResponse {
     Store update = 1;
+    Response response = 2;
+  }
+
 }
 
+message Response {
+  int32 status = 1;
+  string message = 2;
+}
 
-// MODEL
 message Stores {
-    repeated Store stores = 1 [packed = false];
+  repeated Store stores = 1 [packed = false];
 }
 
 message Store {
-    Coordinates coordinates = 1;
-    string description = 2;
-    string id = 3;
-    string name = 4;
-    map<string, OpeningHours> hours = 5;
-    string phoneNo = 6;
-    Type type = 7;
+  Coordinates coordinates = 1;
+  string description = 2;
+  string id = 3;
+  string name = 4;
+  map<string, OpeningHours> hours = 5;
+  string phoneNo = 6;
+  Type type = 7;
 
-    message Coordinates {
-        int64 longitude = 1;
-        int64 latitude = 2;
-    }
+  message Coordinates {
+    int64 longitude = 1;
+    int64 latitude = 2;
+  }
 
-    message OpeningHours {
-        google.protobuf.Timestamp opening = 1;
-        google.protobuf.Timestamp closing = 2;
-    }
+  message OpeningHours {
+    google.protobuf.Timestamp opening = 1;
+    google.protobuf.Timestamp closing = 2;
+  }
 
-    enum Type {
-        ACCESSORIES = 0;
-        BOOKS_MEDIA_ELECTRONIC = 1;
-        FASHION = 2;
-        GROCERIES = 3;
-        HEALTH_BEAUTY = 4;
-        HOME_DECORATION = 5;
-        JEWELLERY = 6;
-        LEISURE = 7;
-        OPTICIAN = 8;
-        RESTAURANT_CAFE = 9;
-        SERVICE = 10;
-        SPORTS = 11;
-        STAND = 12;
-        TOYS_HOBBY = 13;
-        UNKNOWN = 14;
-    }
+  enum Type {
+    ACCESSORIES = 0;
+    BOOKS_MEDIA_ELECTRONIC = 1;
+    FASHION = 2;
+    GROCERIES = 3;
+    HEALTH_BEAUTY = 4;
+    HOME_DECORATION = 5;
+    JEWELLERY = 6;
+    LEISURE = 7;
+    OPTICIAN = 8;
+    RESTAURANT_CAFE = 9;
+    SERVICE = 10;
+    SPORTS = 11;
+    STAND = 12;
+    TOYS_HOBBY = 13;
+    UNKNOWN = 14;
+  }
 }

@@ -59,7 +59,7 @@ class StoreServiceImplTest : BehaviorSpec({
             and("we should be able to GET the store: {byType, byName, all}") {
 
                 val GET_STORE_BY_NAME_RESPONSE = service.getStoreByName(STORE.name)
-                ProtoBuf.decodeFromByteArray<Store>(GET_STORE_BY_NAME_RESPONSE.store.toByteArray()) shouldBe STORE
+                ProtoBuf.decodeFromByteArray<Store>(GET_STORE_BY_NAME_RESPONSE.success.store.toByteArray()) shouldBe STORE
 
                 val GET_STORES_BY_TYPE_RESPONSE = service.getStoreByType(STORE.type)
                 STORE.assertStoresResponse(GET_STORES_BY_TYPE_RESPONSE, 1)
@@ -71,7 +71,7 @@ class StoreServiceImplTest : BehaviorSpec({
            then("we should be able to UPDATE the store by ID") {
 
                 val UPDATE_STORE_RESPONSE = service.updateStore(UPDATE_STORE)
-                UPDATE_STORE shouldBe ProtoBuf.decodeFromByteArray<Store>(UPDATE_STORE_RESPONSE.update.toByteArray())
+                UPDATE_STORE shouldBe ProtoBuf.decodeFromByteArray<Store>(UPDATE_STORE_RESPONSE.success.update.toByteArray())
 
             }
 
@@ -107,7 +107,7 @@ private suspend fun StoreServiceGrpcKt.StoreServiceCoroutineImplBase.getStoreByN
 @ExperimentalSerializationApi
 private suspend fun StoreServiceGrpcKt.StoreServiceCoroutineImplBase.getStoreByType(type: Store.Type?): GetStoresResponse {
     val getStoreByTypeRequest = GetStoreByTypeRequest.newBuilder()
-        .setType(proto.store.service.Store.Type.valueOf(type?.name ?: Store.Type.UNKNOWN.name))
+        .setStoreType(proto.store.service.Store.Type.valueOf(type?.name ?: Store.Type.UNKNOWN.name))
         .build()
     return getStoreByType(getStoreByTypeRequest)
 }
@@ -132,6 +132,6 @@ private suspend fun StoreServiceGrpcKt.StoreServiceCoroutineImplBase.updateStore
 
 @ExperimentalSerializationApi
 private fun Store.assertStoresResponse(storesResponse: GetStoresResponse, expectedAmount: Int) {
-    storesResponse.stores.storesCount shouldBe expectedAmount
-    storesResponse.stores.storesList.map { ProtoBuf.decodeFromByteArray<Store>(it.toByteArray()) } shouldBe listOf(this)
+    storesResponse.success.stores.storesCount shouldBe expectedAmount
+    storesResponse.success.stores.storesList.map { ProtoBuf.decodeFromByteArray<Store>(it.toByteArray()) } shouldBe listOf(this)
 }
