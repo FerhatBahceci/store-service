@@ -76,7 +76,7 @@ message DeleteStoreByIdRequest {
 message GetStoresResponse {
 
   oneof response {
-    GetStoresSuccessfulResponse  success = 1;
+    GetStoresSuccessfulResponse success = 1;
     Response failure = 2;
   }
 
@@ -121,8 +121,8 @@ message DeleteStoreResponse {
 message UpdateStoreResponse {
 
   oneof response {
-        UpdateStoreSuccessfulResponse success = 1;
-        Response failure = 2;
+    UpdateStoreSuccessfulResponse success = 1;
+    Response failure = 2;
   }
 
   message UpdateStoreSuccessfulResponse {

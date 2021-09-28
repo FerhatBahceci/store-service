@@ -54,7 +54,7 @@ inline fun <R, PR> Throwable.toFailureResponse(protoResponseFactoryMethod: (R?, 
 inline fun <R, PR> createFailureResponse(
     protoResponseFactoryMethod: (R?, Response) -> PR,
     status: Int,
-    message: String
+    message: String //TODO failure proto is never mapped!!
 ) =
     protoResponseFactoryMethod.invoke(null, createResponse(status, message))
 
