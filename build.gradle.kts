@@ -24,6 +24,7 @@ plugins {
     id("io.micronaut.application") version "2.0.6"
     id("com.google.protobuf") version "0.8.17"
     id("com.github.johnrengelman.shadow") version "7.0.0"
+    id("org.jetbrains.kotlin.kapt") version kotlinVersion
 }
 
 application {
@@ -72,6 +73,13 @@ dependencies {
     testImplementation("io.kotlintest:kotlintest-runner-junit5:3.4.2")
     testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.2.0")
     testImplementation("io.micronaut.grpc:micronaut-grpc-client-runtime:3.0.0")
+
+    kaptTest("io.micronaut.test:micronaut-test-junit5:${micronautVersion}")
+    kaptTest("io.micronaut:micronaut-inject-java:${micronautVersion}")
+    kaptTest("org.junit.jupiter:junit-jupiter-api:5.8.1")
+
+    testAnnotationProcessor("io.micronaut.test:micronaut-test-junit5:${micronautVersion}")
+    testAnnotationProcessor("org.junit.jupiter:junit-jupiter-api:5.8.1")
 }
 
 tasks {
@@ -94,7 +102,15 @@ tasks {
     }
 
     withType<Test> {
+
         useJUnitPlatform()
+
+        test {
+            maxParallelForks = 1
+            systemProperties["junit.jupiter.execution.parallel.enabled"] = true
+
+        }
+
     }
 }
 

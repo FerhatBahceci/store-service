@@ -74,62 +74,26 @@ message DeleteStoreByIdRequest {
 }
 
 message GetStoresResponse {
-
-  oneof response {
-    GetStoresSuccessfulResponse success = 1;
-    Response failure = 2;
-  }
-
-  message GetStoresSuccessfulResponse {
-    Stores stores = 1;
-    Response response = 2;
-  }
-
+  Stores stores = 1;
+  Response response = 2;
 }
 
 message GetStoreResponse {
-
-  oneof response {
-    GetStoreSuccessfulResponse success = 1;
-    Response failure = 2;
-  }
-
-  message GetStoreSuccessfulResponse {
-    Store store = 1;
-    Response response = 2;
-  }
-
+  Store store = 1;
+  Response response = 2;
 }
 
 message CreatedStoreResponse {
-
-  oneof response {
-    Response success = 1;
-    Response failure = 2;
-  }
-
+  Response response = 1;
 }
 
 message DeleteStoreResponse {
-
-  oneof response {
-    Response success = 1;
-    Response failure = 2;
-  }
+  Response response = 1;
 }
 
 message UpdateStoreResponse {
-
-  oneof response {
-    UpdateStoreSuccessfulResponse success = 1;
-    Response failure = 2;
-  }
-
-  message UpdateStoreSuccessfulResponse {
-    Store update = 1;
-    Response response = 2;
-  }
-
+  Store update = 1;
+  Response response = 2;
 }
 
 message Response {

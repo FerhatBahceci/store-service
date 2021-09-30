@@ -20,11 +20,3 @@ services:
     hostname:
       mongodb
 
-  envoy:
-    image: envoyproxy/envoy-dev:latest
-    ports:
-      - "10000:10000"
-    volumes:
-      - ./envoy.yaml:/etc/envoy/envoy.yaml
-    links:
-      - store-service
