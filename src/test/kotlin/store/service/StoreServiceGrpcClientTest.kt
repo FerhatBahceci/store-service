@@ -1,6 +1,7 @@
 package store.service
 
 import io.grpc.StatusRuntimeException
+import io.kotlintest.shouldBe
 import io.kotlintest.shouldThrow
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -17,10 +18,7 @@ import javax.inject.Inject
 //TODO should be refactored into a single BDD test
 @ExperimentalSerializationApi
 @MicronautTest()
-class StoreServiceGrpcClientTest() {
-
-    @Inject
-    lateinit var storeServiceBlockingStub: StoreServiceGrpc.StoreServiceBlockingStub
+class StoreServiceGrpcClientTest(@Inject val storeServiceBlockingStub: StoreServiceGrpc.StoreServiceBlockingStub) {
 
     val storeName = "ICA"
 
@@ -29,7 +27,6 @@ class StoreServiceGrpcClientTest() {
     fun createStoreTest() {
         val request = CreateStoreRequest.newBuilder().setStore(createProtoStore(storeName)).build()
         storeServiceBlockingStub.createStore(request)
-
     }
 
     @Test
@@ -94,4 +91,61 @@ class StoreServiceGrpcClientTest() {
 
         assert(response.update.name == newName)
     }
+}
+
+@ExperimentalSerializationApi
+private suspend fun StoreServiceGrpcKt.StoreServiceCoroutineImplBase.deleteStore(id: String?) {
+    val deleteStoreByIdRequest = DeleteStoreByIdRequest.newBuilder()
+        .setId(id)
+        .build()
+    deleteStore(deleteStoreByIdRequest)
+}
+
+@ExperimentalSerializationApi
+private suspend fun StoreServiceGrpcKt.StoreServiceCoroutineImplBase.createStore(store: Store) {
+    val createRequest = CreateStoreRequest
+        .newBuilder()
+        .setStore(store.mapToProtoStore())
+        .build()
+    createStore(createRequest)
+}
+
+@ExperimentalSerializationApi
+private suspend fun StoreServiceGrpcKt.StoreServiceCoroutineImplBase.getStoreByName(name: String?): GetStoreResponse {
+    val getStoreByNameRequest = GetStoreByNameRequest.newBuilder()
+        .setName(name)
+        .build()
+    return getStoreByName(getStoreByNameRequest)
+}
+
+@ExperimentalSerializationApi
+private suspend fun StoreServiceGrpcKt.StoreServiceCoroutineImplBase.getStoreByType(type: Store.Type?): GetStoresResponse {
+    val getStoreByTypeRequest = GetStoreByTypeRequest.newBuilder()
+        .setStoreType(proto.store.service.Store.Type.valueOf(type?.name ?: Store.Type.UNKNOWN.name))
+        .build()
+    return getStoreByType(getStoreByTypeRequest)
+}
+
+@ExperimentalSerializationApi
+private suspend fun StoreServiceGrpcKt.StoreServiceCoroutineImplBase.getAllStores(): GetStoresResponse {
+    val getAllStoresRequest = GetAllStoresRequest
+        .newBuilder()
+        .build()
+    return getAllStores(getAllStoresRequest)
+}
+
+@ExperimentalSerializationApi
+private suspend fun StoreServiceGrpcKt.StoreServiceCoroutineImplBase.updateStore(store: Store): UpdateStoreResponse {
+    val updateStoreByIdRequest = UpdateStoreRequest
+        .newBuilder()
+        .setUpdate(store.mapToProtoStore())
+        .setId(store.id)
+        .build()
+    return updateStore(updateStoreByIdRequest)
+}
+
+@ExperimentalSerializationApi
+private fun Store.assertStoresResponse(storesResponse: GetStoresResponse, expectedAmount: Int) {
+    storesResponse.stores.storesCount shouldBe expectedAmount
+    storesResponse.stores.storesList.map { ProtoBuf.decodeFromByteArray<Store>(it.toByteArray()) } shouldBe listOf(this)
 }
