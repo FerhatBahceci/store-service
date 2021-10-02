@@ -30,7 +30,7 @@ private fun List<String>.validateDayOfWeek() {
 
 @ExperimentalSerializationApi
 private fun Collection<Store.OpeningHours>.validateOpeningHours() {
-    this.forEach { if (it.opening?.seconds ?: 0 > it.closing?.seconds ?: 0) throw IllegalArgumentException("Invalid opening hour: $it") }
+    this.forEach { if ((it.opening?.seconds ?: 0) > (it.closing?.seconds ?: 0)) throw IllegalArgumentException("Invalid opening hour: $it") }
 }
 
 

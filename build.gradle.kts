@@ -47,45 +47,33 @@ micronaut {
 
 dependencies {
 
+/*
     compileOnly("org.graalvm.nativeimage:svm")
-
-    implementation("javax.inject:javax.inject:1")
+*/
+    kapt(platform("io.micronaut:micronaut-bom:${micronautVersion}"))
+    kapt("io.micronaut:micronaut-validation:${micronautVersion}")
+    kapt("io.micronaut:micronaut-inject-java:${micronautVersion}")
     implementation("io.micronaut.mongodb:micronaut-mongo-reactive:4.0.0")
     implementation("io.micronaut.grpc:micronaut-grpc-server-runtime:3.0.0")
-
+    implementation("io.micronaut.configuration:micronaut-openapi:1.5.3")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:${kotlinCoroutineVersion}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinCoroutineVersion}")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.3.0")
-
+    implementation("javax.inject:javax.inject:1")
     implementation("io.grpc:grpc-protobuf-lite:${protobufVersion}")
     implementation("io.grpc:grpc-protobuf:${protobufVersion}")
     implementation("io.grpc:grpc-netty:${protobufVersion}")
     implementation("io.grpc:grpc-kotlin-stub-lite:1.0.0")
-
     implementation("com.google.protobuf:protobuf-java:3.18.0")
-    implementation("com.google.guava:guava:31.0-jre")
 
-    implementation("javax.annotation:javax.annotation-api:1.3.2")
-    implementation("org.slf4j:slf4j-simple:1.7.32")
-
-    kapt(platform("io.micronaut:micronaut-bom:${micronautVersion}"))
-    kapt("io.micronaut:micronaut-validation:${micronautVersion}")
-    kapt("io.micronaut:micronaut-inject-java:${micronautVersion}")
-    implementation("io.micronaut.configuration:micronaut-openapi:1.5.3")
-
+    kaptTest("org.junit.jupiter:junit-jupiter-api:5.8.1")
     testImplementation("io.micronaut.grpc:micronaut-grpc-client-runtime:3.0.0")
     testImplementation("io.micronaut.test:micronaut-test-kotlintest:2.3.7")
     testImplementation("io.mockk:mockk:1.12.0")
     testImplementation("io.kotlintest:kotlintest-runner-junit5:3.4.2")
     testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.2.0")
-
-    kaptTest("io.micronaut.test:micronaut-test-junit5:3.0.2}")
-    kaptTest("io.micronaut:micronaut-inject-java:${micronautVersion}")
-    kaptTest("org.junit.jupiter:junit-jupiter-api:5.8.1")
-    kaptTest("io.micronaut:micronaut-inject-java")
-
-    testRuntimeOnly("io.micronaut:micronaut-http-server-netty:2.4.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.1")
+    testRuntimeOnly("io.micronaut:micronaut-http-server-netty:${micronautVersion}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
 }
 
 tasks {

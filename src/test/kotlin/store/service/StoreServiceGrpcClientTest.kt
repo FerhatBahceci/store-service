@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test
 import proto.store.service.*
 import store.service.DummyData.Companion.createId
 import store.service.DummyData.Companion.createProtoStore
+import store.service.DummyData.Companion.createStore
 import store.service.gateway.Store
 import store.service.service.mapToProtoStore
 import javax.inject.Inject
@@ -18,23 +19,22 @@ import javax.inject.Inject
 //TODO should be refactored into a single BDD test
 @ExperimentalSerializationApi
 @MicronautTest()
-class StoreServiceGrpcClientTest(@Inject val storeServiceBlockingStub: StoreServiceGrpc.StoreServiceBlockingStub) {
+class StoreServiceGrpcClientTest(@Inject val storeServiceBlockingStub: StoreServiceGrpc.StoreServiceBlockingStub)  {
 
-    val storeName = "ICA"
-
+    val STORE_NAME = "ICA"
+    val STORE = createStore(name = STORE_NAME)
 
     @Test
     fun createStoreTest() {
-        val request = CreateStoreRequest.newBuilder().setStore(createProtoStore(storeName)).build()
-        storeServiceBlockingStub.createStore(request)
+        storeServiceBlockingStub.create(STORE)
     }
 
     @Test
     fun getStoreByTypeTest() {
         createStoreTest()
         createStoreTest()
-        val request = GetStoreByTypeRequest.newBuilder().setStoreType(proto.store.service.Store.Type.GROCERIES).build()
-        val response = storeServiceBlockingStub.getStoreByType(request)
+
+        val response = storeServiceBlockingStub.getByType(STORE.type)
         response.also {
             assert(it.stores.storesCount >= 2)
         }
@@ -43,7 +43,7 @@ class StoreServiceGrpcClientTest(@Inject val storeServiceBlockingStub: StoreServ
     @Test
     fun getStoreByNameTest() {
         createStoreTest()
-        val request = GetStoreByNameRequest.newBuilder().setName(storeName).build()
+        val request = GetStoreByNameRequest.newBuilder().setName(STORE_NAME).build()
         val response = storeServiceBlockingStub.getStoreByName(request)
         response.also {
             assert(it.store.name == request.name)
@@ -79,7 +79,7 @@ class StoreServiceGrpcClientTest(@Inject val storeServiceBlockingStub: StoreServ
     @Test
     fun updateStoreByIdTest() {
         val storeId = createId()
-        val store = createProtoStore(storeName, storeId)
+        val store = createProtoStore(STORE_NAME, storeId)
         val createStoreRequest = CreateStoreRequest.newBuilder().setStore(store).build()
         storeServiceBlockingStub.createStore(createStoreRequest)
 
@@ -94,7 +94,7 @@ class StoreServiceGrpcClientTest(@Inject val storeServiceBlockingStub: StoreServ
 }
 
 @ExperimentalSerializationApi
-private suspend fun StoreServiceGrpcKt.StoreServiceCoroutineImplBase.deleteStore(id: String?) {
+private fun StoreServiceGrpc.StoreServiceBlockingStub.deleteStore(id: String?) {
     val deleteStoreByIdRequest = DeleteStoreByIdRequest.newBuilder()
         .setId(id)
         .build()
@@ -102,7 +102,7 @@ private suspend fun StoreServiceGrpcKt.StoreServiceCoroutineImplBase.deleteStore
 }
 
 @ExperimentalSerializationApi
-private suspend fun StoreServiceGrpcKt.StoreServiceCoroutineImplBase.createStore(store: Store) {
+private fun StoreServiceGrpc.StoreServiceBlockingStub.create(store: Store) {
     val createRequest = CreateStoreRequest
         .newBuilder()
         .setStore(store.mapToProtoStore())
@@ -111,7 +111,7 @@ private suspend fun StoreServiceGrpcKt.StoreServiceCoroutineImplBase.createStore
 }
 
 @ExperimentalSerializationApi
-private suspend fun StoreServiceGrpcKt.StoreServiceCoroutineImplBase.getStoreByName(name: String?): GetStoreResponse {
+private fun StoreServiceGrpc.StoreServiceBlockingStub.getStoreByName(name: String?): GetStoreResponse {
     val getStoreByNameRequest = GetStoreByNameRequest.newBuilder()
         .setName(name)
         .build()
@@ -119,7 +119,7 @@ private suspend fun StoreServiceGrpcKt.StoreServiceCoroutineImplBase.getStoreByN
 }
 
 @ExperimentalSerializationApi
-private suspend fun StoreServiceGrpcKt.StoreServiceCoroutineImplBase.getStoreByType(type: Store.Type?): GetStoresResponse {
+private fun StoreServiceGrpc.StoreServiceBlockingStub.getByType(type: Store.Type?): GetStoresResponse {
     val getStoreByTypeRequest = GetStoreByTypeRequest.newBuilder()
         .setStoreType(proto.store.service.Store.Type.valueOf(type?.name ?: Store.Type.UNKNOWN.name))
         .build()
@@ -127,7 +127,7 @@ private suspend fun StoreServiceGrpcKt.StoreServiceCoroutineImplBase.getStoreByT
 }
 
 @ExperimentalSerializationApi
-private suspend fun StoreServiceGrpcKt.StoreServiceCoroutineImplBase.getAllStores(): GetStoresResponse {
+private suspend fun StoreServiceGrpc.StoreServiceBlockingStub.getAllStores(): GetStoresResponse {
     val getAllStoresRequest = GetAllStoresRequest
         .newBuilder()
         .build()
@@ -135,7 +135,7 @@ private suspend fun StoreServiceGrpcKt.StoreServiceCoroutineImplBase.getAllStore
 }
 
 @ExperimentalSerializationApi
-private suspend fun StoreServiceGrpcKt.StoreServiceCoroutineImplBase.updateStore(store: Store): UpdateStoreResponse {
+private suspend fun StoreServiceGrpc.StoreServiceBlockingStub.updateStore(store: Store): UpdateStoreResponse {
     val updateStoreByIdRequest = UpdateStoreRequest
         .newBuilder()
         .setUpdate(store.mapToProtoStore())
