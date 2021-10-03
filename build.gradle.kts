@@ -4,8 +4,10 @@ import com.google.protobuf.gradle.*
 group = "store.service"
 version = "0.0.1-SNAPSHOT"
 
-val protobufVersion = "1.41.0"
 val micronautVersion = "3.0.3"
+val protobufVersion = "3.18.0"
+val grpcVersion = "1.41.0"
+val kotlinVersion = "1.5.31"
 val kotlinCoroutineVersion = "1.5.2"
 
 repositories {
@@ -31,11 +33,6 @@ application {
     mainClass.set("store.service.App")
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-}
-
 micronaut {
     runtime("netty")
     testRuntime("junit5")
@@ -59,21 +56,22 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:${kotlinCoroutineVersion}")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${kotlinCoroutineVersion}")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.3.0")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:${kotlinVersion}")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:${kotlinVersion}")
+    implementation("org.slf4j:slf4j-simple:1.7.32")
     implementation("javax.inject:javax.inject:1")
-    implementation("io.grpc:grpc-protobuf-lite:${protobufVersion}")
-    implementation("io.grpc:grpc-protobuf:${protobufVersion}")
-    implementation("io.grpc:grpc-netty:${protobufVersion}")
+    implementation("io.grpc:grpc-protobuf-lite:${grpcVersion}")
+    implementation("io.grpc:grpc-protobuf:${grpcVersion}")
+    implementation("io.grpc:grpc-netty:${grpcVersion}")
     implementation("io.grpc:grpc-kotlin-stub-lite:1.0.0")
-    implementation("com.google.protobuf:protobuf-java:3.18.0")
-
+    implementation("com.google.protobuf:protobuf-java:${protobufVersion}")
     kaptTest("org.junit.jupiter:junit-jupiter-api:5.8.1")
     testImplementation("io.micronaut.grpc:micronaut-grpc-client-runtime:3.0.0")
     testImplementation("io.micronaut.test:micronaut-test-kotlintest:2.3.7")
     testImplementation("io.mockk:mockk:1.12.0")
-    testImplementation("io.kotlintest:kotlintest-runner-junit5:3.4.2")
     testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.2.0")
-    testRuntimeOnly("io.micronaut:micronaut-http-server-netty:${micronautVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+    testRuntimeOnly("io.micronaut:micronaut-http-server-netty:${micronautVersion}")
 }
 
 tasks {
@@ -92,32 +90,24 @@ tasks {
     }*/
 
     withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "11"
+        kotlinOptions.jvmTarget = "1.8"
     }
 
     withType<Test> {
-
         useJUnitPlatform()
-
-        test {
-            maxParallelForks = 1
-            systemProperties["junit.jupiter.execution.parallel.enabled"] = true
-
-        }
-
     }
 }
 
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:3.11.4"
+        artifact = "com.google.protobuf:protoc:3.11.4"   //TODO needs to be bumped!
     }
     plugins {
         id("grpc") {
-            artifact = "io.grpc:protoc-gen-grpc-java:1.25.0"
+            artifact = "io.grpc:protoc-gen-grpc-java:1.25.0" //TODO needs to be bumped!
         }
         id("grpckt") {
-            artifact = "io.grpc:protoc-gen-grpc-kotlin:0.2.0:jdk7@jar"
+            artifact = "io.grpc:protoc-gen-grpc-kotlin:0.2.0:jdk7@jar"//TODO needs to be bumped!
         }
     }
 
