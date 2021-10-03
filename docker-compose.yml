@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.9"
 
 services:
 
@@ -6,17 +6,19 @@ services:
     image: store-service:latest
     ports:
       - 50051:50051
-    hostname:
-      store-service
-    links:
-      - mongodb
+    hostname: store-service
 
   mongodb:
     image: mongo:latest
     ports:
       - 27017:27017
+    hostname: mongodb
+
+  envoy:
+    image: envoyproxy/envoy-dev:latest
+    ports:
+      - "10000:10000"
     volumes:
-      - ./database:/data
-    hostname:
-      mongodb
+      - ./build/generated/source/proto/main/descriptor_set.desc:/build/generated/source/proto/main/descriptor_set.desc
+      - ./envoy.yaml:/etc/envoy/envoy.yaml
 

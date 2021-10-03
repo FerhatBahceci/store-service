@@ -1,3 +1,4 @@
+/*
 package store.service
 
 import io.grpc.StatusRuntimeException
@@ -149,3 +150,4 @@ private fun Store.assertStoresResponse(storesResponse: GetStoresResponse, expect
     storesResponse.stores.storesCount shouldBe expectedAmount
     storesResponse.stores.storesList.map { ProtoBuf.decodeFromByteArray<Store>(it.toByteArray()) } shouldBe listOf(this)
 }
+*/

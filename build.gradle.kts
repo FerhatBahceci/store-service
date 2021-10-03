@@ -113,6 +113,7 @@ protobuf {
 
     generateProtoTasks {
         ofSourceSet("main").forEach {
+            it.generateDescriptorSet = true
             it.plugins {
                 id("grpc")
                 id("grpckt")
