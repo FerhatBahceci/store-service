@@ -30,7 +30,7 @@ inline fun <U : Request<U>, R, PR : MessageLite> R.toSuccessfulResponse(
     request: U,
     responseFactory: (R?, Response) -> PR
 ) =
-    responseFactory.invoke(this, createResponse(request.type.status.code))
+    responseFactory.invoke(this, createResponse(request.type.int))
 
 inline fun <R, PR> Throwable.toFailureResponse(protoResponseFactoryMethod: (R?, Response) -> PR): PR =
     when (this) {
