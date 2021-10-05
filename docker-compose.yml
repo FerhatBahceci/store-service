@@ -17,7 +17,7 @@ services:
   envoy:
     image: envoyproxy/envoy-dev:latest
     ports:
-      - "10000:10000"
+      - "51051:51051"
     volumes:
       - ./build/generated/source/proto/main/descriptor_set.desc:/build/generated/source/proto/main/descriptor_set.desc
       - ./envoy.yaml:/etc/envoy/envoy.yaml
