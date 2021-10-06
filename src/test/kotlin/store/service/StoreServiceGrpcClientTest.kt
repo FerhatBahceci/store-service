@@ -1,101 +1,81 @@
-/*
 package store.service
 
-import io.grpc.StatusRuntimeException
 import io.kotlintest.shouldBe
-import io.kotlintest.shouldThrow
+import io.kotlintest.specs.BehaviorSpec
+import io.kotlintest.specs.ShouldSpec
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import kotlinx.serialization.ExperimentalSerializationApi
+import io.mockk.coEvery
+import io.mockk.coJustRun
+import io.mockk.mockk
+import kotlinx.coroutines.ObsoleteCoroutinesApi
+import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.serialization.decodeFromByteArray
 import kotlinx.serialization.protobuf.ProtoBuf
-import org.junit.jupiter.api.Test
 import proto.store.service.*
-import store.service.DummyData.Companion.createId
-import store.service.DummyData.Companion.createProtoStore
-import store.service.DummyData.Companion.createStore
 import store.service.gateway.Store
+import store.service.gateway.StoreGateway
+import store.service.service.StoreServiceImpl
 import store.service.service.mapToProtoStore
-import javax.inject.Inject
 
-//TODO should be refactored into a single BDD test
+@ObsoleteCoroutinesApi
 @ExperimentalSerializationApi
-@MicronautTest()
-class StoreServiceGrpcClientTest(@Inject val storeServiceBlockingStub: StoreServiceGrpc.StoreServiceBlockingStub)  {
+@MicronautTest
+class StoreServiceImplTest : ShouldSpec({
 
-    val STORE_NAME = "ICA"
-    val STORE = createStore(name = STORE_NAME)
+    val STORE = DummyData.createStore("IKEA")
+    val NEW_NAME = "WILLYS"
+    val UPDATE_STORE = STORE.copy(name = NEW_NAME)
 
-    @Test
-    fun createStoreTest() {
-        storeServiceBlockingStub.create(STORE)
+    val storeGateway = mockk<StoreGateway> {
+
+        coEvery {
+            getAllStores()
+        } returns listOf(STORE)
+
+        coEvery {
+            getStoreByName(STORE.name!!)
+        } returns STORE
+
+        coEvery {
+            getStoreByType(STORE.type!!)
+        } returns listOf(STORE)
+
+        coEvery {
+            updateStore(UPDATE_STORE, STORE.id!!)
+        } returns UPDATE_STORE
+
+        coJustRun { deleteStore(STORE.id!!) }
+        coJustRun { createStore(STORE) }
     }
 
-    @Test
-    fun getStoreByTypeTest() {
-        createStoreTest()
-        createStoreTest()
+    val service = StoreServiceImpl(gateway = storeGateway, coroutineContext = newSingleThreadContext("gprc-test"))
 
-        val response = storeServiceBlockingStub.getByType(STORE.type)
-        response.also {
-            assert(it.stores.storesCount >= 2)
-        }
+    should("CREATE a store") {
+        service.createStore(STORE)
     }
 
-    @Test
-    fun getStoreByNameTest() {
-        createStoreTest()
-        val request = GetStoreByNameRequest.newBuilder().setName(STORE_NAME).build()
-        val response = storeServiceBlockingStub.getStoreByName(request)
-        response.also {
-            assert(it.store.name == request.name)
-        }
+    should("UPDATE a store") {
+        val UPDATE_STORE_RESPONSE = service.updateStore(UPDATE_STORE)
+        UPDATE_STORE shouldBe ProtoBuf.decodeFromByteArray<Store>(UPDATE_STORE_RESPONSE.update.toByteArray())
     }
 
-    @Test
-    fun getAllStoresTest() {
-        createStoreTest()
-        createStoreTest()
-        val request = GetAllStoresRequest.getDefaultInstance()
-        val response = storeServiceBlockingStub.getAllStores(request)
-        response.also {
-            assert(it.stores.storesCount >= 2)
-        }
+    should("GET a store") {
+
+        val GET_STORE_BY_NAME_RESPONSE = service.getStoreByName(STORE.name)
+        ProtoBuf.decodeFromByteArray<Store>(GET_STORE_BY_NAME_RESPONSE.store.toByteArray()) shouldBe STORE
+
+        val GET_STORES_BY_TYPE_RESPONSE = service.getStoreByType(STORE.type)
+        STORE.assertStoresResponse(GET_STORES_BY_TYPE_RESPONSE, 1)
+
+        val GET_ALL_STORES_RESPONSE = service.getAllStores()
+        STORE.assertStoresResponse(GET_ALL_STORES_RESPONSE, 1)
     }
 
-    @Test
-    fun deleteStoreByIdTest() {
-        val storeId = createId()
-        val storeName = "DeleteMe"
-        val createStoreRequest = CreateStoreRequest.newBuilder().setStore(createProtoStore(storeName, storeId)).build()
-        storeServiceBlockingStub.createStore(createStoreRequest)
-
-        val request = DeleteStoreByIdRequest.newBuilder().setId(storeId).build()
-        val response = storeServiceBlockingStub.deleteStore(request)
-
-        shouldThrow<StatusRuntimeException> {
-            storeServiceBlockingStub.getStoreByName(GetStoreByNameRequest.newBuilder().setName(storeName).build())
-        }
-    }
-
-    @Test
-    fun updateStoreByIdTest() {
-        val storeId = createId()
-        val store = createProtoStore(STORE_NAME, storeId)
-        val createStoreRequest = CreateStoreRequest.newBuilder().setStore(store).build()
-        storeServiceBlockingStub.createStore(createStoreRequest)
-
-        val newName = "Hemköp"
-        val updatedStore =
-            ProtoBuf.decodeFromByteArray<Store>(store.toByteArray()).copy(name = newName).mapToProtoStore()
-        val request = UpdateStoreRequest.newBuilder().setUpdate(updatedStore).setId(storeId).build()
-        val response = storeServiceBlockingStub.updateStore(request)
-
-        assert(response.update.name == newName)
-    }
-}
+})
 
 @ExperimentalSerializationApi
-private fun StoreServiceGrpc.StoreServiceBlockingStub.deleteStore(id: String?) {
+private suspend fun StoreServiceGrpcKt.StoreServiceCoroutineImplBase.deleteStore(id: String?) {
     val deleteStoreByIdRequest = DeleteStoreByIdRequest.newBuilder()
         .setId(id)
         .build()
@@ -103,7 +83,7 @@ private fun StoreServiceGrpc.StoreServiceBlockingStub.deleteStore(id: String?) {
 }
 
 @ExperimentalSerializationApi
-private fun StoreServiceGrpc.StoreServiceBlockingStub.create(store: Store) {
+private suspend fun StoreServiceGrpcKt.StoreServiceCoroutineImplBase.createStore(store: Store) {
     val createRequest = CreateStoreRequest
         .newBuilder()
         .setStore(store.mapToProtoStore())
@@ -112,7 +92,7 @@ private fun StoreServiceGrpc.StoreServiceBlockingStub.create(store: Store) {
 }
 
 @ExperimentalSerializationApi
-private fun StoreServiceGrpc.StoreServiceBlockingStub.getStoreByName(name: String?): GetStoreResponse {
+private suspend fun StoreServiceGrpcKt.StoreServiceCoroutineImplBase.getStoreByName(name: String?): GetStoreResponse {
     val getStoreByNameRequest = GetStoreByNameRequest.newBuilder()
         .setName(name)
         .build()
@@ -120,7 +100,7 @@ private fun StoreServiceGrpc.StoreServiceBlockingStub.getStoreByName(name: Strin
 }
 
 @ExperimentalSerializationApi
-private fun StoreServiceGrpc.StoreServiceBlockingStub.getByType(type: Store.Type?): GetStoresResponse {
+private suspend fun StoreServiceGrpcKt.StoreServiceCoroutineImplBase.getStoreByType(type: Store.Type?): GetStoresResponse {
     val getStoreByTypeRequest = GetStoreByTypeRequest.newBuilder()
         .setStoreType(proto.store.service.Store.Type.valueOf(type?.name ?: Store.Type.UNKNOWN.name))
         .build()
@@ -128,7 +108,7 @@ private fun StoreServiceGrpc.StoreServiceBlockingStub.getByType(type: Store.Type
 }
 
 @ExperimentalSerializationApi
-private suspend fun StoreServiceGrpc.StoreServiceBlockingStub.getAllStores(): GetStoresResponse {
+private suspend fun StoreServiceGrpcKt.StoreServiceCoroutineImplBase.getAllStores(): GetStoresResponse {
     val getAllStoresRequest = GetAllStoresRequest
         .newBuilder()
         .build()
@@ -136,10 +116,10 @@ private suspend fun StoreServiceGrpc.StoreServiceBlockingStub.getAllStores(): Ge
 }
 
 @ExperimentalSerializationApi
-private suspend fun StoreServiceGrpc.StoreServiceBlockingStub.updateStore(store: Store): UpdateStoreResponse {
+private suspend fun StoreServiceGrpcKt.StoreServiceCoroutineImplBase.updateStore(store: Store): UpdateStoreResponse {
     val updateStoreByIdRequest = UpdateStoreRequest
         .newBuilder()
-        .setUpdate(store.mapToProtoStore())
+        .setStore(store.mapToProtoStore())
         .setId(store.id)
         .build()
     return updateStore(updateStoreByIdRequest)
@@ -150,4 +130,3 @@ private fun Store.assertStoresResponse(storesResponse: GetStoresResponse, expect
     storesResponse.stores.storesCount shouldBe expectedAmount
     storesResponse.stores.storesList.map { ProtoBuf.decodeFromByteArray<Store>(it.toByteArray()) } shouldBe listOf(this)
 }
-*/

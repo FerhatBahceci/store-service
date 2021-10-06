@@ -65,6 +65,7 @@ dependencies {
     implementation("io.grpc:grpc-netty:${grpcVersion}")
     implementation("io.grpc:grpc-kotlin-stub-lite:1.0.0")
     implementation("com.google.protobuf:protobuf-java:${protobufVersion}")
+
     kaptTest("org.junit.jupiter:junit-jupiter-api:5.8.1")
     testImplementation("io.micronaut.grpc:micronaut-grpc-client-runtime:3.0.0")
     testImplementation("io.micronaut.test:micronaut-test-kotlintest:2.3.7")
@@ -72,6 +73,11 @@ dependencies {
     testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.2.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
     testRuntimeOnly("io.micronaut:micronaut-http-server-netty:${micronautVersion}")
+    testImplementation("org.spockframework:spock-core") {
+        exclude("org.codehaus.groovy", "groovy-all")
+    }
+    testImplementation("io.micronaut:micronaut-inject-groovy")
+    testImplementation("io.micronaut.test:micronaut-test-spock")
 }
 
 tasks {
