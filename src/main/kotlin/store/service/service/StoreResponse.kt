@@ -13,6 +13,7 @@ fun getStoresResponse(stores: List<Store>? = null, response: Response? = null): 
                     .addAllStores(stores?.map { it.mapToProtoStore() })
                     .build()
             )
+            .setResponse(response)
             .build()
     }
 

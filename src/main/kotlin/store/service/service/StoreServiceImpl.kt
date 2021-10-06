@@ -1,5 +1,6 @@
 package store.service.service
 
+import javax.inject.Inject
 import io.micronaut.grpc.annotation.GrpcService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.serialization.*
@@ -8,7 +9,6 @@ import proto.store.service.DeleteStoreByIdRequest
 import proto.store.service.GetAllStoresRequest
 import proto.store.service.GetStoreByNameRequest
 import proto.store.service.UpdateStoreRequest
-import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 import utility.grpc.execute
 import proto.store.service.CreateStoreRequest

@@ -5,10 +5,10 @@ import com.mongodb.reactivestreams.client.MongoClient
 import com.mongodb.reactivestreams.client.MongoCollection
 import kotlinx.coroutines.flow.toList
 import kotlinx.serialization.ExperimentalSerializationApi
-import javax.inject.Singleton
 import kotlinx.coroutines.reactive.*
 import utility.response.ResponseException
 import javax.inject.Inject
+import javax.inject.Singleton
 
 @ExperimentalSerializationApi
 @Singleton
