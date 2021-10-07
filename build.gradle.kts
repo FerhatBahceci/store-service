@@ -73,11 +73,6 @@ dependencies {
     testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.2.0")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
     testRuntimeOnly("io.micronaut:micronaut-http-server-netty:${micronautVersion}")
-    testImplementation("org.spockframework:spock-core") {
-        exclude("org.codehaus.groovy", "groovy-all")
-    }
-    testImplementation("io.micronaut:micronaut-inject-groovy")
-    testImplementation("io.micronaut.test:micronaut-test-spock")
 }
 
 tasks {
@@ -96,7 +91,7 @@ tasks {
     }*/
 
     withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.jvmTarget = "11"
     }
 
     withType<Test> {

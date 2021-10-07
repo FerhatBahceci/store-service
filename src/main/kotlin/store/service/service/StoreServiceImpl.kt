@@ -9,10 +9,10 @@ import proto.store.service.DeleteStoreByIdRequest
 import proto.store.service.GetAllStoresRequest
 import proto.store.service.GetStoreByNameRequest
 import proto.store.service.UpdateStoreRequest
-import kotlin.coroutines.CoroutineContext
-import utility.grpc.execute
 import proto.store.service.CreateStoreRequest
 import proto.store.service.GetStoreByTypeRequest
+import kotlin.coroutines.CoroutineContext
+import utility.grpc.execute
 import store.service.gateway.Store
 import store.service.gateway.StoreGateway
 

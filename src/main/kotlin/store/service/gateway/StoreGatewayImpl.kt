@@ -15,15 +15,15 @@ import javax.inject.Singleton
 class StoreGatewayImpl(@Inject private val mongoClient: MongoClient) : StoreGateway {
 
     private val collection: MongoCollection<Store> =
-            mongoClient
-                    .getDatabase("store-db")
-                    .getCollection("store", Store::class.java)
+        mongoClient
+            .getDatabase("store-db")
+            .getCollection("store", Store::class.java)
 
     override suspend fun getAllStores(): List<Store> =
-            collection.find().asFlow().toList()
+        collection.find().asFlow().toList()
 
     override suspend fun getStoreByType(type: Store.Type): List<Store> =
-            collection.find(eq("type", type.name)).asFlow().toList()
+        collection.find(eq("type", type.name)).asFlow().toList()
 
     override suspend fun createStore(store: Store) {
         collection.insertOne(store).awaitFirstOrElse {
@@ -32,10 +32,10 @@ class StoreGatewayImpl(@Inject private val mongoClient: MongoClient) : StoreGate
     }
 
     override suspend fun getStoreByName(name: String): Store =
-            collection.find(eq("name", name))
-                    .awaitFirstOrElse {
-                        throw ResponseException.NotFound("Could not GET store by name: ${name}")
-                    }
+        collection.find(eq("name", name))
+            .awaitFirstOrElse {
+                throw ResponseException.NotFound("Could not GET store by name: ${name}")
+            }
 
     override suspend fun deleteStore(id: String) {
         collection.deleteOne(eq("_id", id)).awaitFirstOrElse {
@@ -44,12 +44,12 @@ class StoreGatewayImpl(@Inject private val mongoClient: MongoClient) : StoreGate
     }
 
     override suspend fun updateStore(store: Store, id: String): Store =
-            collection.replaceOne(eq("_id", id), store.copy(id = id)).awaitFirst()
-                    .run {
-                        if (!this.wasAcknowledged()) {
-                            throw ResponseException.InternalError("Could not UPDATE store by id: ${id} ")
-                        } else {
-                            collection.find(eq("_id", id)).limit(1).awaitFirst()
-                        }
-                    }
+        collection.replaceOne(eq("_id", id), store.copy(id = id)).awaitFirst()
+            .run {
+                if (!this.wasAcknowledged()) {
+                    throw ResponseException.InternalError("Could not UPDATE store by id: ${id} ")
+                } else {
+                    collection.find(eq("_id", id)).limit(1).awaitFirst()
+                }
+            }
 }
