@@ -5,7 +5,5 @@ grpc:
   host: 'localhost'
   port: '50052'
 
-datasources:
-  default:
-    mongodb:
-      uri: mongodb://mongodb:27017
+mongodb:
+  uri: mongodb://mongodb:27017
