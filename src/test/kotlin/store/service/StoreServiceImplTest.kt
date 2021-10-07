@@ -62,7 +62,6 @@ class StoreServiceImplTest : ShouldSpec({
     }
 
     should("GET a store") {
-
         val GET_STORE_BY_NAME_RESPONSE = service.getStoreByName(STORE.name)
         ProtoBuf.decodeFromByteArray<Store>(GET_STORE_BY_NAME_RESPONSE.store.toByteArray()) shouldBe STORE
         GET_STORE_BY_NAME_RESPONSE.response.status shouldBe 200
@@ -74,7 +73,6 @@ class StoreServiceImplTest : ShouldSpec({
         val GET_ALL_STORES_RESPONSE = service.getAllStores()
         STORE.assertStoresResponse(GET_ALL_STORES_RESPONSE, 1)
         GET_ALL_STORES_RESPONSE.response.status shouldBe 200
-
     }
 
     should("DELETE a store") {

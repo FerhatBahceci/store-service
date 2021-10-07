@@ -1,15 +1,12 @@
-/*
 package store.service
 
 import io.grpc.StatusRuntimeException
-import io.kotlintest.shouldBe
 import io.kotlintest.shouldThrow
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.decodeFromByteArray
-import kotlinx.serialization.protobuf.ProtoBuf
 import org.junit.jupiter.api.Test
 import proto.store.service.*
+import store.service.DummyData.Companion.createId
 import store.service.DummyData.Companion.createStore
 import store.service.gateway.Store
 import store.service.service.mapToProtoStore
@@ -24,60 +21,60 @@ class StoreServiceGrpcClientTest(@Inject val storeServiceBlockingStub: StoreServ
     val STORE = createStore(name = STORE_NAME)
 
     @Test
-    fun createStoreTest() {
+    fun crudTest() {
+        createStoreTest()
+        getStoreByTypeTest()
+        getStoreByNameTest()
+        getAllStoresTest()
+        updateStoreByIdTest()
+        deleteStoreByIdTest()
+    }
+
+    private fun createStoreTest() {
         val response = storeServiceBlockingStub.create(STORE)
         assert(response?.response?.status == 201)
     }
 
-    @Test
-    fun getStoreByTypeTest() {
-        createStoreTest()
-        createStoreTest()
+    private fun getStoreByTypeTest() {
         val response = storeServiceBlockingStub.getByType(STORE.type)
-        assert(response.stores.storesCount >= 2)
+        assert(response.stores.storesCount >= 1)
     }
 
-    @Test
-    fun getStoreByNameTest() {
-        createStoreTest()
+    private fun getStoreByNameTest() {
         storeServiceBlockingStub.getStoreByName(STORE.name).apply {
             assert(this.store.name == STORE.name)
             assert(this.response.status == 200)
         }
     }
 
-    @Test
-    fun getAllStoresTest() {
-        createStoreTest()
-        createStoreTest()
-        val request = GetAllStoresRequest.getDefaultInstance()
-        storeServiceBlockingStub.getAllStores(request).apply {
-            assert(this.stores.storesCount >= 2)
+    private fun getAllStoresTest() {
+        storeServiceBlockingStub.getAllStores().apply {
+            assert(this.stores.storesCount >= 1)
             assert(this.response.status == 200)
         }
     }
 
-    @Test
-    fun deleteStoreByIdTest() {
-        createStoreTest()
-        storeServiceBlockingStub.deleteStore(STORE.id).apply {
-            assert(this?.response?.status == 204)
-        }
-        shouldThrow<StatusRuntimeException> {
-            storeServiceBlockingStub.getStoreByName(STORE.name)
-        }
-    }
-
-    @Test
-    fun updateStoreByIdTest() {
-        createStoreTest()
-
+    private fun updateStoreByIdTest() {
         val NEW_NAME = "Hemköp"
         val UPDATE_STORE = STORE.copy(name = NEW_NAME)
-
         storeServiceBlockingStub.updateStore(UPDATE_STORE).apply {
             assert(this.update.name == NEW_NAME)
             assert(this.response.status == 204)
+        }
+    }
+
+    private fun deleteStoreByIdTest() {
+
+        val ID = createId()
+        val NAME  = "DELETE_ME"
+        val CREATE_FOR_DELETE_STORE = STORE.copy(id = ID, name = NAME)
+
+        storeServiceBlockingStub.create(CREATE_FOR_DELETE_STORE)
+        storeServiceBlockingStub.deleteStore(ID).apply {
+            assert(this?.response?.status == 204)
+        }
+        shouldThrow<StatusRuntimeException> {
+            storeServiceBlockingStub.getStoreByName(NAME)
         }
     }
 }
@@ -133,4 +130,3 @@ private fun StoreServiceGrpc.StoreServiceBlockingStub.updateStore(store: Store):
     return updateStore(updateStoreByIdRequest)
 }
 
-*/
