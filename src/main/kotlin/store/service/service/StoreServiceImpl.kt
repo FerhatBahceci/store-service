@@ -24,22 +24,22 @@ class StoreServiceImpl constructor(
 ) : StoreServiceGrpcKt.StoreServiceCoroutineImplBase(), CoroutineScope {
 
     override suspend fun getAllStores(request: GetAllStoresRequest): GetStoresResponse =
-        execute(request, ::getAllStores, ::getStoresResponse)
+        execute(request, ::getAllStores, ::createGetStoresResponse)
 
     override suspend fun getStoreByType(request: GetStoreByTypeRequest): GetStoresResponse =
-        execute(request, ::getStoreByType, ::getStoresResponse)
+        execute(request, ::getStoreByType, ::createGetStoresResponse)
 
     override suspend fun getStoreByName(request: GetStoreByNameRequest): GetStoreResponse =
-        execute(request, ::getStoreByName, ::getStoreResponse)
+        execute(request, ::getStoreByName, ::createGetStoreResponse)
 
     override suspend fun createStore(request: CreateStoreRequest): CreatedStoreResponse =
-        execute(request, ::createStore, ::createdStoreResponse)
+        execute(request, ::createStore, ::createCreatedStoreResponse)
 
     override suspend fun updateStore(request: UpdateStoreRequest): UpdateStoreResponse =
-        execute(request, ::updateStore, ::updatedStoreResponse)
+        execute(request, ::updateStore, ::createUpdatedStoreResponse)
 
     override suspend fun deleteStore(request: DeleteStoreByIdRequest): DeleteStoreResponse =
-        execute(request, ::deleteStore, ::deletedStoreResponse)
+        execute(request, ::deleteStore, ::createDeletedStoreResponse)
 
     private suspend fun getAllStores(request: store.service.service.GetAllStoresRequest) =
         gateway.getAllStores()

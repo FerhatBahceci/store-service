@@ -5,7 +5,7 @@ import proto.store.service.*
 import store.service.gateway.Store
 
 @ExperimentalSerializationApi
-fun getStoresResponse(stores: List<Store>? = null, response: Response? = null): GetStoresResponse =
+fun createGetStoresResponse(stores: List<Store>? = null, response: Response? = null): GetStoresResponse =
     stores?.map { it.mapToProtoStore() }.let {
         GetStoresResponse.newBuilder()
             .setStores(
@@ -18,25 +18,25 @@ fun getStoresResponse(stores: List<Store>? = null, response: Response? = null): 
     }
 
 @ExperimentalSerializationApi
-fun getStoreResponse(store: Store? = null, response: Response? = null): GetStoreResponse =
+fun createGetStoreResponse(store: Store? = null, response: Response? = null): GetStoreResponse =
     GetStoreResponse.newBuilder()
         .setResponse(response)
         .setStore(store?.mapToProtoStore())
         .build()
 
 @ExperimentalSerializationApi
-fun updatedStoreResponse(update: Store? = null, response: Response? = null): UpdateStoreResponse =
+fun createUpdatedStoreResponse(update: Store? = null, response: Response? = null): UpdateStoreResponse =
     UpdateStoreResponse.newBuilder()
         .setUpdate(update?.mapToProtoStore())
         .setResponse(response)
         .build()
 
-fun createdStoreResponse(create: Unit? = null, response: Response? = null): CreatedStoreResponse =
+fun createCreatedStoreResponse(create: Unit? = null, response: Response? = null): CreatedStoreResponse =
     CreatedStoreResponse.newBuilder()
         .setResponse(response)
         .build()
 
-fun deletedStoreResponse(create: Unit? = null, response: Response? = null): DeleteStoreResponse =
+fun createDeletedStoreResponse(create: Unit? = null, response: Response? = null): DeleteStoreResponse =
     DeleteStoreResponse.newBuilder()
         .setResponse(response)
         .build()
