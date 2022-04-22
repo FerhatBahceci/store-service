@@ -19,3 +19,11 @@
 [Package by feature](http://www.javapractices.com/topic/TopicAction.do?Id=205)
 
 [Java 9 Platform Module System](https://www.oracle.com/corporate/features/understanding-java-9-modules.html)
+
+
+### Java and Gradle versions
+
+*Java 11*
+
+*Gradle 7.3*
+
