@@ -4,11 +4,11 @@ import com.google.protobuf.gradle.*
 group = "store.service"
 version = "0.0.1-SNAPSHOT"
 
-val micronautVersion = "3.0.3"
+val micronautVersion = "3.4.2"
 val protobufVersion = "3.18.0"
 val grpcVersion = "1.41.0"
-val kotlinVersion = "1.5.31"
-val kotlinCoroutineVersion = "1.5.2"
+val kotlinVersion = "1.6.21"
+val kotlinCoroutineVersion = "1.6.1"
 
 repositories {
     mavenCentral()
@@ -19,7 +19,7 @@ plugins {
     idea
     java
 
-    val kotlinVersion = "1.5.31"
+    val kotlinVersion = "1.6.21"
     id("org.jetbrains.kotlin.jvm") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.serialization") version kotlinVersion
     id("org.jetbrains.kotlin.plugin.allopen") version kotlinVersion
