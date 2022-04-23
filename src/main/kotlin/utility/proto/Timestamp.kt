@@ -13,7 +13,7 @@ data class Timestamp(var seconds: Long? = null, val nanos: Int? = 0) {
 
     @ExperimentalSerializationApi
     @Serializer(forClass = Timestamp::class)
-    object TimestampSerializer : DeserializationStrategy<Timestamp> {
+    object TimestampSerializer : KSerializer<Timestamp> {
 
         override fun serialize(encoder: Encoder, value: Timestamp) {
             ProtoBuf.encodeToByteArray(value)

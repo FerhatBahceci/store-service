@@ -15,6 +15,10 @@ data class  Store(
     var type: Type? = null,
 ) {
 
+    init {
+        this.validateStore()
+    }
+
     @ExperimentalSerializationApi
     @Serializable
     data class Coordinates(var longitude: Long? = null, var latitude: Long? = null)

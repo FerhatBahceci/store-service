@@ -1,7 +1,6 @@
 package store.service.service
 
 import javax.inject.Inject
-import io.micronaut.grpc.annotation.GrpcService
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.serialization.*
 import proto.store.service.*
@@ -17,7 +16,9 @@ import store.service.gateway.Store
 import store.service.gateway.StoreGateway
 
 @ExperimentalSerializationApi
+/*
 @GrpcService
+*/
 class StoreServiceImpl constructor(
     @Inject private val gateway: StoreGateway,
     @Inject override val coroutineContext: CoroutineContext
