@@ -61,7 +61,7 @@ dependencies {
     kapt("io.micronaut:micronaut-validation:$micronautVersion")
     kapt("io.micronaut:micronaut-inject-java:$micronautVersion")
     implementation("io.micronaut:micronaut-management:$micronautVersion")
-    implementation("io.micronaut.mongodb:micronaut-mongo-reactive:4.1.0")
+    implementation("io.micronaut.mongodb:micronaut-mongo-reactive:4.0.0")
     implementation("io.micronaut.configuration:micronaut-openapi:1.5.3")
     implementation("io.micronaut.grpc:micronaut-grpc-server-runtime:3.0.0")
 
@@ -77,9 +77,6 @@ dependencies {
     implementation("io.grpc:grpc-protobuf:$grpcVersion")
     implementation("io.grpc:grpc-kotlin-stub:1.2.1")
     implementation("com.google.protobuf:protobuf-java:$protobufVersion")
-/*
-    implementation("io.grpc:grpc-netty:$grpcVersion")
-*/
 
     /* Use following dependencies strictly*/
     implementation("io.grpc:grpc-stub") {
@@ -100,6 +97,12 @@ dependencies {
         }
     }
 
+    implementation("io.micronaut.grpc:micronaut-grpc-server-runtime") {
+        version {
+            strictly("3.1.3")
+        }
+    }
+
     /* Test*/
     kaptTest("org.junit.jupiter:junit-jupiter-api:5.8.1")
     testImplementation("io.micronaut.grpc:micronaut-grpc-client-runtime:3.2.0")
@@ -112,7 +115,9 @@ dependencies {
 
 tasks {
 
-/*    val moduleName by extra("store.service")
+/*
+//TODO duplicated dependencies due to micronaut-app plugin
+val moduleName by extra("store.service")
 
     compileJava {
         inputs.property("moduleName", moduleName)
