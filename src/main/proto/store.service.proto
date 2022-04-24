@@ -142,3 +142,8 @@ message Store {
     UNKNOWN = 14;
   }
 }
+
+message StoreSearchEvent {
+  string name = 1;
+  google.protobuf.Timestamp time = 2;
+}

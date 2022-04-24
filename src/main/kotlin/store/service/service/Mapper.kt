@@ -3,6 +3,8 @@ package store.service.service
 import kotlinx.serialization.ExperimentalSerializationApi
 import proto.store.service.Store
 import com.google.protobuf.Timestamp
+import proto.store.service.StoreSearchEvent
+import java.time.Instant
 
 @ExperimentalSerializationApi
 fun store.service.gateway.Store.mapToProtoStore() =
@@ -15,6 +17,14 @@ fun store.service.gateway.Store.mapToProtoStore() =
                 .putAllHours(hours?.mapToProtoHours())
                 .setType(type?.mapToProtoStoreType())
                 .build()
+
+fun GetStoreByNameRequest.createStoreSearchEvent() =
+        Instant.now().let {
+                StoreSearchEvent.newBuilder()
+                        .setName(name)
+                        .setTime(it.createProtoTimestamp())
+                        .build()
+        }
 
 @ExperimentalSerializationApi
 private fun store.service.gateway.Store.Coordinates.mapToProtoCoordinates() =
@@ -44,3 +54,8 @@ private fun utility.proto.Timestamp.mapToTimestamp() =
                 .setSeconds(this.seconds ?: 0)
                 .setNanos(this.nanos ?: 0)
                 .build()
+
+private fun Instant.createProtoTimestamp() =
+        Timestamp.newBuilder()
+                .setNanos(nano)
+                .setSeconds(epochSecond)

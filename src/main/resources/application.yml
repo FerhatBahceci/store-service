@@ -8,3 +8,12 @@ grpc:
 mongodb:
   uri: mongodb://localhost:27017
 ## Use uri: mongodb://mongodb:27017 for docker-compose deployment.
+
+kafka:
+  bootstrap:
+    servers:
+      - foo:9092
+
+  producers:
+    default:
+      retries: 5     - bar:9092

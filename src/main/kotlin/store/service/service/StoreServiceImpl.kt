@@ -4,6 +4,7 @@ import io.micronaut.grpc.annotation.GrpcService
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.serialization.*
+import org.slf4j.LoggerFactory
 import proto.store.service.*
 import proto.store.service.DeleteStoreByIdRequest
 import proto.store.service.GetAllStoresRequest
@@ -20,9 +21,11 @@ import store.service.gateway.StoreGateway
 @GrpcService
 class StoreServiceImpl constructor(
     @Inject private val gateway: StoreGateway,
-    @Inject override val coroutineContext: CoroutineContext
+    @Inject override val coroutineContext: CoroutineContext,
+    @Inject val kafkaClient: ReactiveKafkaClient<StoreSearchEvent>
 ) : StoreServiceGrpcKt.StoreServiceCoroutineImplBase(), CoroutineScope {
 
+    private val LOGGER = LoggerFactory.getLogger(StoreServiceImpl::class.java)
     override suspend fun getAllStores(request: GetAllStoresRequest): GetStoresResponse =
         execute(request, ::getAllStores, ::createGetStoresResponse)
 
@@ -44,9 +47,6 @@ class StoreServiceImpl constructor(
     private suspend fun getAllStores(request: store.service.service.GetAllStoresRequest) =
         gateway.getAllStores()
 
-    private suspend fun getStoreByName(request: store.service.service.GetStoreByNameRequest) =
-        gateway.getStoreByName(request.name)
-
     private suspend fun getStoreByType(request: store.service.service.GetStoreByTypeRequest) =
         gateway.getStoreByType(Store.Type.valueOf(request.storeType.name))
 
@@ -58,4 +58,13 @@ class StoreServiceImpl constructor(
 
     private suspend fun updateStore(request: store.service.service.UpdateStoreRequest) =
         gateway.updateStore(request.store, request.id)
+
+    private suspend fun getStoreByName(request: store.service.service.GetStoreByNameRequest) =
+        kafkaClient.publish("store_search", request.name, request.createStoreSearchEvent())
+            .doOnSuccess {
+                LOGGER.info("Recorded store search: ${request.name}, search_id: ${it.offset()}, time: ${it.timestamp()}")
+            }.let {
+                gateway.getStoreByName(request.name)
+            }
+
 }

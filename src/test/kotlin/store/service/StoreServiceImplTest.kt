@@ -48,7 +48,7 @@ class StoreServiceImplTest : ShouldSpec({
         coJustRun { createStore(STORE) }
     }
 
-    val service = StoreServiceImpl(gateway = storeGateway, coroutineContext = newSingleThreadContext("gprc-test"))
+    val service = StoreServiceImpl(gateway = storeGateway, coroutineContext = newSingleThreadContext("gprc-test"), kafkaClient = )
 
     should("CREATE a store") {
         val CREATE_RESPONSE = service.createStore(STORE)

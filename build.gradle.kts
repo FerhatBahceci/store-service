@@ -65,6 +65,8 @@ dependencies {
     implementation("io.micronaut.mongodb:micronaut-mongo-reactive:4.0.0")
     implementation("io.micronaut.configuration:micronaut-openapi:1.5.3")
     implementation("io.micronaut.grpc:micronaut-grpc-server-runtime:3.0.0")
+    implementation("io.micronaut.kafka:micronaut-kafka:4.3.0")
+    implementation("io.micronaut.reactor:micronaut-reactor:2.2.2")
 
     /* Kotlin */
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor:$kotlinCoroutineVersion")

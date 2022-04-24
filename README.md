@@ -8,6 +8,10 @@
 
 [Micronaut Test](https://micronaut-projects.github.io/micronaut-test/latest/guide/)
 
+[Micronaut Kafka](https://micronaut-projects.github.io/micronaut-kafka/latest/guide/)
+
+[Micronaut Reactor](https://micronaut-projects.github.io/micronaut-reactor/latest/guide/)
+
 [Kotlin gRPC](https://grpc.io/docs/languages/kotlin/)
 
 [Kotlin Protobuf Serialization](https://kotlin.github.io/kotlinx.serialization/kotlinx-serialization-protobuf/kotlinx-serialization-protobuf/kotlinx.serialization.protobuf/index.html)
