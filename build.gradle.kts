@@ -22,7 +22,6 @@ plugins {
     val kotlinVersion = "1.6.21"
     id("org.jetbrains.kotlin.jvm") version kotlinVersion
     id("org.jetbrains.kotlin.kapt") version kotlinVersion
-
     id("org.jetbrains.kotlin.plugin.serialization") version kotlinVersion
     id("io.micronaut.application") version "3.3.2"
     id("com.google.protobuf") version "0.8.18"
@@ -42,9 +41,11 @@ micronaut {
     }
 }
 
+/*
 kapt {
     correctErrorTypes = true
 }
+*/
 
 dependencies {
 

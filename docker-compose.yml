@@ -2,18 +2,6 @@ version: "3.9"
 
 services:
 
-  store-service:
-    image: store-service:latest
-    ports:
-      - 50051:50051
-    hostname: store-service
-
-  mongodb:
-    image: mongo:latest
-    ports:
-      - 27017:27017
-    hostname: mongodb
-
   envoy:
     image: envoyproxy/envoy-dev:latest
     ports:
@@ -21,4 +9,19 @@ services:
     volumes:
       - ./build/generated/source/proto/main/descriptor_set.desc:/build/generated/source/proto/main/descriptor_set.desc
       - ./envoy.yaml:/etc/envoy/envoy.yaml
+    depends_on:
+      - store-service
 
+  store-service:
+    image: store-service:latest
+    ports:
+      - 50051:50051
+    hostname: store-service
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    hostname: mongodb
