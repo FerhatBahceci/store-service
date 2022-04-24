@@ -12,8 +12,7 @@ mongodb:
 kafka:
   bootstrap:
     servers:
-      - foo:9092
-
+      - kafka:9092
   producers:
     default:
-      retries: 5     - bar:9092
+      retries: 5

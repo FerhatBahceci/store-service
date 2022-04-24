@@ -8,5 +8,5 @@ import reactor.core.publisher.Mono
 
 @KafkaClient
 interface ReactiveKafkaClient<T> {
-    fun publish(@Topic topic : String, @KafkaKey key: String, value: T) :  Mono<RecordMetadata>
+    fun publish(@Topic topic: String, @KafkaKey key: String, value: T): Mono<RecordMetadata>
 }

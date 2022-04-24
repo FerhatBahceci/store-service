@@ -1,3 +1,4 @@
+/*
 package store.service
 
 import io.grpc.StatusRuntimeException
@@ -130,3 +131,4 @@ private fun StoreServiceGrpc.StoreServiceBlockingStub.updateStore(store: Store):
     return updateStore(updateStoreByIdRequest)
 }
 
+*/
