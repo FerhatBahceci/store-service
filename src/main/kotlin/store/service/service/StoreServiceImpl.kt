@@ -63,8 +63,9 @@ class StoreServiceImpl constructor(
         kafkaClient.publish("store_search", request.name, request.createStoreSearchEvent())
             .doOnSuccess {
                 LOGGER.info("Recorded store search: ${request.name}, search_id: ${it.offset()}, time: ${it.timestamp()}")
-            }.let {
+            }
+            .subscribe()
+            .run {
                 gateway.getStoreByName(request.name)
             }
-
 }
