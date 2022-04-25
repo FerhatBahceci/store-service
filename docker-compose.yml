@@ -36,12 +36,11 @@ services:
       - 22181:2181
 
   kafka:
-    hostname: kafka
     image: confluentinc/cp-kafka:latest
     depends_on:
       - zookeeper
     ports:
-      - 9092:9092
+      - 29092:29092
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
