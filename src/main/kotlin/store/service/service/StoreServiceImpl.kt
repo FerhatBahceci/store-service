@@ -64,7 +64,6 @@ class StoreServiceImpl constructor(
             .doOnSuccess {
                 LOGGER.info("Recorded store search: ${request.name}, search_id: ${it.offset()}, time: ${it.timestamp()}")
             }
-            .subscribe()
             .run {
                 gateway.getStoreByName(request.name)
             }

@@ -6,7 +6,9 @@ import io.micronaut.configuration.kafka.annotation.Topic
 import org.apache.kafka.clients.producer.RecordMetadata
 import reactor.core.publisher.Mono
 
-@KafkaClient
+@KafkaClient(
+    acks = KafkaClient.Acknowledge.ALL,
+)
 interface ReactiveKafkaClient<T> {
     fun publish(@Topic topic: String, @KafkaKey key: String, value: T): Mono<RecordMetadata>
 }
