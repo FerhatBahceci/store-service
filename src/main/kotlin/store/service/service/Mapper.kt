@@ -18,7 +18,7 @@ fun store.service.gateway.Store.mapToProtoStore() =
                 .setType(type?.mapToProtoStoreType())
                 .build()
 
-fun GetStoreByNameRequest.createStoreSearchEvent() =
+fun GetStoreByNameRequest.createStoreSearchEvent() : StoreSearchEvent =
         Instant.now().let {
                 StoreSearchEvent.newBuilder()
                         .setName(name)

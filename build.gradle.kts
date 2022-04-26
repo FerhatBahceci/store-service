@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.google.protobuf.gradle.*
+import java.net.URI;
 
 group = "store.service"
 version = "0.0.1-SNAPSHOT"
@@ -12,6 +13,7 @@ val kotlinCoroutineVersion = "1.6.1"
 
 repositories {
     mavenCentral()
+    maven { url = URI("https://packages.confluent.io/maven/") }
 }
 
 plugins {
@@ -66,6 +68,7 @@ dependencies {
     implementation("io.micronaut.configuration:micronaut-openapi:1.5.3")
     implementation("io.micronaut.grpc:micronaut-grpc-server-runtime:3.0.0")
     implementation("io.micronaut.kafka:micronaut-kafka:4.3.0")
+    implementation("io.confluent:kafka-protobuf-serializer:7.1.0")
     implementation("io.micronaut.reactor:micronaut-reactor:2.2.2")
 
     /* Kotlin */
@@ -81,7 +84,7 @@ dependencies {
     implementation("io.grpc:grpc-kotlin-stub:1.2.1")
     implementation("com.google.protobuf:protobuf-java:$protobufVersion")
 
-    /* Use following dependencies strictly*/
+    /* Use following dependencies strictly since latest Micronaut application plugin is not compatible with latest versions of Micronaut dependencies*/
     implementation("io.grpc:grpc-stub") {
         version {
             strictly(grpcVersion)

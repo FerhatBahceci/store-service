@@ -6,13 +6,13 @@ grpc:
   port: '50052'
 
 mongodb:
-  uri: mongodb://mongodb:27017
+  uri: mongodb://localhost:27017
 ## Use uri: mongodb://mongodb:27017 for docker-compose deployment.
 
 kafka:
   bootstrap:
     servers:
-      - kafka:29092
-  producers:
-    default:
-      retries: 5
+      - localhost:29092
+#  producers:
+#    default:
+#      retries: 5

@@ -23,3 +23,14 @@
 [Package by feature](http://www.javapractices.com/topic/TopicAction.do?Id=205)
 
 [Java 9 Platform Module System](https://www.oracle.com/corporate/features/understanding-java-9-modules.html)
+
+
+#### Docker commands
+
+1. Stop the container(s) using the following command:
+docker-compose down
+
+2. Delete all containers using the following command:
+docker rm -f $(docker ps -a -q)
+
+3. docker volume rm $(docker volume ls -q)

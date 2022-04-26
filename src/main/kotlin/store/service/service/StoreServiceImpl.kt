@@ -3,6 +3,8 @@ package store.service.service
 import io.micronaut.grpc.annotation.GrpcService
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import kotlinx.serialization.*
 import org.slf4j.LoggerFactory
 import proto.store.service.*
@@ -26,14 +28,23 @@ class StoreServiceImpl constructor(
 ) : StoreServiceGrpcKt.StoreServiceCoroutineImplBase(), CoroutineScope {
 
     private val LOGGER = LoggerFactory.getLogger(StoreServiceImpl::class.java)
+    override suspend fun getStoreByName(request: GetStoreByNameRequest): GetStoreResponse =
+        execute(request, ::getStoreByNameAndPublish, ::createGetStoreResponse)
+
+    private suspend fun getStoreByNameAndPublish(request: store.service.service.GetStoreByNameRequest) =
+        withContext(Dispatchers.IO) {
+            kafkaClient.publish("store_search", request.name, request.createStoreSearchEvent())
+        }
+            .run {
+                LOGGER.info("Recorded store search: ${request.name}, search_id: ${offset()}, time: ${timestamp()}")
+                getStoreByName(request.name)
+            }
+
     override suspend fun getAllStores(request: GetAllStoresRequest): GetStoresResponse =
         execute(request, ::getAllStores, ::createGetStoresResponse)
 
     override suspend fun getStoreByType(request: GetStoreByTypeRequest): GetStoresResponse =
         execute(request, ::getStoreByType, ::createGetStoresResponse)
-
-    override suspend fun getStoreByName(request: GetStoreByNameRequest): GetStoreResponse =
-        execute(request, ::getStoreByName, ::createGetStoreResponse)
 
     override suspend fun createStore(request: CreateStoreRequest): CreatedStoreResponse =
         execute(request, ::createStore, ::createCreatedStoreResponse)
@@ -59,12 +70,6 @@ class StoreServiceImpl constructor(
     private suspend fun updateStore(request: store.service.service.UpdateStoreRequest) =
         gateway.updateStore(request.store, request.id)
 
-    private suspend fun getStoreByName(request: store.service.service.GetStoreByNameRequest) =
-        kafkaClient.publish("store_search", request.name, request.createStoreSearchEvent())
-            .doOnSuccess {
-                LOGGER.info("Recorded store search: ${request.name}, search_id: ${it.offset()}, time: ${it.timestamp()}")
-            }
-            .run {
-                gateway.getStoreByName(request.name)
-            }
+    private suspend fun getStoreByName(name: String) =
+        gateway.getStoreByName(name)
 }

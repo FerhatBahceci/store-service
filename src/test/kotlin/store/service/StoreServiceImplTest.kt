@@ -1,4 +1,3 @@
-/*
 package store.service
 
 import io.kotlintest.shouldBe
@@ -7,14 +6,18 @@ import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import kotlinx.serialization.ExperimentalSerializationApi
 import io.mockk.coEvery
 import io.mockk.coJustRun
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.serialization.decodeFromByteArray
 import kotlinx.serialization.protobuf.ProtoBuf
+import org.apache.kafka.clients.producer.RecordMetadata
+import org.apache.kafka.common.TopicPartition
 import proto.store.service.*
 import store.service.gateway.Store
 import store.service.gateway.StoreGateway
+import store.service.service.ReactiveKafkaClient
 import store.service.service.StoreServiceImpl
 import store.service.service.mapToProtoStore
 
@@ -49,7 +52,27 @@ class StoreServiceImplTest : ShouldSpec({
         coJustRun { createStore(STORE) }
     }
 
-    val service = StoreServiceImpl(gateway = storeGateway, coroutineContext = newSingleThreadContext("gprc-test"), kafkaClient = )
+    val mockKafkaClient = mockk<ReactiveKafkaClient<StoreSearchEvent>> {
+
+        every {
+            publish(any(), any(), any())
+        } returns RecordMetadata(
+            TopicPartition(
+                "store_search", 50),
+            10,
+            10,
+            10,
+            10,
+            10
+        )
+    }
+
+    val service =
+        StoreServiceImpl(
+            gateway = storeGateway,
+            coroutineContext = newSingleThreadContext("gprc-test"),
+            kafkaClient = mockKafkaClient
+        )
 
     should("CREATE a store") {
         val CREATE_RESPONSE = service.createStore(STORE)
@@ -138,4 +161,3 @@ private fun Store.assertStoresResponse(storesResponse: GetStoresResponse, expect
     storesResponse.stores.storesCount shouldBe expectedAmount
     storesResponse.stores.storesList.map { ProtoBuf.decodeFromByteArray<Store>(it.toByteArray()) } shouldBe listOf(this)
 }
-*/

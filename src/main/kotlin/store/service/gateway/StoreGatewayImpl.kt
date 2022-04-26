@@ -34,7 +34,7 @@ class StoreGatewayImpl(@Inject private val mongoClient: MongoClient) : StoreGate
     override suspend fun getStoreByName(name: String): Store =
         collection.find(eq("name", name))
             .awaitFirstOrElse {
-                throw ResponseException.NotFound("Could not GET store by name: ${name}")
+                throw ResponseException.NotFound("Could not FIND store by name: ${name}")
             }
 
     override suspend fun deleteStore(id: String) {
