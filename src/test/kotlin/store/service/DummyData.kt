@@ -2,6 +2,8 @@ package store.service
 
 import com.google.protobuf.Timestamp
 import kotlinx.serialization.ExperimentalSerializationApi
+import org.apache.kafka.clients.producer.RecordMetadata
+import org.apache.kafka.common.TopicPartition
 import proto.store.service.Store
 
 class DummyData {
@@ -17,11 +19,22 @@ class DummyData {
         const val LONGITUDE = 420L
         const val PHONE_NO = "+46 111 111 11"
 
+        val RECORD_META_DATA = RecordMetadata(
+            TopicPartition(
+                "store_search", 50
+            ),
+            10,
+            10,
+            10,
+            10,
+            10
+        )
+
         @ExperimentalSerializationApi
         fun createStore(
-                name: String,
-                id: String = createId(),
-                type: store.service.gateway.Store.Type = store.service.gateway.Store.Type.GROCERIES
+            name: String,
+            id: String = createId(),
+            type: store.service.gateway.Store.Type = store.service.gateway.Store.Type.GROCERIES
         ) =
             store.service.gateway.Store(
                 description = DESCRIPTION,
@@ -40,21 +53,21 @@ class DummyData {
 
         @ExperimentalSerializationApi
         fun createProtoStore(name: String, id: String = createId(), type: Store.Type = Store.Type.GROCERIES): Store =
-                Store.newBuilder()
-                        .putHours(
-                                DAY_OF_WEEK,
-                                Store.OpeningHours.newBuilder()
-                                        .setOpening(Timestamp.newBuilder().setNanos(NANOS).setSeconds(OPENING_SECONDS))  // 10.30
-                                        .setClosing(Timestamp.newBuilder().setNanos(NANOS).setSeconds(CLOSING_SECONDS))  // 22.00
-                                        .build()
-                        )
-                        .setCoordinates(Store.Coordinates.newBuilder().setLatitude(LATITUDE).setLongitude(LONGITUDE).build())
-                        .setDescription(DESCRIPTION)
-                        .setId(id)
-                        .setName(name)
-                        .setPhoneNo(PHONE_NO)
-                        .setType(type)
+            Store.newBuilder()
+                .putHours(
+                    DAY_OF_WEEK,
+                    Store.OpeningHours.newBuilder()
+                        .setOpening(Timestamp.newBuilder().setNanos(NANOS).setSeconds(OPENING_SECONDS))  // 10.30
+                        .setClosing(Timestamp.newBuilder().setNanos(NANOS).setSeconds(CLOSING_SECONDS))  // 22.00
                         .build()
+                )
+                .setCoordinates(Store.Coordinates.newBuilder().setLatitude(LATITUDE).setLongitude(LONGITUDE).build())
+                .setDescription(DESCRIPTION)
+                .setId(id)
+                .setName(name)
+                .setPhoneNo(PHONE_NO)
+                .setType(type)
+                .build()
 
         fun createId() = (Math.random() * 100).toString()
     }

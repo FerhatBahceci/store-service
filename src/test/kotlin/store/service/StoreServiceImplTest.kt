@@ -12,9 +12,8 @@ import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlinx.coroutines.newSingleThreadContext
 import kotlinx.serialization.decodeFromByteArray
 import kotlinx.serialization.protobuf.ProtoBuf
-import org.apache.kafka.clients.producer.RecordMetadata
-import org.apache.kafka.common.TopicPartition
 import proto.store.service.*
+import store.service.DummyData.Companion.RECORD_META_DATA
 import store.service.gateway.Store
 import store.service.gateway.StoreGateway
 import store.service.service.KafkaClient
@@ -26,45 +25,37 @@ import store.service.service.mapToProtoStore
 @MicronautTest
 class StoreServiceImplTest : ShouldSpec({
 
-    val STORE = DummyData.createStore("IKEA")
-    val NEW_NAME = "WILLYS"
-    val UPDATE_STORE = STORE.copy(name = NEW_NAME)
+    val store = DummyData.createStore("IKEA")
+    val newName = "WILLYS"
+    val updateStore = store.copy(name = newName)
 
     val storeGateway = mockk<StoreGateway> {
 
         coEvery {
             getAllStores()
-        } returns listOf(STORE)
+        } returns listOf(store)
 
         coEvery {
-            getStoreByName(STORE.name!!)
-        } returns STORE
+            getStoreByName(store.name!!)
+        } returns store
 
         coEvery {
-            getStoreByType(STORE.type!!)
-        } returns listOf(STORE)
+            getStoreByType(store.type!!)
+        } returns listOf(store)
 
         coEvery {
-            updateStore(UPDATE_STORE, STORE.id!!)
-        } returns UPDATE_STORE
+            updateStore(updateStore, store.id!!)
+        } returns updateStore
 
-        coJustRun { deleteStore(STORE.id!!) }
-        coJustRun { createStore(STORE) }
+        coJustRun { deleteStore(store.id!!) }
+        coJustRun { createStore(store) }
     }
 
     val mockKafkaClient = mockk<KafkaClient<StoreSearchEvent>> {
 
         every {
             publish(any(), any(), any())
-        } returns RecordMetadata(
-            TopicPartition(
-                "store_search", 50),
-            10,
-            10,
-            10,
-            10,
-            10
-        )
+        } returns RECORD_META_DATA
     }
 
     val service =
@@ -75,33 +66,37 @@ class StoreServiceImplTest : ShouldSpec({
         )
 
     should("CREATE a store") {
-        val CREATE_RESPONSE = service.createStore(STORE)
-        CREATE_RESPONSE.response.status shouldBe 201
+        val response = service.createStore(store)
+        response.response.status shouldBe 201
     }
 
     should("UPDATE a store") {
-        val UPDATE_STORE_RESPONSE = service.updateStore(UPDATE_STORE)
-        UPDATE_STORE shouldBe ProtoBuf.decodeFromByteArray<Store>(UPDATE_STORE_RESPONSE.update.toByteArray())
-        UPDATE_STORE_RESPONSE.response.status shouldBe 204
+        val response = service.updateStore(updateStore)
+        updateStore shouldBe ProtoBuf.decodeFromByteArray<Store>(response.update.toByteArray())
+        response.response.status shouldBe 204
     }
 
-    should("GET a store") {
-        val GET_STORE_BY_NAME_RESPONSE = service.getStoreByName(STORE.name)
-        ProtoBuf.decodeFromByteArray<Store>(GET_STORE_BY_NAME_RESPONSE.store.toByteArray()) shouldBe STORE
-        GET_STORE_BY_NAME_RESPONSE.response.status shouldBe 200
+    should("GET store by name") {
+        val response = service.getStoreByName(store.name)
+        ProtoBuf.decodeFromByteArray<Store>(response.store.toByteArray()) shouldBe store
+        response.response.status shouldBe 200
+    }
 
-        val GET_STORES_BY_TYPE_RESPONSE = service.getStoreByType(STORE.type)
-        STORE.assertStoresResponse(GET_STORES_BY_TYPE_RESPONSE, 1)
-        GET_STORES_BY_TYPE_RESPONSE.response.status shouldBe 200
+    should("GET store by type"){
+        val response = service.getStoreByType(store.type)
+        store.assertStoresResponse(response, 1)
+        response.response.status shouldBe 200
+    }
 
-        val GET_ALL_STORES_RESPONSE = service.getAllStores()
-        STORE.assertStoresResponse(GET_ALL_STORES_RESPONSE, 1)
-        GET_ALL_STORES_RESPONSE.response.status shouldBe 200
+    should("GET all stores"){
+        val response = service.getAllStores()
+        store.assertStoresResponse(response, 1)
+        response.response.status shouldBe 200
     }
 
     should("DELETE a store") {
-        val DELETE_RESPONSE = service.deleteStore(STORE.id)
-        DELETE_RESPONSE.response.status shouldBe 204
+        val response = service.deleteStore(store.id)
+        response.response.status shouldBe 204
     }
 })
 
