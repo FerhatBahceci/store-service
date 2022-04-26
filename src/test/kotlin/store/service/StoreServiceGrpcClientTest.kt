@@ -1,4 +1,3 @@
-/*
 package store.service
 
 import io.grpc.StatusRuntimeException
@@ -13,7 +12,9 @@ import store.service.gateway.Store
 import store.service.service.mapToProtoStore
 import javax.inject.Inject
 
-//TODO should be refactored into a single BDD test
+/* Live test that can be ran if mongodb, kafka, zookeeper and service-registry defined in the docker-compose.yml file is deployed up and running */
+
+/*
 @ExperimentalSerializationApi
 @MicronautTest
 class StoreServiceGrpcClientTest(@Inject val storeServiceBlockingStub: StoreServiceGrpc.StoreServiceBlockingStub) {
@@ -130,5 +131,5 @@ private fun StoreServiceGrpc.StoreServiceBlockingStub.updateStore(store: Store):
         .build()
     return updateStore(updateStoreByIdRequest)
 }
-
 */
+
