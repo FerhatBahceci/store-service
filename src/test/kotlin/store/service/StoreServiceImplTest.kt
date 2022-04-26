@@ -17,7 +17,7 @@ import org.apache.kafka.common.TopicPartition
 import proto.store.service.*
 import store.service.gateway.Store
 import store.service.gateway.StoreGateway
-import store.service.service.ReactiveKafkaClient
+import store.service.service.KafkaClient
 import store.service.service.StoreServiceImpl
 import store.service.service.mapToProtoStore
 
@@ -52,7 +52,7 @@ class StoreServiceImplTest : ShouldSpec({
         coJustRun { createStore(STORE) }
     }
 
-    val mockKafkaClient = mockk<ReactiveKafkaClient<StoreSearchEvent>> {
+    val mockKafkaClient = mockk<KafkaClient<StoreSearchEvent>> {
 
         every {
             publish(any(), any(), any())

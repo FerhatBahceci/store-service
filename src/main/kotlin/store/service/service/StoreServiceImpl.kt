@@ -24,7 +24,7 @@ import store.service.gateway.StoreGateway
 class StoreServiceImpl constructor(
     @Inject private val gateway: StoreGateway,
     @Inject override val coroutineContext: CoroutineContext,
-    @Inject val kafkaClient: ReactiveKafkaClient<StoreSearchEvent>
+    @Inject val kafkaClient: KafkaClient<StoreSearchEvent>
 ) : StoreServiceGrpcKt.StoreServiceCoroutineImplBase(), CoroutineScope {
 
     private val LOGGER = LoggerFactory.getLogger(StoreServiceImpl::class.java)

@@ -25,6 +25,6 @@ import org.apache.kafka.clients.producer.RecordMetadata
         )
     ]
 )
-interface ReactiveKafkaClient<T> {
+interface KafkaClient<T> {
     fun publish(@Topic topic: String, @KafkaKey key: String, value: T): RecordMetadata
 }
