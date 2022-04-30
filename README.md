@@ -1,4 +1,5 @@
-### Tech stack
+### Reference Documentation
+For further reference, please consider the following sections:
 
 [Micronaut framework](https://docs.micronaut.io/latest/guide/index.html)
 
@@ -18,14 +19,15 @@
 
 [Kotest](https://kotest.io/)
 
-### Store-service packaging and JPMS
-
+#### Application packaging structure
 [Package by feature](http://www.javapractices.com/topic/TopicAction.do?Id=205)
+
+#### Store-service packaging and JPMS
 
 [Java 9 Platform Module System](https://www.oracle.com/corporate/features/understanding-java-9-modules.html)
 
 
-#### Docker commands
+##### Docker commands
 
 1. Stop the container(s) using the following command:
 **docker-compose down**

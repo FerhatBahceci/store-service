@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import com.google.protobuf.gradle.*
 import java.net.URI;
 
-group = "store.service"
+group = "ferhat"
 version = "0.0.1-SNAPSHOT"
 
 val micronautVersion = "3.4.2"
