@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @ExperimentalSerializationApi
 @MicronautTest
-class StoreServiceGrpcClientTest(@Inject val storeServiceBlockingStub: StoreServiceGrpc.StoreServiceBlockingStub) {
+class StoreServiceIntegrationTest(@Inject val storeServiceBlockingStub: StoreServiceGrpc.StoreServiceBlockingStub) {
 
     val STORE_NAME = "ICA"
     val STORE = createStore(name = STORE_NAME)
@@ -31,7 +31,7 @@ class StoreServiceGrpcClientTest(@Inject val storeServiceBlockingStub: StoreServ
     @ClassRule
     val environment =
         DockerComposeContainer(
-            File("/Users/ferhatbahceci/projects/store-service/docker-compose.yml")
+            File("docker-compose.yml")
         )
             .withExposedService(
                 "mongodb_1", DB_PORT,
