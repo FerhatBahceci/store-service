@@ -1,26 +1,6 @@
 version: "3.9"
 
 services:
-
-  envoy:
-    image: envoyproxy/envoy-dev:latest
-    ports:
-      - "51051:51051"
-    volumes:
-      - ./build/generated/source/proto/main/descriptor_set.desc:/build/generated/source/proto/main/descriptor_set.desc
-      - ./envoy.yaml:/etc/envoy/envoy.yaml
-    depends_on:
-      - store-service
-
-  store-service:
-    image: store-service:latest
-    ports:
-      - 50051:50051
-    hostname: store-service
-    depends_on:
-      - mongodb
-      - kafka
-
   mongodb:
     image: mongo:latest
     ports:
@@ -41,7 +21,6 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-
   zookeeper:
     hostname: zookeeper
     image: confluentinc/cp-zookeeper:latest
@@ -54,7 +33,6 @@ services:
   schema-registry:
     image: confluentinc/cp-schema-registry:latest
     hostname: schema-registry
-    container_name: schema-registry
     depends_on:
       - zookeeper
       - kafka

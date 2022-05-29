@@ -4,23 +4,52 @@ import io.grpc.StatusRuntimeException
 import io.kotlintest.shouldThrow
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest
 import kotlinx.serialization.ExperimentalSerializationApi
+import org.junit.ClassRule
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.testcontainers.containers.DockerComposeContainer
+import org.testcontainers.containers.wait.strategy.Wait
 import proto.store.service.*
 import store.service.DummyData.Companion.createId
 import store.service.DummyData.Companion.createStore
 import store.service.gateway.Store
 import store.service.service.mapToProtoStore
+import java.io.File
 import javax.inject.Inject
 
-/* Live test that can be ran if mongodb, kafka, zookeeper and service-registry defined in the docker-compose.yml file is deployed up and running */
-
-/*
 @ExperimentalSerializationApi
 @MicronautTest
 class StoreServiceGrpcClientTest(@Inject val storeServiceBlockingStub: StoreServiceGrpc.StoreServiceBlockingStub) {
 
     val STORE_NAME = "ICA"
     val STORE = createStore(name = STORE_NAME)
+
+    val DB_PORT = 27017
+    val SCHEMA_REGISTRY_PORT = 8081
+    val KAFKA_PORT = 29092
+
+    @ClassRule
+    val environment =
+        DockerComposeContainer(
+            File("/Users/ferhatbahceci/projects/store-service/docker-compose.yml")
+        )
+            .withExposedService(
+                "mongodb_1", DB_PORT,
+                Wait.forListeningPort()
+            )
+            .withExposedService(
+                "schema-registry_1", SCHEMA_REGISTRY_PORT,
+                Wait.forListeningPort()
+            )
+            .withExposedService(
+                "kafka_1", KAFKA_PORT,
+                Wait.forListeningPort()
+            )
+
+    @BeforeEach
+    fun setUp() {
+        environment.start()
+    }
 
     @Test
     fun crudTest() {
@@ -68,7 +97,7 @@ class StoreServiceGrpcClientTest(@Inject val storeServiceBlockingStub: StoreServ
     private fun deleteStoreByIdTest() {
 
         val ID = createId()
-        val NAME  = "DELETE_ME"
+        val NAME = "DELETE_ME"
         val CREATE_FOR_DELETE_STORE = STORE.copy(id = ID, name = NAME)
 
         storeServiceBlockingStub.create(CREATE_FOR_DELETE_STORE)
@@ -131,5 +160,4 @@ private fun StoreServiceGrpc.StoreServiceBlockingStub.updateStore(store: Store):
         .build()
     return updateStore(updateStoreByIdRequest)
 }
-*/
 

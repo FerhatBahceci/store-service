@@ -18,6 +18,7 @@ import kotlin.coroutines.CoroutineContext
 import utility.grpc.execute
 import store.service.gateway.Store
 import store.service.gateway.StoreGateway
+import java.time.Instant
 
 @ExperimentalSerializationApi
 @GrpcService
@@ -36,7 +37,7 @@ class StoreServiceImpl constructor(
             kafkaClient.publish("store_search", request.name, request.createStoreSearchEvent())
         }
             .run {
-                LOGGER.info("Recorded store search: ${request.name}, search_id: ${offset()}, time: ${timestamp()}")
+                LOGGER.info("Recorded store search: ${request.name}, search_id: ${offset()}, time: ${Instant.ofEpochMilli(timestamp())}")
                 getStoreByName(request.name)
             }
 

@@ -115,7 +115,11 @@ dependencies {
     testImplementation("io.micronaut.test:micronaut-test-kotlintest:2.3.7")
     testRuntimeOnly("io.micronaut:micronaut-http-server-netty:${micronautVersion}")
     testImplementation("io.mockk:mockk:1.12.0")
+/*
     testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.2.0")
+*/
+    testImplementation("org.testcontainers:testcontainers:1.17.2")
+    testCompileOnly("org.projectlombok:lombok:1.18.24")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.2")
 }
 
